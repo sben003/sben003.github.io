@@ -1,0 +1,151 @@
+      <figure class="diagram">
+        <!-- Wide version (screens ≥ 52rem) -->
+        <svg class="diagram__wide" viewBox="0 0 940 330" role="img" aria-labelledby="diagram-title diagram-desc">
+          <title id="diagram-title">Vigie Océan platform architecture</title>
+          <desc id="diagram-desc">A seven-stage chain: probes at sea, ingestion, normalisation, quality control, TimescaleDB storage, FastAPI backend, then a React interface.</desc>
+
+          <!-- Row 1 -->
+          <g>
+            <rect class="dg-box" x="20" y="64" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="33" y="83">01</text>
+            <text class="dg-title" x="33" y="104">Probes at sea</text>
+            <text class="dg-sub" x="33" y="121">2 active stations · 4G</text>
+            <text class="dg-sub" x="33" y="134">files dropped over FTP</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="253" y="64" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="266" y="83">02</text>
+            <text class="dg-title" x="266" y="104">Ingestion</text>
+            <text class="dg-sub" x="266" y="121">Google Cloud VM · Python</text>
+            <text class="dg-sub" x="266" y="134">ftplib + APScheduler · 15 min</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="487" y="64" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="500" y="83">03</text>
+            <text class="dg-title" x="500" y="104">Normalisation</text>
+            <text class="dg-sub" x="500" y="121">parsers + format router</text>
+            <text class="dg-sub" x="500" y="134">single reference model</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="720" y="64" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="733" y="83">04</text>
+            <text class="dg-title" x="733" y="104">Quality control</text>
+            <text class="dg-sub" x="733" y="121">physical bounds · duplicates</text>
+            <text class="dg-sub" x="733" y="134">reversible set-aside</text>
+          </g>
+
+          <!-- Row 1 arrows -->
+          <path class="dg-line" d="M222 106 H246"/>
+          <polygon class="dg-arrow" points="246,102 253,106 246,110"/>
+          <path class="dg-line" d="M455 106 H480"/>
+          <polygon class="dg-arrow" points="480,102 487,106 480,110"/>
+          <path class="dg-line" d="M689 106 H713"/>
+          <polygon class="dg-arrow" points="713,102 720,106 713,110"/>
+
+          <!-- Wrap to row 2 -->
+          <path class="dg-line" d="M820 148 V188 H120 V221"/>
+          <polygon class="dg-arrow" points="116,221 124,221 120,228"/>
+
+          <!-- Row 2 -->
+          <g>
+            <rect class="dg-box dg-box--accent" x="20" y="228" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="33" y="247">05</text>
+            <text class="dg-title" x="33" y="268">TimescaleDB</text>
+            <text class="dg-sub" x="33" y="285">partitioned hypertable</text>
+            <text class="dg-sub" x="33" y="298">compression 29 → 2.3 MB</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="253" y="228" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="266" y="247">06</text>
+            <text class="dg-title" x="266" y="268">FastAPI backend</text>
+            <text class="dg-sub" x="266" y="285">&lt; 50 ms · UTC timestamps</text>
+            <text class="dg-sub" x="266" y="298">Excel exports</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="487" y="228" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="500" y="247">07</text>
+            <text class="dg-title" x="500" y="268">React / TS interface</text>
+            <text class="dg-sub" x="500" y="285">LTTB downsampling</text>
+            <text class="dg-sub" x="500" y="298">tide-forecast sync</text>
+          </g>
+
+          <!-- Row 2 arrows -->
+          <path class="dg-line" d="M222 270 H246"/>
+          <polygon class="dg-arrow" points="246,266 253,270 246,274"/>
+          <path class="dg-line" d="M455 270 H480"/>
+          <polygon class="dg-arrow" points="480,266 487,270 480,274"/>
+        </svg>
+
+        <!-- Stacked version (mobile) -->
+        <svg class="diagram__tall" viewBox="0 0 300 688" role="img" aria-labelledby="diagram-title-m diagram-desc-m">
+          <title id="diagram-title-m">Vigie Océan platform architecture</title>
+          <desc id="diagram-desc-m">A seven-stage chain: probes at sea, ingestion, normalisation, quality control, TimescaleDB storage, FastAPI backend, then a React interface.</desc>
+
+          <g>
+            <rect class="dg-box" x="20" y="8" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="26">01</text>
+            <text class="dg-title" x="33" y="46">Probes at sea</text>
+            <text class="dg-sub" x="33" y="62">2 active stations · 4G</text>
+            <text class="dg-sub" x="33" y="75">files dropped over FTP</text>
+          </g>
+          <path class="dg-line" d="M150 82 V99"/><polygon class="dg-arrow" points="146,99 154,99 150,106"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="106" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="124">02</text>
+            <text class="dg-title" x="33" y="144">Ingestion</text>
+            <text class="dg-sub" x="33" y="160">Google Cloud VM · Python</text>
+            <text class="dg-sub" x="33" y="173">ftplib + APScheduler · 15 min</text>
+          </g>
+          <path class="dg-line" d="M150 180 V197"/><polygon class="dg-arrow" points="146,197 154,197 150,204"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="204" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="222">03</text>
+            <text class="dg-title" x="33" y="242">Normalisation</text>
+            <text class="dg-sub" x="33" y="258">parsers + format router</text>
+            <text class="dg-sub" x="33" y="271">single reference model</text>
+          </g>
+          <path class="dg-line" d="M150 278 V295"/><polygon class="dg-arrow" points="146,295 154,295 150,302"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="302" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="320">04</text>
+            <text class="dg-title" x="33" y="340">Quality control</text>
+            <text class="dg-sub" x="33" y="356">physical bounds · duplicates</text>
+            <text class="dg-sub" x="33" y="369">reversible set-aside</text>
+          </g>
+          <path class="dg-line" d="M150 376 V393"/><polygon class="dg-arrow" points="146,393 154,393 150,400"/>
+
+          <g>
+            <rect class="dg-box dg-box--accent" x="20" y="400" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="418">05</text>
+            <text class="dg-title" x="33" y="438">TimescaleDB</text>
+            <text class="dg-sub" x="33" y="454">partitioned hypertable</text>
+            <text class="dg-sub" x="33" y="467">compression 29 → 2.3 MB</text>
+          </g>
+          <path class="dg-line" d="M150 474 V491"/><polygon class="dg-arrow" points="146,491 154,491 150,498"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="498" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="516">06</text>
+            <text class="dg-title" x="33" y="536">FastAPI backend</text>
+            <text class="dg-sub" x="33" y="552">&lt; 50 ms · UTC timestamps</text>
+            <text class="dg-sub" x="33" y="565">timestamped Excel exports</text>
+          </g>
+          <path class="dg-line" d="M150 572 V589"/><polygon class="dg-arrow" points="146,589 154,589 150,596"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="596" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="614">07</text>
+            <text class="dg-title" x="33" y="634">React / TS interface</text>
+            <text class="dg-sub" x="33" y="650">LTTB downsampling</text>
+            <text class="dg-sub" x="33" y="663">tide-forecast sync</text>
+          </g>
+        </svg>
+
+        <figcaption>
+          End-to-end processing chain. Cross-cutting: Docker Compose deployment,
+          14 Pytest integration tests, daily cron backups.
+        </figcaption>
+      </figure>

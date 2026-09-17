@@ -1,6 +1,13 @@
 # Fichiers temporaires de previsualisation
 _*.html
 
+# Source Word du CV : seul le PDF genere est publie.
+# Un .docx en ligne est editable et transporte ses metadonnees Word.
+assets/*.docx
+
+# Node (aucune dependance n'est requise, mais au cas ou)
+node_modules/
+
 # Systeme
 Thumbs.db
 .DS_Store

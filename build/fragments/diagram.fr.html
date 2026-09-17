@@ -1,0 +1,151 @@
+      <figure class="diagram">
+        <!-- Version large (écrans ≥ 52rem) -->
+        <svg class="diagram__wide" viewBox="0 0 940 330" role="img" aria-labelledby="schema-titre schema-desc">
+          <title id="schema-titre">Architecture de la plateforme Vigie Océan</title>
+          <desc id="schema-desc">Chaîne en sept étapes : sondes en mer, ingestion, normalisation, contrôle qualité, stockage TimescaleDB, API FastAPI, puis interface React.</desc>
+
+          <!-- Rangée 1 -->
+          <g>
+            <rect class="dg-box" x="20" y="64" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="33" y="83">01</text>
+            <text class="dg-title" x="33" y="104">Sondes en mer</text>
+            <text class="dg-sub" x="33" y="121">2 stations actives · 4G</text>
+            <text class="dg-sub" x="33" y="134">dépôt de fichiers en FTP</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="253" y="64" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="266" y="83">02</text>
+            <text class="dg-title" x="266" y="104">Ingestion</text>
+            <text class="dg-sub" x="266" y="121">VM Google Cloud · Python</text>
+            <text class="dg-sub" x="266" y="134">ftplib + APScheduler · 15 min</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="487" y="64" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="500" y="83">03</text>
+            <text class="dg-title" x="500" y="104">Normalisation</text>
+            <text class="dg-sub" x="500" y="121">parsers + routeur de format</text>
+            <text class="dg-sub" x="500" y="134">référentiel unifié</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="720" y="64" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="733" y="83">04</text>
+            <text class="dg-title" x="733" y="104">Contrôle qualité</text>
+            <text class="dg-sub" x="733" y="121">bornes physiques · doublons</text>
+            <text class="dg-sub" x="733" y="134">mise à l'écart réversible</text>
+          </g>
+
+          <!-- Flèches rangée 1 -->
+          <path class="dg-line" d="M222 106 H246"/>
+          <polygon class="dg-arrow" points="246,102 253,106 246,110"/>
+          <path class="dg-line" d="M455 106 H480"/>
+          <polygon class="dg-arrow" points="480,102 487,106 480,110"/>
+          <path class="dg-line" d="M689 106 H713"/>
+          <polygon class="dg-arrow" points="713,102 720,106 713,110"/>
+
+          <!-- Renvoi vers la rangée 2 -->
+          <path class="dg-line" d="M820 148 V188 H120 V221"/>
+          <polygon class="dg-arrow" points="116,221 124,221 120,228"/>
+
+          <!-- Rangée 2 -->
+          <g>
+            <rect class="dg-box dg-box--accent" x="20" y="228" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="33" y="247">05</text>
+            <text class="dg-title" x="33" y="268">TimescaleDB</text>
+            <text class="dg-sub" x="33" y="285">hypertable partitionnée</text>
+            <text class="dg-sub" x="33" y="298">compression 29 → 2,3 Mo</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="253" y="228" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="266" y="247">06</text>
+            <text class="dg-title" x="266" y="268">API FastAPI</text>
+            <text class="dg-sub" x="266" y="285">&lt; 50 ms · horodatage UTC</text>
+            <text class="dg-sub" x="266" y="298">exports Excel</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="487" y="228" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="500" y="247">07</text>
+            <text class="dg-title" x="500" y="268">Interface React / TS</text>
+            <text class="dg-sub" x="500" y="285">sous-échantillonnage LTTB</text>
+            <text class="dg-sub" x="500" y="298">synchronisation des marées</text>
+          </g>
+
+          <!-- Flèches rangée 2 -->
+          <path class="dg-line" d="M222 270 H246"/>
+          <polygon class="dg-arrow" points="246,266 253,270 246,274"/>
+          <path class="dg-line" d="M455 270 H480"/>
+          <polygon class="dg-arrow" points="480,266 487,270 480,274"/>
+        </svg>
+
+        <!-- Version empilée (mobile) -->
+        <svg class="diagram__tall" viewBox="0 0 300 688" role="img" aria-labelledby="schema-titre-m schema-desc-m">
+          <title id="schema-titre-m">Architecture de la plateforme Vigie Océan</title>
+          <desc id="schema-desc-m">Chaîne en sept étapes : sondes en mer, ingestion, normalisation, contrôle qualité, stockage TimescaleDB, API FastAPI, puis interface React.</desc>
+
+          <g>
+            <rect class="dg-box" x="20" y="8" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="26">01</text>
+            <text class="dg-title" x="33" y="46">Sondes en mer</text>
+            <text class="dg-sub" x="33" y="62">2 stations actives · 4G</text>
+            <text class="dg-sub" x="33" y="75">dépôt de fichiers en FTP</text>
+          </g>
+          <path class="dg-line" d="M150 82 V99"/><polygon class="dg-arrow" points="146,99 154,99 150,106"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="106" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="124">02</text>
+            <text class="dg-title" x="33" y="144">Ingestion</text>
+            <text class="dg-sub" x="33" y="160">VM Google Cloud · Python</text>
+            <text class="dg-sub" x="33" y="173">ftplib + APScheduler · 15 min</text>
+          </g>
+          <path class="dg-line" d="M150 180 V197"/><polygon class="dg-arrow" points="146,197 154,197 150,204"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="204" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="222">03</text>
+            <text class="dg-title" x="33" y="242">Normalisation</text>
+            <text class="dg-sub" x="33" y="258">parsers + routeur de format</text>
+            <text class="dg-sub" x="33" y="271">référentiel unifié</text>
+          </g>
+          <path class="dg-line" d="M150 278 V295"/><polygon class="dg-arrow" points="146,295 154,295 150,302"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="302" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="320">04</text>
+            <text class="dg-title" x="33" y="340">Contrôle qualité</text>
+            <text class="dg-sub" x="33" y="356">bornes physiques · doublons</text>
+            <text class="dg-sub" x="33" y="369">mise à l'écart réversible</text>
+          </g>
+          <path class="dg-line" d="M150 376 V393"/><polygon class="dg-arrow" points="146,393 154,393 150,400"/>
+
+          <g>
+            <rect class="dg-box dg-box--accent" x="20" y="400" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="418">05</text>
+            <text class="dg-title" x="33" y="438">TimescaleDB</text>
+            <text class="dg-sub" x="33" y="454">hypertable partitionnée</text>
+            <text class="dg-sub" x="33" y="467">compression 29 → 2,3 Mo</text>
+          </g>
+          <path class="dg-line" d="M150 474 V491"/><polygon class="dg-arrow" points="146,491 154,491 150,498"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="498" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="516">06</text>
+            <text class="dg-title" x="33" y="536">API FastAPI</text>
+            <text class="dg-sub" x="33" y="552">&lt; 50 ms · horodatage UTC</text>
+            <text class="dg-sub" x="33" y="565">exports Excel horodatés</text>
+          </g>
+          <path class="dg-line" d="M150 572 V589"/><polygon class="dg-arrow" points="146,589 154,589 150,596"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="596" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="614">07</text>
+            <text class="dg-title" x="33" y="634">Interface React / TS</text>
+            <text class="dg-sub" x="33" y="650">sous-échantillonnage LTTB</text>
+            <text class="dg-sub" x="33" y="663">synchronisation des marées</text>
+          </g>
+        </svg>
+
+        <figcaption>
+          Chaîne de traitement de bout en bout. Transverse : déploiement sous Docker Compose,
+          14 tests d'intégration Pytest, sauvegardes quotidiennes par cron.
+        </figcaption>
+      </figure>

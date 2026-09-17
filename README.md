@@ -6,8 +6,12 @@ En ligne : <https://sben003.github.io>
 
 ## Ce que c'est
 
-Un site statique, sans framework, sans build et sans dépendance. Aucune police
+Un site statique, sans framework et sans dépendance d'exécution. Aucune police
 externe, aucun traceur, aucune requête vers un tiers.
+
+Trois sections sont générées depuis des fichiers de données par un script Node
+qui tourne **sur ta machine** (voir « Données et génération »). Ce qui est publié
+reste du HTML statique : GitHub Pages ne compile rien.
 
 ### Quatre pages
 
@@ -26,8 +30,57 @@ externe, aucun traceur, aucune requête vers un tiers.
 | `assets/main.js` | Bascule de thème + surlignage de la section courante |
 | `assets/img/*.webp` | Photographies du stage, déjà optimisées |
 | `assets/og.png` | Aperçu affiché quand le lien est partagé (LinkedIn, etc.) |
-| `assets/CV-Salem-Benzineh.pdf` | Le CV téléchargeable — **à déposer ici** |
+| `assets/CV-Salem-Benzineh.pdf` | Le CV téléchargeable (généré depuis le `.docx`) |
 | `.nojekyll` | Demande à GitHub Pages de servir les fichiers tels quels |
+
+### Données et génération
+
+Trois sections de la page d'accueil — **Projet vedette**, **Projets** et
+**Compétences** — ne s'écrivent plus à la main. Elles sont générées depuis des
+fichiers de données, en français et en anglais d'un coup, ce qui supprime le
+risque de voir les deux langues diverger.
+
+| Fichier | Rôle |
+| --- | --- |
+| `data/skills.mjs` | Domaines, technologies, niveaux, tags de cas d'usage, pratiques |
+| `data/projects.mjs` | Projet vedette + projets secondaires |
+| `build/render.mjs` | Génère le HTML et l'injecte entre les marqueurs `<!-- gen:… -->` |
+| `build/brand-icons.mjs` | Tracés d'icônes Simple Icons figés (fichier généré) |
+| `build/fragments/` | Le schéma d'architecture de l'accueil, maintenu à la main |
+
+```bash
+# après toute modification dans data/
+npm run build          # ou : node build/render.mjs
+```
+
+**Ne pas éditer à la main** le HTML situé entre `<!-- gen:nom:start -->` et
+`<!-- gen:nom:end -->` : la prochaine génération l'écrasera. Tout le reste des
+pages reste éditable normalement.
+
+Le site publié demeure du HTML statique : `build/` ne part jamais au navigateur,
+et **aucun `npm install` n'est nécessaire** — les tracés d'icônes sont figés dans
+le dépôt.
+
+### Icônes
+
+Les icônes de marque proviennent de [Simple Icons](https://simple-icons.org)
+(icônes sous licence CC0 ; les marques appartiennent à leurs détenteurs). Elles
+sont inlinées dans un sprite SVG, une seule fois par page.
+
+Par défaut elles n'apparaissent que sur les pills du projet vedette : les
+29 glyphes de la section Compétences pèsent 17 Ko compressés contre 10 Ko pour
+tout le contenu de la page. Pour les activer partout, passer `showBrandIcons` à
+`true` en haut de `data/skills.mjs`, puis régénérer.
+
+Pour ajouter un glyphe absent du sprite :
+
+```bash
+npm install simple-icons          # temporaire, hors du dépôt
+# ajouter le slug voulu dans la liste SLUGS de build/extract-icons.mjs
+node build/extract-icons.mjs
+node build/optimize-icons.mjs
+npm run build
+```
 
 ## Mettre à jour le site
 
@@ -58,9 +111,15 @@ téléchargement, en français et en anglais, pointent déjà sur ce chemin.
 
 ### Modifier un texte
 
-Les quatre pages sont indépendantes. **Une modification de contenu doit être
-reportée dans la page française et dans son équivalent anglais**, sinon les deux
-versions divergent.
+Deux cas, à ne pas confondre.
+
+**Compétences, projets, projet vedette** — éditer `data/skills.mjs` ou
+`data/projects.mjs`, où chaque texte porte ses deux variantes `fr` et `en`, puis
+`npm run build`. Les deux langues restent forcément synchronisées.
+
+**Tout le reste** (intro, expérience, parcours, contact, pages d'étude de cas) —
+édition directe du HTML. Dans ce cas, **reporter la modification dans la page
+française et dans son équivalent anglais**, sinon les deux versions divergent.
 
 ### Ajouter une photo
 
@@ -102,10 +161,15 @@ seconde fois pour le thème sombre. La palette reprend celle du CV : anthracite
 - **Schémas** : SVG en ligne, en deux versions — une large et une empilée pour
   mobile — dont les couleurs sont pilotées par les variables CSS, donc ils
   suivent automatiquement le thème. Le basculement se fait à 52 rem.
-- **Pièges CSS rencontrés** : une règle `display` sur `.diagram svg` ou
-  `.theme-toggle svg` (spécificité 0-1-1) écrase les règles de bascule portées
-  par une simple classe (0-1-0), et les deux variantes s'affichent en même temps.
-  Les commentaires dans le CSS le rappellent à l'endroit concerné.
+- **Pièges CSS rencontrés** (trois fois le même) : une règle du type
+  `.parent élément { … }` vaut 0-1-1 et **écrase** une règle de classe seule
+  (0-1-0). Cela a cassé successivement la bascule des icônes de thème
+  (`.theme-toggle svg`), l'affichage des deux schémas d'architecture
+  (`.diagram svg`) et la répartition dans les cartes projet (`.card p`). En cas
+  de règle qui « ne s'applique pas », comparer les spécificités avant tout.
+- **`aspect-ratio` sur `<img>`** : n'est pas honoré par tous les moteurs quand
+  l'image porte des attributs `width`/`height`. Le ratio est donc posé sur un
+  bloc parent `.ratio`, l'image le remplissant en absolu.
 
 ## Provenance des chiffres
 

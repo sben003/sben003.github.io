@@ -177,46 +177,12 @@
     <div class="wrap">
       <div class="section__head">
         <span class="section__num" aria-hidden="true">01</span>
-        <h2 class="section__title">Flagship project</h2>
+        <h2 class="section__title" id="vigie-title">Flagship project</h2>
         <p class="section__note">Designed and shipped single-handedly</p>
       </div>
 
-      <div class="flagship__lead">
-        <div>
-          <p class="kicker">Marine environmental monitoring</p>
-          <h3 class="flagship__title" id="vigie-title">Vigie Océan</h3>
-          <p class="flagship__meta">
-            Final-year M1 internship · UPPA Tech, SCOPE platform<br>
-            April – July 2026 · Basque coast
-          </p>
-          <p class="flagship__summary">
-            A platform that runs from the submerged probe all the way to the browsing interface:
-            raw file ingestion, normalisation of three vendor formats, quality control, time-series
-            storage, API and visualisation. I designed, built and shipped the whole chain.
-          </p>
-        </div>
-
-        <dl class="stats">
-          <div>
-            <dt>Measurements stored</dt>
-            <dd>103,940</dd>
-          </div>
-          <div>
-            <dt>Compression</dt>
-            <dd>29 → 2.3 MB</dd>
-          </div>
-          <div>
-            <dt>Everyday queries</dt>
-            <dd>&lt; 50 ms</dd>
-          </div>
-          <div>
-            <dt>Docker containers</dt>
-            <dd>7</dd>
-          </div>
-        </dl>
-      </div>
-
-      <figure class="diagram">
+      <!-- gen:featured:start -->
+<div class="featured"><header class="featured__head"><div class="featured__id"><p class="kicker">Marine environmental monitoring · Basque coast</p><h3 class="featured__name">Vigie Océan</h3><p class="featured__headline">From the submerged probe to the oceanographer’s screen</p></div><p class="status-badge"><span class="status-badge__dot" aria-hidden="true"></span>In production</p></header><dl class="featured__meta"><div><dt>Role</dt><dd>Design, development and production rollout — single-handedly</dd></div><div><dt>Context</dt><dd>UPPA Tech, SCOPE platform · Final-year M1 internship · April – July 2026</dd></div></dl><div class="featured__story"><div class="story"><h4>The problem</h4><p>Oceanographic probes ship with their manufacturer’s proprietary cloud subscription. For a laboratory running several brands, readings fragment into incompatible silos and the budget keeps paying recurring fees.</p></div><div class="story story--answer"><h4>The answer</h4><p>A self-hosted platform in seven Docker containers: a parser registry that recognises each format by reading the file’s contents, a compressed TimescaleDB hypertable, a FastAPI backend, and a React interface where every correction stays reversible.</p></div></div><dl class="metrics"><div class="metric"><dt class="metric__label">measurements stored</dt><dd class="metric__value">103,940<span class="metric__note">15-min step, 15 chunks</span></dd></div><div class="metric"><dt class="metric__label">storage compression</dt><dd class="metric__value">12.7×<span class="metric__note">29 MB → 2.3 MB, lossless</span></dd></div><div class="metric"><dt class="metric__label">API response</dt><dd class="metric__value">&lt; 50 ms<span class="metric__note">measured in production</span></dd></div></dl><div class="showcase"><figure class="showcase__main"><div class="ratio ratio--wide"><img src="../assets/img/sonde-bouee.webp" width="900" height="1200" loading="lazy" decoding="async" alt="Black tube of a multiparameter probe clamped with stainless steel brackets under the float of the Bayonne landfall buoy."></div><figcaption><b>In the field</b>The NKE WiMo probe moored under the landfall buoy — the first source in the chain.</figcaption></figure><div class="showcase__strip"><figure class="showcase__thumb"><div class="ratio ratio--thumb"><img src="../assets/img/coffret-acquisition.webp" width="900" height="1200" loading="lazy" decoding="async" alt="Inside the acquisition cabinet: programmable logger, solar controller, batteries."></div></figure><figure class="showcase__thumb"><div class="ratio ratio--thumb"><img src="../assets/img/station-quai.webp" width="1200" height="900" loading="lazy" decoding="async" alt="Monitoring station on a quay at the port of Bayonne, powered by a solar panel."></div></figure><figure class="showcase__thumb"><div class="ratio ratio--thumb"><img src="../assets/img/biofouling.webp" width="900" height="1200" loading="lazy" decoding="async" alt="Probe recovered after immersion, colonised by marine organisms."></div></figure></div></div><figure class="diagram">
         <!-- Wide version (screens ≥ 52rem) -->
         <svg class="diagram__wide" viewBox="0 0 940 330" role="img" aria-labelledby="diagram-title diagram-desc">
           <title id="diagram-title">Vigie Océan platform architecture</title>
@@ -366,95 +332,8 @@
           End-to-end processing chain. Cross-cutting: Docker Compose deployment,
           14 Pytest integration tests, daily cron backups.
         </figcaption>
-      </figure>
-
-      <div class="figure-grid figure-grid--2" style="margin-bottom:2.75rem">
-        <figure class="figure">
-          <img src="../assets/img/coffret-acquisition.webp" width="900" height="1200" loading="lazy" decoding="async"
-               alt="Inside an open acquisition cabinet: programmable data logger, solar charge controller, batteries and wiring terminals.">
-          <figcaption>
-            <b>The acquisition cabinet</b>
-            Programmable logger, solar charge controller and batteries — upstream of the entire software chain.
-          </figcaption>
-        </figure>
-        <figure class="figure">
-          <img src="../assets/img/biofouling.webp" width="900" height="1200" loading="lazy" decoding="async"
-               alt="The end of a probe lifted out of the water, completely colonised by marine organisms covering the guard cage and the sensors.">
-          <figcaption>
-            <b>Why the correction module exists</b>
-            A fouled probe does not stop measuring: it measures wrong, and keeps emitting plausible values.
-          </figcaption>
-        </figure>
-      </div>
-
-      <div class="chain">
-        <article class="chain__item">
-          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">01</span><span class="chain__name">Ingestion &amp; normalisation</span></h4>
-          <div class="chain__body">
-            <p>
-              Probes connected over 4G drop their readings onto an FTP server. The university network
-              blocked inbound connections, so I set up a VM on Google Cloud running a Python service
-              that pulls the files in. A parser registry recognises each format by reading the file's
-              contents, never its name — two vendors, three formats, hardware alarms included.
-            </p>
-            <ul class="tags">
-              <li>Python</li><li>watchdog</li><li>Pandas</li><li>Google Cloud Platform</li><li>FTP</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="chain__item">
-          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">02</span><span class="chain__name">Time &amp; quality</span></h4>
-          <div class="chain__body">
-            <p>
-              Every timestamp is anchored to the Europe/Paris zone then converted to UTC at ingestion,
-              which fixes a hard-coded two-hour offset that was only ever correct in summer. Each
-              measurement passes physical bounds specific to its parameter, and a composite primary
-              key makes ingestion idempotent: replaying a file duplicates nothing.
-            </p>
-            <ul class="tags">
-              <li>zoneinfo</li><li>UTC</li><li>PostgreSQL</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="chain__item">
-          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">03</span><span class="chain__name">Storage &amp; API</span></h4>
-          <div class="chain__body">
-            <p>
-              A TimescaleDB hypertable partitioned into seven-day chunks, a composite index shaped to
-              match the real query pattern, and columnar compression that brings the history down from
-              29 MB to 2.3 MB without losing a single row. On top, a FastAPI backend answering in under
-              50 ms and producing Excel exports whose header states the timezone explicitly.
-            </p>
-            <ul class="tags">
-              <li>TimescaleDB</li><li>PostgreSQL 16</li><li>FastAPI</li><li>Pandas</li><li>openpyxl</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="chain__item">
-          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">04</span><span class="chain__name">Interface &amp; correction</span></h4>
-          <div class="chain__body">
-            <p>
-              A React / TypeScript frontend. LTTB downsampling capped at 1,800 points holds 60 frames
-              per second while zooming, and the series stay synchronised with tide forecasts. A
-              measurement set aside by an administrator is never deleted: it receives a quality flag
-              and stays restorable in one click.
-            </p>
-            <ul class="tags">
-              <li>React</li><li>TypeScript</li><li>LTTB</li><li>Docker Compose</li><li>Pytest</li>
-            </ul>
-          </div>
-        </article>
-      </div>
-
-      <a class="read-more" href="vigie-ocean/">
-        Read the full case study
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-          <path d="M5 12h14M13 6l6 6-6 6"/>
-        </svg>
-      </a>
+      </figure><div class="featured__stack"><h4 class="featured__stack-label">Core stack</h4><ul class="pills"><li><svg class="pill__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#si-python"/></svg>Python</li><li><svg class="pill__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#si-fastapi"/></svg>FastAPI</li><li><svg class="pill__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#si-timescale"/></svg>TimescaleDB</li><li><svg class="pill__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#si-postgresql"/></svg>PostgreSQL</li><li><svg class="pill__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#si-react"/></svg>React</li><li><svg class="pill__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#si-typescript"/></svg>TypeScript</li><li><svg class="pill__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#si-docker"/></svg>Docker Compose</li><li><svg class="pill__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#si-googlecloud"/></svg>Google Cloud</li><li><svg class="pill__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#si-nginx"/></svg>Nginx</li><li><svg class="pill__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#si-pytest"/></svg>Pytest</li></ul></div><div class="featured__actions"><div class="contact-row"><a class="btn btn--primary" href="vigie-ocean/"><svg class="btn__glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Read the case study</a><a class="btn" href="#contact"><svg class="btn__glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Request a walkthrough</a></div><p class="repo-note"><svg class="repo-note__glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Source code in a private UPPA repository — access on request.</p></div></div>
+<!-- gen:featured:end -->
     </div>
   </section>
 
@@ -517,35 +396,9 @@
         <h2 class="section__title" id="projects-title">Academic projects</h2>
       </div>
 
-      <div class="cards">
-        <article class="card">
-          <p class="kicker">Web · Agile team</p>
-          <h3>Job Board</h3>
-          <p>A containerised web application built by an agile team, with a continuous integration and deployment pipeline.</p>
-          <ul class="tags"><li>Vue.js</li><li>NestJS</li><li>Docker</li><li>CI/CD</li></ul>
-        </article>
-
-        <article class="card">
-          <p class="kicker">Data engineering</p>
-          <h3>Multi-source ETL pipeline</h3>
-          <p>Cleaning and unifying CSV, API and SQL sources in a pipeline built with Apache Hop.</p>
-          <ul class="tags"><li>Apache Hop</li><li>ETL</li><li>SQL</li></ul>
-        </article>
-
-        <article class="card">
-          <p class="kicker">Machine learning</p>
-          <h3>Medical image classification</h3>
-          <p>A convolutional neural network trained on an imbalanced dataset.</p>
-          <ul class="tags"><li>Python</li><li>CNN</li></ul>
-        </article>
-
-        <article class="card">
-          <p class="kicker">Machine learning</p>
-          <h3>Property price prediction</h3>
-          <p>A Gradient Boosting model trained with Scikit-learn, exposed through a Tkinter interface.</p>
-          <ul class="tags"><li>Python</li><li>Scikit-learn</li><li>Tkinter</li></ul>
-        </article>
-      </div>
+      <!-- gen:projects:start -->
+<div class="cards"><article class="card"><p class="kicker">Business intelligence · Pair project</p><h3>Data warehouse — natural food colourant sales</h3><p class="card__context">Master 1 ISII, Université d’Alger 1 · 2024 – 2025</p><p class="card__summary">A decision-support system on the evolution and impact of natural colourant sales in the food industry. Star schema around one fact table and five dimensions, ETL chain in Talend Open Studio, MySQL warehouse, OLAP cube and Power BI reporting. Measures tracked: quantity sold, amount, health score and environmental score.</p><p class="card__note">Built as a pair with Chanez Ressam.</p><ul class="tags"><li>Talend Open Studio</li><li>MySQL</li><li>OLAP</li><li>Power BI</li><li>Schéma en étoile</li></ul><a class="card__link" href="../assets/RapportProjetEntrepotDeDonnees.pdf"><svg class="card__link-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></svg>Full report (PDF, 62 pp.)</a></article><article class="card"><p class="kicker">Web · Agile team</p><h3>Job Board</h3><p class="card__context">Master 1 SIGLIS, UPPA · 2025 – 2026</p><p class="card__summary">A containerised web application built by a team following an agile method, with a continuous integration and deployment pipeline.</p><ul class="tags"><li>Vue.js</li><li>NestJS</li><li>Docker</li><li>CI/CD</li></ul></article><article class="card"><p class="kicker">Data engineering</p><h3>Multi-source ETL pipeline</h3><p class="card__context">Master 1 SIGLIS, UPPA · 2025 – 2026</p><p class="card__summary">Cleaning and unifying CSV, API and SQL sources in a pipeline built with Apache Hop.</p><ul class="tags"><li>Apache Hop</li><li>ETL</li><li>SQL</li></ul></article><article class="card"><p class="kicker">Machine learning</p><h3>Medical image classification</h3><p class="card__context">Master 1 ISII, Université d’Alger 1 · 2024 – 2025</p><p class="card__summary">A hybrid approach combining a convolutional neural network with hand-crafted descriptors, on an imbalanced dataset.</p><ul class="tags"><li>Python</li><li>CNN</li><li>Feature engineering</li></ul></article><article class="card"><p class="kicker">Machine learning</p><h3>Property price prediction</h3><p class="card__context">Master 1 ISII, Université d’Alger 1 · 2024 – 2025</p><p class="card__summary">A Gradient Boosting model trained with Scikit-learn, exposed through a Tkinter interface.</p><ul class="tags"><li>Python</li><li>Scikit-learn</li><li>Tkinter</li></ul></article></div>
+<!-- gen:projects:end -->
     </div>
   </section>
 
@@ -557,45 +410,9 @@
         <h2 class="section__title" id="skills-title">Skills</h2>
       </div>
 
-      <dl class="skills">
-        <div>
-          <dt>Languages</dt>
-          <dd>
-            <ul>
-              <li>Python</li><li>Pandas</li><li>NumPy</li><li>Scikit-learn</li><li>SQL</li>
-              <li>JavaScript</li><li>TypeScript</li><li>Java</li><li>PHP</li><li>C++</li>
-              <li>HTML / CSS</li><li>Bash</li>
-            </ul>
-          </dd>
-        </div>
-        <div>
-          <dt>Data</dt>
-          <dd>
-            <ul>
-              <li>TimescaleDB / PostgreSQL</li><li>MySQL</li><li>SQLite</li>
-              <li>Talend</li><li>Pentaho</li><li>Apache Hop</li>
-              <li>Dimensional modelling</li><li>OLAP cubes</li><li>Power BI</li><li>Streamlit</li>
-            </ul>
-          </dd>
-        </div>
-        <div>
-          <dt>Web</dt>
-          <dd>
-            <ul>
-              <li>React</li><li>Vue.js</li><li>NestJS</li><li>FastAPI</li><li>Bootstrap</li>
-            </ul>
-          </dd>
-        </div>
-        <div>
-          <dt>Infrastructure</dt>
-          <dd>
-            <ul>
-              <li>Docker</li><li>Docker Compose</li><li>Git / GitLab</li>
-              <li>Linux</li><li>Google Cloud Platform</li><li>CI/CD</li>
-            </ul>
-          </dd>
-        </div>
-      </dl>
+      <!-- gen:skills:start -->
+<p class="bento__legend"><span class="badge badge--production"><span class="badge__level">Production</span></span><span class="legend__text">Used in a system shipped and operated</span><span class="badge badge--projet"><span class="badge__level">Project</span></span><span class="legend__text">Used in an academic project or a prototype</span></p><div class="bento"><article class="bento__card bento__card--span2" aria-labelledby="dom-data"><header class="bento__head"><span class="bento__glyph" aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></span><h3 class="bento__title" id="dom-data">Data &amp; Analytics</h3></header><p class="bento__lede">Take data from raw source to indicator: ingestion, normalisation, quality control, modelling, reporting.</p><div class="skill-groups"><div class="skill-group"><h4 class="skill-group__label">Languages &amp; computation</h4><ul class="badges"><li class="badge badge--production"><span class="badge__name">Python</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">Pandas</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">SQL</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--projet"><span class="badge__name">NumPy</span><span class="badge__level" title="Used in an academic project or a prototype">Project</span></li><li class="badge badge--projet"><span class="badge__name">Scikit-learn</span><span class="badge__level" title="Used in an academic project or a prototype">Project</span></li></ul></div><div class="skill-group"><h4 class="skill-group__label">Databases</h4><ul class="badges"><li class="badge badge--production"><span class="badge__name">TimescaleDB</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">PostgreSQL</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">MySQL</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--projet"><span class="badge__name">SQLite</span><span class="badge__level" title="Used in an academic project or a prototype">Project</span></li></ul></div><div class="skill-group"><h4 class="skill-group__label">ETL &amp; BI</h4><ul class="badges"><li class="badge badge--production"><span class="badge__name">Talend Open Studio</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">Pentaho Data Integration</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">Pentaho Schema Workbench</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">Power BI</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--projet"><span class="badge__name">Apache Hop</span><span class="badge__level" title="Used in an academic project or a prototype">Project</span></li><li class="badge badge--projet"><span class="badge__name">Streamlit</span><span class="badge__level" title="Used in an academic project or a prototype">Project</span></li></ul></div></div><ul class="use-tags"><li>Multi-source ETL pipelines</li><li>Fixed-step time series</li><li>Star schema &amp; OLAP cubes</li><li>Quality control before insert</li><li>KPI dashboards</li></ul></article><article class="bento__card bento__card--span1" aria-labelledby="dom-web"><header class="bento__head"><span class="bento__glyph" aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/><path d="M13 4 11 20"/></svg></span><h3 class="bento__title" id="dom-web">Web development</h3></header><p class="bento__lede">Make data usable: typed APIs and interfaces that hold up under load.</p><div class="skill-groups"><div class="skill-group"><h4 class="skill-group__label">Frontend</h4><ul class="badges"><li class="badge badge--production"><span class="badge__name">React</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">TypeScript</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">JavaScript</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">HTML / CSS</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">Bootstrap</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--projet"><span class="badge__name">Vue.js</span><span class="badge__level" title="Used in an academic project or a prototype">Project</span></li></ul></div><div class="skill-group"><h4 class="skill-group__label">Backend</h4><ul class="badges"><li class="badge badge--production"><span class="badge__name">FastAPI</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">PHP</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--projet"><span class="badge__name">NestJS</span><span class="badge__level" title="Used in an academic project or a prototype">Project</span></li><li class="badge badge--projet"><span class="badge__name">Java</span><span class="badge__level" title="Used in an academic project or a prototype">Project</span></li></ul></div></div><ul class="use-tags"><li>REST API under 50 ms</li><li>Charts over long series</li><li>Timestamped Excel exports</li></ul></article><article class="bento__card bento__card--span1" aria-labelledby="dom-infra"><header class="bento__head"><span class="bento__glyph" aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6.5 18A4.5 4.5 0 0 1 6 9.05 6 6 0 0 1 17.7 8 4.5 4.5 0 0 1 17.5 18z"/></svg></span><h3 class="bento__title" id="dom-infra">Infrastructure &amp; operations</h3></header><p class="bento__lede">Ship it and keep it alive: containers, VMs, backups, tests.</p><div class="skill-groups"><div class="skill-group"><h4 class="skill-group__label">Containers &amp; cloud</h4><ul class="badges"><li class="badge badge--production"><span class="badge__name">Docker</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">Docker Compose</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">Google Cloud Platform</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">Nginx</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">Linux</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li></ul></div><div class="skill-group"><h4 class="skill-group__label">Dev toolchain</h4><ul class="badges"><li class="badge badge--production"><span class="badge__name">Git</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">GitLab</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">Pytest</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--production"><span class="badge__name">Bash</span><span class="badge__level" title="Used in a system shipped and operated">Production</span></li><li class="badge badge--projet"><span class="badge__name">Jupyter</span><span class="badge__level" title="Used in an academic project or a prototype">Project</span></li></ul></div></div><ul class="use-tags"><li>Containerised deployment</li><li>Cloud VM &amp; network constraints</li><li>Scheduled backups</li><li>Integration tests</li></ul></article><article class="bento__card bento__card--span2" aria-labelledby="dom-practices"><header class="bento__head"><span class="bento__glyph" aria-hidden="true"><svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5.5-5.5 2 2-5.5z"/></svg></span><h3 class="bento__title" id="dom-practices">Methods &amp; practice</h3></header><p class="bento__lede">What gets a piece of work into production, and keeps it there.</p><dl class="practices"><div class="practice"><dt>Short, shippable iterations</dt><dd>Five successive increments on Vigie Océan, each closed by a real deployment rather than a frozen plan.</dd></div><div class="practice"><dt>Explicit interface contracts</dt><dd>File format, relational schema, REST contract: every boundary between services is specified and stable.</dd></div><div class="practice"><dt>Acceptance testing in real conditions</dt><dd>Status codes, latencies, integrity of generated files — checked against production, not just locally.</dd></div><div class="practice"><dt>Reversible decisions</dt><dd>Logical deletion rather than destruction, idempotent ingestion, automated daily backups.</dd></div><div class="practice"><dt>Operations documentation</dt><dd>Recovery guide, restore procedure, user manual — so the project outlives whoever wrote it.</dd></div><div class="practice"><dt>Modelling before code</dt><dd>UML on the HR application, star schema on the data warehouse, dimensional model before the cubes.</dd></div></dl></article></div><svg class="icon-sprite" aria-hidden="true" focusable="false" width="0" height="0"><defs><symbol id="si-docker" viewBox="0 0 24 24"><path d="M13.98 11.08h2.12a.190.19 0 .19-.18V9.01a.190.19 0 00-.19-.19h-2.12a.190.19 0 00-.180.19v1.89c0 .10.080.190.190.19m-2.95-5.43h2.12a.190.19 0 .19-.19V3.57a.190.19 0 00-.19-.18h-2.12a.190.19 0 00-.180.19v1.89c0 .10.080.190.190.19m0 2.72h2.12a.190.19 0 .19-.19V6.29a.190.19 0 00-.19-.18h-2.12a.190.19 0 00-.180.19v1.89c0 .10.080.190.190.19m-2.93 0h2.12a.190.19 0 .18-.19V6.29a.190.19 0 00-.18-.18H8.1a.190.19 0 00-.180.19v1.89c0 .10.080.190.190.19m-2.96 0h2.12a.190.19 0 .19-.19V6.29a.190.19 0 00-.18-.18H5.14a.190.19 0 00-.190.19v1.89c0 .10.080.190.190.19m5.89 2.72h2.12a.190.19 0 .19-.18V9.01a.190.19 0 00-.19-.19h-2.12a.190.19 0 00-.180.19v1.89c0 .10.080.190.190.19m-2.93 0h2.12a.190.19 0 .18-.18V9.01a.190.19 0 00-.18-.19h-2.12a.190.19 0 00-.180.19v1.89c0 .10.080.190.190.19m-2.96 0h2.12a.190.19 0 .19-.18V9.01a.190.19 0 00-.18-.19h-2.12a.190.19 0 00-.190.19v1.89c0 .10.080.190.190.19m-2.92 0h2.12a.190.19 0 .18-.18V9.01a.190.19 0 00-.18-.19h-2.12a.190.19 0 00-.180.19v1.89c0 .10.080.190.190.19M23.76 9.89c-.06-.05-.67-.51-1.95-.51-.340-.680.03-1.010.09-.25-1.7-1.65-2.53-1.72-2.57l-.34-.2-.230.33c-.280.44-.490.92-.61 1.43-.230.97-.09 1.880.4 2.66-.590.33-1.550.41-1.740.42H.75a.750.75 0 00-.750.75 11.38 11.38 0 .69 4.06c.55 1.43 1.36 2.48 2.41 3.12 1.180.72 3.1 1.14 5.28 1.140.980 1.96-.09 2.93-.27a12.25 12.25 0 3.82-1.39c.98-.57 1.86-1.29 2.61-2.14 1.25-1.42 2-3 2.55-4.4h.22c1.37 0 2.22-.55 2.68-1.010.31-.290.55-.650.71-1.05l.1-.29Z"/></symbol><symbol id="si-fastapi" viewBox="0 0 24 24"><path d="M12 .04C5.370.040 5.39 0 12c0 6.61 5.37 11.96 12 11.96 6.630 12-5.36 12-11.960-6.61-5.37-11.96-12-11.96m-.83 5.42h7.55l-7.58 5.33h5.18L5.28 18.54q2.95-6.54 5.89-13.09"/></symbol><symbol id="si-googlecloud" viewBox="0 0 24 24"><path d="M12.19 2.38a9.34 9.34 0 0 0-9.23 6.89c.05-.02-.050.01 0 0-3.87 2.55-3.92 8.11-.25 10.94l.01-.01-.010.03a6.72 6.72 0 0 0 4.08 1.36h5.17l.030.03h5.19c6.690.05 9.38-8.6 3.84-12.35a9.37 9.37 0 0 0-2.82-4.55l-.040.040.01-.05A9.34 9.34 0 0 0 12.19 2.38zm-.36 4.15c1.24-.04 2.520.37 3.49 1.15a5.19 5.19 0 0 1 1.86 4.08v.52c3.53-.07 3.53 5.26 0 5.19h-5.19l-.010.01v-.04H6.79a2.59 2.59 0 0 1-1.07-.23h0a2.6 2.6 0 1 1 3.44-3.44l3.01-3.01A6.75 6.75 0 0 0 8.11 8.24c.02-.010.04-.030.05-.02a5.19 5.19 0 0 1 3.67-1.69z"/></symbol><symbol id="si-nginx" viewBox="0 0 24 24"><path d="M12 0L1.61 6v12L12 24l10.4-6V6L12 0zm6 16.59c0 .71-.65 1.29-1.53 1.29-.63 0-1.35-.25-1.8-.81l-6-7.14v6.66c0 .72-.57 1.29-1.27 1.29H7.32c-.72 0-1.29-.6-1.29-1.29V7.41c0-.70.63-1.29 1.5-1.290.65 0 1.380.26 1.830.81l5.97 7.14V7.41c0-.720.6-1.29 1.29-1.29h.08c.72 0 1.290.6 1.29 1.29v9.18H18z"/></symbol><symbol id="si-postgresql" viewBox="0 0 24 24"><path d="M23.56 14.72a.530.53 0 0 0-.06-.12c-.14-.26-.48-.34-1.01-.23-1.650.34-2.290.13-2.53-.02 1.34-2.05 2.44-4.52 3.04-6.830.27-1.050.8-3.520.12-4.73a1.56 1.56 0 0 0-.15-.23C21.690.91 19.80.02 17.510c-1.49-.02-2.770.35-3.120.48a9.45 9.45 0 0 0-.52-.08 8.04 8.04 0 0 0-1.31-.13c-1.18-.02-2.20.26-3.050.84-.86-.32-4.79-1.64-7.220.08C.94 2.150.31 3.870.43 6.3c.040.820.51 3.33 1.24 5.740.46 1.510.94 2.7 1.43 3.580.550.99 1.13 1.59 1.71 1.790.450.15 1.130.14 1.86-.730.8-.96 1.59-1.83 1.94-2.210.440.240.910.36 1.390.38a.060.06 0 0 0 00 11.03 11.03 0 0 0-.250.31c-.340.43-.410.52-1.50.74-.310.06-1.130.23-1.150.8100.120.030.230.090.330.230.420.920.61 1.010.63 1.330.33 2.50.09 3.37-.68-.02 2.230.08 4.420.35 5.090.220.550.76 1.9 2.47 1.90.25 0 .53-.030.83-.09 1.78-.38 2.56-1.17 2.86-2.910.15-.870.4-2.880.54-4.10.02-.070.04-.120.06-.14000.07-.050.430.03a.370.37 0 0 0 .040.01l.250.020.010c.850.04 1.91-.14 2.53-.430.64-.3 1.81-1.03 1.6-1.67zM2.37 11.88c-.74-2.44-1.18-4.89-1.21-5.57-.11-2.170.42-3.68 1.56-4.49 1.84-1.3 4.84-.54 6.11-.1300-.010.01-.010.01-2.02 2.04-1.98 5.54-1.97 5.7500.080.010.20.020.360.030.590.1 1.68-.07 2.92-.16 1.150.19 2.280.97 3.090.080.080.160.160.250.24-.350.37-1.1 1.19-1.9 2.16-.570.68-.960.55-1.090.51-.39-.13-.81-.59-1.24-1.32-.48-.84-.96-2.03-1.42-3.51zm6.01 5.09c-.17-.04-.33-.11-.43-.180.09-.040.24-.090.48-.14 1.28-.26 1.48-.45 1.91-10.1-.130.21-.270.37-.44a.350.35 0 0 0 .07-.13c.17-.150.27-.110.44-.040.160.060.310.260.370.480.030.10.060.29-.050.44-.9 1.27-2.22 1.25-3.17 1.01zm2.09-3.99-.050.14c-.130.36-.260.69-.33 1-.670-1.32-.29-1.81-.8-.63-.66-.91-1.57-.78-2.50.18-1.310.12-2.450.08-3.060-.09-.01-.16-.01-.220.3-.26 1.67-1 2.64-.770.450.10.720.410.830.930.58 2.70.08 3.83-.33 4.74-.080.19-.160.36-.230.55zm7.36 4.57c-.020.18-.040.38-.060.6l-.150.44a.350.35 0 0 0-.020.11c-.010.47-.050.65-.110.87-.060.23-.140.49-.18 1.06-.11 1.41-.88 2.23-2.42 2.56-1.520.33-1.78-.5-2.02-1.22a6.58 6.58 0 0 0-.08-.23c-.22-.59-.19-1.41-.16-2.560.02-.56-.02-1.9-.33-2.650-.290.01-.590.02-.89a.350.35 0 0 0-.02-.11 1.49 1.49 0 0 0-.04-.21c-.12-.43-.42-.79-.78-.94-.14-.06-.4-.17-.72-.090.07-.280.18-.590.31-.92l.05-.14c.06-.160.13-.330.21-.50.43-.95 1.01-2.250.38-5.18-.24-1.1-1.03-1.63-2.23-1.51-.720.07-1.380.37-1.710.53a5.67 5.67 0 0 0-.20.1c.09-1.110.44-3.17 1.74-4.48a4.03 4.03 0 0 1 .3-.280.350.35 0 0 0 .14-.06c.75-.57 1.69-.85 2.8-.830.410.010.80.03 1.170.08 1.940.35 3.24 1.45 4.04 2.380.810.96 1.26 1.93 1.43 2.45-1.32-.13-2.220.13-2.680.78-.99 1.420.54 4.17 1.28 5.50.140.240.250.450.290.540.240.580.550.970.78 1.260.070.090.140.170.190.25-.40.12-1.120.38-1.06 1.72-.010.16-.040.45-.080.81-.050.21-.070.46-.10.77zm.89-1.62c-.04-.830.27-.920.6-1.01a2.86 2.86 0 0 0 .14-.04 1.2 1.2 0 0 0 .130.1c.570.38 1.580.42 3.010.13-.20.18-.520.4-.950.6-.410.19-1.10.33-1.750.36-.720.03-1.09-.08-1.17-.15zm.57-9.27c-.010.35-.050.67-.11 1-.050.36-.110.73-.13 1.18-.010.440.040.890.09 1.330.110.890.22 1.8-.21 2.7a3.53 3.53 0 0 1-.19-.39c-.05-.13-.17-.33-.33-.62-.62-1.1-2.06-3.69-1.32-4.740.38-.54 1.34-.57 2.18-.46zm.23 7.01a12.38 12.38 0 0 0-.09-.11l-.04-.04c.73-1.20.58-2.390.46-3.44-.05-.43-.1-.84-.09-1.220.01-.410.07-.750.12-1.090.06-.410.13-.840.11-1.350.01-.050.02-.120.01-.19-.05-.49-.6-1.94-1.73-3.25-.61-.71-1.49-1.5-2.69-2.040.53-.11 1.23-.2 2.02-.19 2.050.05 3.670.81 4.82 2.28a.910.91 0 0 1 .070.1c.72 1.36-.28 6.28-2.99 10.54zm-8.82-6.12c-.020.18-.310.42-.620.42a.580.58 0 0 1-.08-.01c-.19-.03-.38-.14-.51-.32-.05-.06-.12-.18-.11-.280.01-.040.03-.10.09-.150.12-.090.35-.120.61-.090.320.040.640.190.610.42zm7.93-.41c.010.08-.050.2-.150.31-.070.07-.210.2-.410.22a.550.55 0 0 1-.070.01c-.29 0-.54-.23-.56-.37-.02-.180.26-.310.56-.350.3-.040.610.010.640.19z"/></symbol><symbol id="si-pytest" viewBox="0 0 24 24"><path d="M2.62 0v.89h3.84V0zm5.02 0v.89h3.84V0zm4.96 0v.89h3.84V0zm4.94 0v.89h3.84V0zM2.45 1.89a.940.94 0 0 0-.940.94c0 .520.420.940.940.94h19.11c.52 0 .94-.420.94-.94a.940.94 0 0 0-.94-.94zm.17 2.85V24H6.46V4.74zm5.02 0V20.54h3.84V4.74zm4.96 0V15.29h3.85V4.74zm4.94 0v6.49h3.84V4.74z"/></symbol><symbol id="si-python" viewBox="0 0 24 24"><path d="M14.250.18l.90.20.730.260.590.30.450.320.340.340.250.340.160.330.10.30.040.260.020.2-.010.13V8.5l-.050.63-.130.55-.210.46-.260.38-.30.31-.330.25-.350.19-.350.14-.330.1-.30.07-.260.04-.210.02H8.77l-.690.05-.590.14-.50.22-.410.27-.330.32-.270.35-.20.36-.150.37-.10.35-.070.32-.040.27-.020.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.230.06-1.220.16-1.040.24-.870.32-.710.36-.570.4-.440.42-.330.42-.240.4-.160.36-.10.32-.050.24-.01h.16l.060.01h8.16v-.83H6.18l-.01-2.75-.02-.370.05-.340.11-.310.17-.280.25-.260.31-.230.38-.20.44-.180.51-.150.58-.120.64-.10.71-.060.77-.040.84-.02 1.270.05zm-6.3 1.98l-.230.33-.080.410.080.410.230.340.330.220.410.090.41-.090.33-.220.23-.340.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.410.09zm13.09 3.95l.280.060.320.120.350.180.360.270.360.350.350.470.320.590.280.730.210.880.14 1.040.05 1.23-.06 1.23-.16 1.04-.240.86-.320.71-.360.57-.40.45-.420.33-.420.24-.40.16-.360.09-.320.05-.240.02-.16-.01h-8.22v.82h5.84l.01 2.760.020.36-.050.34-.110.31-.170.29-.250.25-.310.24-.380.2-.440.17-.510.15-.580.13-.640.09-.710.07-.770.04-.840.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.20.01-.13v-5.34l.05-.640.13-.540.21-.460.26-.380.3-.320.33-.240.35-.20.35-.140.33-.10.3-.060.26-.040.21-.020.13-.01h5.84l.69-.050.59-.140.5-.210.41-.280.33-.320.27-.350.2-.360.15-.360.1-.350.07-.320.04-.280.02-.21V6.07h2.09l.140.01zm-6.47 14.25l-.230.33-.080.410.080.410.230.330.330.230.410.080.41-.080.33-.230.23-.330.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.410.08z"/></symbol><symbol id="si-react" viewBox="0 0 24 24"><path d="M14.23 12a2.24 2.24 0 0 1-2.23 2.24 2.24 2.24 0 0 1-2.24-2.24 2.24 2.24 0 0 1 2.24-2.24 2.24 2.24 0 0 1 2.24 2.24zm2.65-10.69c-1.35 0-3.110.96-4.89 2.62-1.78-1.65-3.54-2.6-4.89-2.6-.41 0-.780.09-1.110.28-1.370.79-1.68 3.26-.97 6.37C1.98 8.92 0 10.42 0 12c0 1.59 1.99 3.1 5.04 4.03-.7 3.11-.39 5.590.99 6.380.320.190.690.28 1.10.28 1.35 0 3.11-.96 4.89-2.62 1.78 1.65 3.54 2.6 4.89 2.60.41 0 .78-.09 1.11-.28 1.37-.79 1.68-3.260.97-6.36C22.02 15.1 24 13.59 24 12c0-1.59-1.99-3.1-5.04-4.030.7-3.110.39-5.59-.99-6.38-.32-.18-.69-.28-1.09-.28zm0 1.09v.01c.23 0 .410.040.560.130.670.380.96 1.840.73 3.7-.050.46-.140.95-.25 1.44-.96-.24-2.01-.42-3.11-.53-.66-.9-1.34-1.73-2.03-2.45 1.59-1.48 3.09-2.29 4.11-2.29zm-9.770.02c1.01 0 2.510.81 4.11 2.28-.690.72-1.37 1.54-2.02 2.44-1.110.12-2.150.3-3.110.54-.11-.49-.19-.96-.25-1.42-.23-1.870.05-3.320.71-3.710.19-.090.4-.130.56-.13zm4.88 3.05c.460.470.910.99 1.36 1.56-.44-.02-.89-.03-1.34-.03-.46 0-.910.01-1.360.030.44-.570.9-1.1 1.35-1.56zM12 8.1c.74 0 1.480.03 2.20.090.410.580.8 1.2 1.18 1.860.370.640.71 1.29 1.02 1.95-.310.66-.65 1.31-1.01 1.95-.380.66-.77 1.29-1.18 1.87-.730.06-1.470.1-2.210.1-.74 0-1.48-.04-2.2-.09-.41-.58-.8-1.2-1.18-1.86-.37-.64-.71-1.29-1.02-1.950.3-.660.65-1.31 1.01-1.950.38-.660.77-1.29 1.18-1.870.73-.06 1.47-.1 2.21-.1zm-3.630.25c-.240.38-.480.76-.7 1.16-.220.39-.430.78-.63 1.17-.26-.66-.49-1.31-.68-1.950.64-.15 1.32-.28 2.02-.39zm7.26 0c.70.1 1.370.23 2.010.39-.180.63-.4 1.28-.66 1.93-.2-.39-.41-.78-.64-1.17-.22-.39-.46-.77-.7-1.15zm3.060.68c.480.150.940.32 1.380.5 1.730.74 2.85 1.71 2.85 2.4800.77-1.12 1.74-2.86 2.48-.420.18-.880.34-1.350.49-.28-.96-.65-1.96-1.1-2.980.45-1.020.81-2.01 1.09-2.96zm-13.390c.280.960.65 1.96 1.1 2.98-.45 1.02-.81 2.01-1.09 2.96-.48-.15-.94-.32-1.37-.5-1.73-.74-2.85-1.71-2.85-2.47 0-.77 1.12-1.74 2.85-2.480.42-.180.88-.34 1.36-.49zm11.68 4.28c.270.660.49 1.310.68 1.95-.640.16-1.320.29-2.020.390.24-.370.48-.760.71-1.160.23-.390.44-.790.64-1.18zm-9.940.02c.20.390.410.780.64 1.180.230.390.470.770.71 1.14-.69-.1-1.36-.23-2.01-.390.18-.630.41-1.280.66-1.93zM17.92 16.32c.110.490.20.970.25 1.420.23 1.87-.05 3.32-.71 3.71-.150.09-.340.13-.560.13-1.01 0-2.51-.81-4.11-2.280.69-.72 1.37-1.54 2.02-2.44 1.11-.12 2.15-.3 3.11-.54zm-11.830.01c.960.23 2.010.42 3.110.530.660.91 1.35 1.73 2.04 2.45-1.59 1.48-3.09 2.3-4.11 2.3-.220-.41-.05-.55-.13-.67-.38-.95-1.83-.73-3.70.05-.460.14-.940.25-1.44zm4.560.64c.440.020.890.03 1.350.030.46 0 .92-.01 1.36-.03-.440.57-.89 1.1-1.34 1.57-.45-.47-.91-.99-1.36-1.56z"/></symbol><symbol id="si-timescale" viewBox="0 0 24 24"><path d="M5.540.76c-1.170.7-2.21 1.58-3.08 2.61L3.79 4.84a10.42 10.42 0 13.63-2.88zm13.030.09l-1.99 1.12a10.38 10.38 0 13.76 3.07l1.18-1.65a12.37 12.37 0 00-2.95-2.54zm-6.560.75a9.79 9.79 0 00-4.130.91l.59 1.01a8.54 8.54 0 13.54-.76c1.26 0 2.460.27 3.530.76l.59-1.01a9.81 9.81 0 00-4.12-.91zM11.4 3.54l-.55 6.63h0l00.04c00.110.010.220.030.320.010.110.040.230.10.340.110.290.30.510.520.610.050.040.110.080.160.11a.980.98 0 1.030.02v0l6.68 3.60.35-.48-6.06-4.6c-.01 0-.010-.01-.01L12 3.54zm1.420.05c.190.230.360.520.50.86 3.160.6 5.54 3.33 5.54 6.6 0 .88-.18 1.71-.48 2.48a3.7 3.7 0 1.520.76 7.31 7.31 0 .75-3.24c0-3.87-2.99-7.05-6.83-7.45zm-2.280.1c-3.530.67-6.19 3.71-6.19 7.36 0 2.58 1.34 4.86 3.37 6.21a9.84 9.84 0 1.3-.74c-1.74-1.22-2.87-3.21-2.87-5.47 0-3.05 2.08-5.63 4.93-6.450.13-.350.29-.660.47-.91zm9.15 1.68l-.80.89a8.1 8.1 0 11.55 4.78c0 2.92-1.54 5.48-3.87 6.950.10.390.190.790.25 1.21 2.87-1.63 4.8-4.68 4.8-8.16a9.22 9.22 0 00-1.93-5.67zm-15.380.01a9.25 9.25 0 00-1.93 5.67c0 3.51 1.95 6.57 4.86 8.190.06-.420.14-.820.25-1.21-2.36-1.47-3.92-4.04-3.92-6.98 0-1.780.57-3.42 1.55-4.77zm9.310.04c.040.20.080.420.110.64a5.33 5.33 0 13.21 2.91l.58-.15a5.94 5.94 0 00-3.9-3.4zm-3.820.19a5.94 5.94 0 00-3.32 3.2l.580.15A5.32 5.32 0 19.73 6.26c.02-.230.04-.450.08-.66zM6.73 9.67l-.620.630.320.61 1.730.620.94-.62-.31-.92zm10.62 0l-2.050.32-.310.920.940.62 1.73-.620.32-.61zM6.1 11.87A5.82 5.82 0 8.42 15.7c.1-.170.2-.330.32-.49a5.25 5.25 0 01-2.04-3.34zm11.21 0c-.030.18-.070.36-.120.530.170.140.340.270.490.410.1-.30.17-.620.22-.94zm-15.680.22L0 14.16c.97 3.66 3.64 6.65 7.13 8.11a9.4 9.4 0 01-.05-1.03c0-.370.02-.750.05-1.11-3.02-1.56-5.17-4.54-5.5-8.04zm20.710.06c-.35 3.45-2.46 6.39-5.44 7.960.030.370.050.760.05 1.14 0 .38-.020.71-.05 1 3.51-1.49 6.18-4.52 7.1-8.22zm-6.54 2.62a5.31 5.31 0 01-.490.42c.110.160.220.320.320.490.27-.20.51-.420.74-.66a10.61 10.61 0 01-.57-.25zm1.50.56a6.9 6.9 0 01-1.25 1.16c.110.240.210.490.290.74a7.67 7.67 0 1.86-1.77 3.55 3.55 0 01-.9-.12zm-2.990.63l-2.30.91-2.31-.91-.59 1.44 2.450.95c-.130.46-.570.8-1.080.8-.03 0-.070-.1-.01l-.50.69c.190.060.390.10.60.10.62 0 1.17-.29 1.52-.74a1.92 1.92 0 2.180.62l-.49-.67a1.12 1.12 0 01-1.26-.8l2.47-.93zm1.16 4.78c-1.090.38-2.260.58-3.480.58-1.17 0-2.29-.19-3.34-.530.230.880.59 1.65 1.05 2.260.740.13 1.510.21 2.290.210.84 0 1.65-.08 2.44-.240.45-.610.81-1.39 1.03-2.28z"/></symbol><symbol id="si-typescript" viewBox="0 0 24 24"><path d="M1.13 0C.5 0 0 .5 0 1.13v21.75C0 23.50.5 24 1.13 24h21.75c.62 0 1.13-.5 1.13-1.12V1.13C24 .5 23.5 0 22.88 0zm17.36 9.75c.61 0 1.150.04 1.630.11a6.38 6.38 0 0 1 1.310.34v2.46a3.95 3.95 0 0 0-.64-.36 5.09 5.09 0 0 0-.72-.26 5.45 5.45 0 0 0-1.43-.2c-.3 0-.570.03-.820.09a2.1 2.1 0 0 0-.620.24c-.170.1-.30.23-.390.37a.890.89 0 0 0-.140.49c0 .20.050.370.160.530.10.160.250.30.440.44s.420.280.70.41c.270.140.580.270.930.420.470.20.890.41 1.270.630.370.220.70.470.960.750.270.280.470.60.610.960.140.360.210.780.21 1.25 0 .66-.12 1.21-.37 1.66a3.03 3.03 0 0 1-1.01 1.09 4.38 4.38 0 0 1-1.490.6c-.570.12-1.160.18-1.790.18a9.92 9.92 0 0 1-1.84-.16 5.54 5.54 0 0 1-1.51-.49v-2.63a5.03 5.03 0 0 0 3.24 1.2c.33 0 .62-.030.87-.090.25-.060.46-.140.62-.250.17-.110.29-.230.37-.38a1.02 1.02 0 0 0-.07-1.09 2.12 2.12 0 0 0-.54-.5 5.6 5.6 0 0 0-.81-.44 27.72 27.72 0 0 0-1.01-.44c-.92-.38-1.6-.85-2.05-1.4-.45-.55-.68-1.22-.68-2 0-.610.12-1.140.37-1.580.25-.440.58-.8 1-1.09a4.49 4.49 0 0 1 1.47-.63 7.54 7.54 0 0 1 1.77-.2zm-15.110.19h9.56v2.17H9.51v9.65H6.79v-9.65H3.38z"/></symbol></defs></svg>
+<!-- gen:skills:end -->
     </div>
   </section>
 

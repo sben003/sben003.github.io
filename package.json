@@ -1,0 +1,11 @@
+{
+  "name": "sben003-portfolio",
+  "private": true,
+  "description": "Portfolio de Salem Benzineh — site statique, aucune dependance d'execution.",
+  "scripts": {
+    "build": "node build/render.mjs",
+    "icons:optimize": "node build/optimize-icons.mjs",
+    "serve": "python -m http.server 8765"
+  },
+  "engines": { "node": ">=18" }
+}

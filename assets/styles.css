@@ -625,32 +625,40 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* --- Projets -------------------------------------------------------------- */
+/* Cartes autonomes plutot qu'une grille fusionnee : avec un nombre de projets
+   qui n'est pas un multiple du nombre de colonnes, une grille fusionnee laisse
+   une cellule vide teintee en bas. Des cartes bordees s'en accommodent. */
 .cards {
   display: grid;
-  gap: 1px;
+  gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(16.5rem, 1fr));
-  background: var(--rule);
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  overflow: hidden;
 }
 .card {
   background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
   padding: 1.5rem 1.45rem;
   display: flex;
   flex-direction: column;
+  transition: border-color .2s ease, background-color .2s ease;
 }
+.card:hover { border-color: var(--rule-strong); }
 .card h3 {
   font-size: 1.02rem;
   letter-spacing: -.014em;
   margin-block: .45rem .5rem;
 }
+/* Seul le resume absorbe l'espace libre. Sans cette restriction, le kicker et
+   la ligne de contexte — qui sont aussi des <p> — se dilatent et decalent les
+   titres d'une carte a l'autre. */
 .card p {
   font-size: .91rem;
   color: var(--ink-soft);
   line-height: 1.6;
-  flex: 1 1 auto;
+  flex: none;
 }
+/* `.card p` vaut 0-1-1 : un simple `.card__summary` (0-1-0) serait battu. */
+.card p.card__summary { flex: 1 1 auto; }
 
 /* --- Competences ---------------------------------------------------------- */
 .skills { display: grid; gap: 0; margin: 0; }
@@ -1053,3 +1061,422 @@ ul { margin: 0; padding: 0; list-style: none; }
 @media (min-width: 52rem) {
   .stats--bar { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
+
+/* ==========================================================================
+   Compétences — grille bento
+   Sections générées par build/render.mjs depuis data/skills.mjs
+   ========================================================================== */
+
+/* Le sprite d'icônes ne doit rien occuper ni être lu par les technologies
+   d'assistance : il ne sert que de bibliothèque de <symbol>. */
+.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.glyph { width: 1.15rem; height: 1.15rem; display: block; }
+
+.bento__legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem 1.25rem;
+  margin: 0 0 1.5rem;
+  font-size: .8rem;
+  color: var(--muted);
+}
+.bento__legend .badge { cursor: default; }
+.legend__text { margin-right: .35rem; }
+
+.bento {
+  display: grid;
+  gap: 1px;
+  grid-template-columns: 1fr;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+@media (min-width: 46rem) { .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 64rem) {
+  .bento { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .bento__card--span2 { grid-column: span 2; }
+}
+
+.bento__card {
+  background: var(--surface);
+  padding: 1.5rem 1.5rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+  transition: background-color .2s ease;
+}
+.bento__card:hover { background: color-mix(in srgb, var(--accent-wash) 55%, var(--surface)); }
+
+.bento__head { display: flex; align-items: center; gap: .65rem; }
+.bento__glyph {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem; height: 2rem;
+  flex: none;
+  border: 1px solid var(--rule-strong);
+  border-radius: 5px;
+  color: var(--accent-ink);
+  background: var(--bg);
+}
+.bento__title { font-size: 1.05rem; letter-spacing: -.015em; }
+.bento__lede { margin: 0; font-size: .91rem; color: var(--muted); line-height: 1.6; max-width: 56ch; }
+
+.skill-groups { display: grid; gap: .95rem; margin-top: .2rem; }
+.skill-group__label {
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: .45rem;
+}
+
+/* --- Badges technologiques ------------------------------------------------ */
+.badges { display: flex; flex-wrap: wrap; gap: .35rem; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .26rem .55rem .26rem .45rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--bg);
+  font-size: .82rem;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  transition: border-color .2s ease, color .2s ease, background-color .2s ease;
+}
+.badge:hover { border-color: var(--rule-strong); color: var(--ink); background: var(--surface); }
+
+.badge__icon { width: .95rem; height: .95rem; flex: none; fill: currentColor; opacity: .75; }
+.badge:hover .badge__icon { opacity: 1; }
+
+/* Technos sans glyphe de marque disponible : pastille neutre, même gabarit */
+.badge__icon--none {
+  width: .95rem; height: .95rem;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+  opacity: .45;
+}
+
+.badge__name { white-space: nowrap; }
+
+/* Marqueur de niveau : plein = production, creux = projet.
+   Le libellé reste dans le DOM pour les lecteurs d'écran. */
+.badge::after {
+  content: "";
+  width: .4rem; height: .4rem;
+  border-radius: 50%;
+  flex: none;
+  margin-left: .1rem;
+}
+.badge--production::after { background: var(--accent); }
+.badge--projet::after { border: 1px solid var(--rule-strong); }
+
+.badges .badge__level {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.bento__legend .badge__level { font-size: .78rem; color: var(--ink-soft); }
+
+/* --- Tags de cas d'usage -------------------------------------------------- */
+.use-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem .4rem;
+  margin-top: auto;
+  padding-top: .9rem;
+  border-top: 1px solid var(--rule);
+}
+.use-tags li {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .02em;
+  color: var(--accent-ink);
+  background: var(--accent-wash);
+  border-radius: 3px;
+  padding: .2rem .45rem;
+}
+
+/* --- Carte « Méthodes & pratiques » --------------------------------------- */
+.practices { display: grid; gap: 0; margin: 0; }
+@media (min-width: 40rem) { .practices { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1.5rem; } }
+.practice { padding-block: .7rem; border-top: 1px solid var(--rule); }
+.practice dt { font-size: .88rem; font-weight: 620; letter-spacing: -.01em; color: var(--ink); }
+.practice dd { margin: .15rem 0 0; font-size: .84rem; color: var(--muted); line-height: 1.55; }
+
+/* ==========================================================================
+   Projet vedette
+   ========================================================================== */
+.featured { display: grid; gap: 2.25rem; }
+
+/* --- En-tête -------------------------------------------------------------- */
+.featured__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.featured__name {
+  font-size: clamp(1.7rem, 4.6vw, 2.5rem);
+  letter-spacing: -.028em;
+  margin-block: .35rem .4rem;
+}
+.featured__headline {
+  margin: 0;
+  font-size: clamp(1rem, 2.4vw, 1.14rem);
+  color: var(--ink-soft);
+  max-width: 44ch;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  margin: .3rem 0 0;
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  border: 1px solid var(--accent);
+  background: var(--accent-wash);
+  border-radius: 999px;
+  padding: .3rem .7rem;
+}
+.status-badge__dot {
+  width: .42rem; height: .42rem;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+}
+
+.featured__meta {
+  display: grid;
+  gap: .9rem 2rem;
+  margin: 0;
+  padding-block: 1.1rem;
+  border-block: 1px solid var(--rule);
+}
+@media (min-width: 46rem) { .featured__meta { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.featured__meta dt {
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .25rem;
+}
+.featured__meta dd { margin: 0; font-size: .93rem; color: var(--ink); }
+
+/* --- Problème / réponse --------------------------------------------------- */
+.featured__story { display: grid; gap: 1.5rem; }
+@media (min-width: 52rem) { .featured__story { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem; } }
+.story h4 {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: .5rem;
+}
+.story--answer h4 { color: var(--accent-ink); }
+.story p { margin: 0; font-size: .96rem; color: var(--ink-soft); line-height: 1.7; }
+.story--answer { border-left: 3px solid var(--accent); padding-left: 1.15rem; }
+@media (max-width: 51.99rem) { .story--answer { padding-left: 1rem; } }
+
+/* --- Métriques ------------------------------------------------------------ */
+.metrics {
+  display: grid;
+  gap: 1px;
+  grid-template-columns: 1fr;
+  margin: 0;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+@media (min-width: 40rem) { .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.metric { background: var(--surface); padding: 1.15rem 1.25rem; }
+.metric__label {
+  font-family: var(--font-mono);
+  font-size: .66rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .35rem;
+}
+.metric__value {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: clamp(1.35rem, 3.6vw, 1.75rem);
+  font-weight: 600;
+  color: var(--accent-ink);
+  letter-spacing: -.02em;
+  line-height: 1.15;
+}
+.metric__note {
+  display: block;
+  margin-top: .3rem;
+  font-size: .72rem;
+  font-weight: 400;
+  letter-spacing: .02em;
+  color: var(--muted);
+}
+
+/* --- Vitrine visuelle ----------------------------------------------------- */
+.showcase { display: grid; gap: .75rem; }
+
+.showcase__main {
+  margin: 0;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(34, 40, 46, .04), 0 8px 24px -12px rgba(34, 40, 46, .18);
+}
+:root[data-theme="dark"] .showcase__main,
+:root:not([data-theme="light"]) .showcase__main { box-shadow: none; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .showcase__main {
+    box-shadow: 0 1px 2px rgba(34, 40, 46, .04), 0 8px 24px -12px rgba(34, 40, 46, .18);
+  }
+}
+/* Conteneur de ratio.
+   `aspect-ratio` posé directement sur un <img> qui porte des attributs
+   width/height n'est pas honoré par tous les moteurs : l'image garde son
+   ratio naturel. On fixe donc le ratio sur un bloc parent et l'image le
+   remplit en absolu — technique fiable partout. */
+.ratio { position: relative; overflow: hidden; }
+.ratio > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Source verticale (900x1200) recadrée en paysage : le sujet — la sonde et
+   ses colliers — se situe vers 55 % de la hauteur. Un cadrage centré le
+   couperait. */
+.ratio--wide { aspect-ratio: 16 / 10; }
+.ratio--wide > img { object-position: center 55%; }
+.ratio--thumb { aspect-ratio: 4 / 3; }
+
+.showcase__main .ratio { border-bottom: 1px solid var(--rule); }
+.showcase__main figcaption {
+  padding: .85rem 1.1rem;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--muted);
+  line-height: 1.6;
+  letter-spacing: .02em;
+}
+.showcase__main figcaption b {
+  display: block;
+  color: var(--accent-ink);
+  font-weight: 600;
+  margin-bottom: .15rem;
+}
+
+.showcase__strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+.showcase__thumb {
+  margin: 0;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.showcase__thumb img { transition: transform .25s ease; }
+.showcase__thumb:hover img { transform: scale(1.03); }
+@media (prefers-reduced-motion: reduce) { .showcase__thumb:hover img { transform: none; } }
+
+/* --- Stack, actions ------------------------------------------------------- */
+.featured__stack-label {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: .6rem;
+}
+.pills { display: flex; flex-wrap: wrap; gap: .35rem; }
+.pills li {
+  font-size: .82rem;
+  color: var(--ink-soft);
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  padding: .24rem .7rem;
+  background: var(--surface);
+  transition: border-color .2s ease, color .2s ease;
+}
+.pills li:hover { border-color: var(--accent); color: var(--accent-ink); }
+
+.featured__actions { display: grid; gap: .9rem; }
+.featured__actions .contact-row { margin-top: 0; }
+.btn__glyph { width: .95rem; height: .95rem; flex: none; }
+
+.repo-note {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--muted);
+  letter-spacing: .02em;
+}
+.repo-note__glyph { width: .85rem; height: .85rem; flex: none; }
+
+/* --- Compléments des cartes projet --------------------------------------- */
+.card__context {
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--muted);
+  letter-spacing: .02em;
+  margin-bottom: .7rem;
+}
+.card__note {
+  font-size: .82rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: .6rem;
+}
+.card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  margin-top: .85rem;
+  font-size: .82rem;
+  font-weight: 550;
+  color: var(--accent-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-strong);
+  padding-bottom: .12rem;
+  align-self: flex-start;
+  transition: border-color .2s ease;
+}
+.card__link:hover { border-color: var(--accent); }
+.card__link-glyph { width: .85rem; height: .85rem; flex: none; }
+
+/* Icône de marque dans les pills du projet vedette */
+.pill__icon {
+  width: .9rem; height: .9rem;
+  flex: none;
+  fill: currentColor;
+  opacity: .8;
+}
+.pills li { display: inline-flex; align-items: center; gap: .4rem; }
+.pills li:hover .pill__icon { opacity: 1; }
