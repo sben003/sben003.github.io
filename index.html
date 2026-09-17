@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Salem Benzineh — Développeur &amp; data engineer</title>
+<meta name="description" content="Salem Benzineh, étudiant en Master 2 Informatique SIGLIS à l'UPPA (Anglet). Data engineering, data analyse et développement full-stack. Recherche une alternance et un stage de fin d'études.">
+<meta name="author" content="Salem Benzineh">
+<meta name="theme-color" content="#f7f5f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1b2025" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://sben003.github.io/">
+<link rel="alternate" hreflang="fr" href="https://sben003.github.io/">
+<link rel="alternate" hreflang="en" href="https://sben003.github.io/en/">
+<link rel="alternate" hreflang="x-default" href="https://sben003.github.io/">
+
+<!-- Open Graph / LinkedIn -->
+<meta property="og:type" content="profile">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:site_name" content="Salem Benzineh">
+<meta property="og:url" content="https://sben003.github.io/">
+<meta property="og:title" content="Salem Benzineh — Développeur &amp; data engineer">
+<meta property="og:description" content="Master 2 Informatique SIGLIS (UPPA Anglet). Conception et mise en production de chaînes de données de bout en bout — ingestion, normalisation, qualité, stockage, API, interface.">
+<meta property="og:image" content="https://sben003.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Salem Benzineh — développeur et data engineer, Anglet.">
+<meta property="profile:first_name" content="Salem">
+<meta property="profile:last_name" content="Benzineh">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Salem Benzineh — Développeur &amp; data engineer">
+<meta name="twitter:description" content="Master 2 Informatique SIGLIS (UPPA Anglet). Data engineering, data analyse, développement full-stack.">
+<meta name="twitter:image" content="https://sben003.github.io/assets/og.png">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/styles.css">
+
+<!-- Applique le thème avant le premier rendu pour éviter tout clignotement -->
+<script>
+(function(){try{var t=localStorage.getItem("sb-theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Salem Benzineh",
+  "jobTitle": "Développeur et data engineer",
+  "email": "mailto:salben674@gmail.com",
+  "url": "https://sben003.github.io/",
+  "address": { "@type": "PostalAddress", "addressLocality": "Anglet", "addressRegion": "Pyrénées-Atlantiques", "addressCountry": "FR" },
+  "alumniOf": [
+    { "@type": "CollegeOrUniversity", "name": "Université de Pau et des Pays de l'Adour" },
+    { "@type": "CollegeOrUniversity", "name": "Université d'Alger 1" }
+  ],
+  "knowsLanguage": ["ar", "fr", "en"],
+  "sameAs": [
+    "https://www.linkedin.com/in/mohamed-salem-benzineh-1517ab240",
+    "https://github.com/sben003"
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="#profil">Salem&nbsp;Benzineh<span> /</span></a>
+
+    <nav class="site-nav" aria-label="Sections du site">
+      <ul>
+        <li><a href="#profil">Profil</a></li>
+        <li><a href="#vigie-ocean">Vigie Océan</a></li>
+        <li><a href="#experience">Expérience</a></li>
+        <li><a href="#projets">Projets</a></li>
+        <li><a href="#competences">Compétences</a></li>
+        <li><a href="#parcours">Parcours</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-tools">
+      <p class="lang-switch" aria-label="Langue">
+        <span aria-current="true" lang="fr">FR</span><a href="en/" hreflang="en" lang="en">EN</a>
+      </p>
+      <button class="theme-toggle" type="button" hidden
+              data-label-dark="Passer en thème sombre"
+              data-label-light="Passer en thème clair">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="contenu">
+
+  <!-- 01 — Profil -->
+  <section class="section intro" id="profil">
+    <div class="wrap">
+      <div class="intro__body">
+        <div>
+          <p class="kicker">Anglet (64) · France</p>
+          <h1 class="intro__name">Salem Benzineh</h1>
+          <p class="intro__role">
+            Étudiant en Master 2 Informatique SIGLIS à l'UPPA —
+            <b>data engineering</b>, <b>data analyse</b>, <b>développement full-stack</b>.
+          </p>
+          <p class="intro__lede">
+            Je construis des chaînes de données complètes, de la source jusqu'à l'interface.
+            Ma dernière mission : concevoir et mettre en production, seul, une plateforme de
+            supervision environnementale marine de la côte basque.
+          </p>
+
+          <div class="contact-row">
+            <a class="btn btn--primary" href="assets/CV-Salem-Benzineh.pdf" download>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M12 3v12M7 11l5 5 5-5M4 20h16"/>
+              </svg>
+              Télécharger le CV (PDF)
+            </a>
+            <a class="btn" href="mailto:salben674@gmail.com">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>
+              </svg>
+              salben674@gmail.com
+            </a>
+            <a class="btn" href="https://www.linkedin.com/in/mohamed-salem-benzineh-1517ab240" rel="me noopener" target="_blank">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.6c0-1.34-.03-3.06-1.9-3.06-1.9 0-2.2 1.46-2.2 2.97V21H9z"/>
+              </svg>
+              LinkedIn
+            </a>
+            <a class="btn" href="https://github.com/sben003" rel="me noopener" target="_blank">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/>
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="availability">
+          <h2>Recherche en cours</h2>
+          <dl>
+            <div>
+              <dt>Alternance — septembre 2026</dt>
+              <dd>Rythme 2 semaines en entreprise / 2 semaines à l'université, sur l'année de Master 2.</dd>
+            </div>
+            <div>
+              <dt>Stage de fin d'études — mars 2027</dt>
+              <dd>Data engineering, data analyse ou développement full-stack.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — Vigie Océan -->
+  <section class="section section--tint" id="vigie-ocean" aria-labelledby="titre-vigie">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">01</span>
+        <h2 class="section__title">Projet phare</h2>
+        <p class="section__note">Conçu et mis en production seul</p>
+      </div>
+
+      <div class="flagship__lead">
+        <div>
+          <p class="kicker">Supervision environnementale marine</p>
+          <h3 class="flagship__title" id="titre-vigie">Vigie Océan</h3>
+          <p class="flagship__meta">
+            Stage de fin de M1 · UPPA Tech, plateau SCOPE<br>
+            Avril – juillet 2026 · Côte basque
+          </p>
+          <p class="flagship__summary">
+            Une plateforme qui va de la sonde immergée jusqu'à l'interface de consultation :
+            ingestion des fichiers bruts, normalisation de trois formats fournisseurs,
+            contrôle qualité, stockage en série temporelle, API et visualisation.
+            J'ai conçu, développé et mis en production l'ensemble de la chaîne.
+          </p>
+        </div>
+
+        <dl class="stats">
+          <div>
+            <dt>Mesures contrôlées</dt>
+            <dd>~1,7 M</dd>
+          </div>
+          <div>
+            <dt>Stockage</dt>
+            <dd>460 → 27 Mo</dd>
+          </div>
+          <div>
+            <dt>Réponse API</dt>
+            <dd>&lt; 50 ms</dd>
+          </div>
+          <div>
+            <dt>Tests d'intégration</dt>
+            <dd>14</dd>
+          </div>
+        </dl>
+      </div>
+
+      <figure class="diagram">
+        <!-- Version large (écrans ≥ 52rem) -->
+        <svg class="diagram__wide" viewBox="0 0 940 330" role="img" aria-labelledby="schema-titre schema-desc">
+          <title id="schema-titre">Architecture de la plateforme Vigie Océan</title>
+          <desc id="schema-desc">Chaîne en sept étapes : sondes en mer, ingestion, normalisation, contrôle qualité, stockage TimescaleDB, API FastAPI, puis interface React.</desc>
+
+          <!-- Rangée 1 -->
+          <g>
+            <rect class="dg-box" x="20" y="64" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="33" y="83">01</text>
+            <text class="dg-title" x="33" y="104">Sondes en mer</text>
+            <text class="dg-sub" x="33" y="121">3 fournisseurs · 3G/4G</text>
+            <text class="dg-sub" x="33" y="134">dépôt de fichiers en FTP</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="253" y="64" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="266" y="83">02</text>
+            <text class="dg-title" x="266" y="104">Ingestion</text>
+            <text class="dg-sub" x="266" y="121">VM Google Cloud · Python</text>
+            <text class="dg-sub" x="266" y="134">ftplib + APScheduler · 15 min</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="487" y="64" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="500" y="83">03</text>
+            <text class="dg-title" x="500" y="104">Normalisation</text>
+            <text class="dg-sub" x="500" y="121">parsers + routeur de format</text>
+            <text class="dg-sub" x="500" y="134">référentiel unifié</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="720" y="64" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="733" y="83">04</text>
+            <text class="dg-title" x="733" y="104">Contrôle qualité</text>
+            <text class="dg-sub" x="733" y="121">manquants · doublons · bornes</text>
+            <text class="dg-sub" x="733" y="134">mise à l'écart réversible</text>
+          </g>
+
+          <!-- Flèches rangée 1 -->
+          <path class="dg-line" d="M222 106 H246"/>
+          <polygon class="dg-arrow" points="246,102 253,106 246,110"/>
+          <path class="dg-line" d="M455 106 H480"/>
+          <polygon class="dg-arrow" points="480,102 487,106 480,110"/>
+          <path class="dg-line" d="M689 106 H713"/>
+          <polygon class="dg-arrow" points="713,102 720,106 713,110"/>
+
+          <!-- Renvoi vers la rangée 2 -->
+          <path class="dg-line" d="M820 148 V188 H120 V221"/>
+          <polygon class="dg-arrow" points="116,221 124,221 120,228"/>
+
+          <!-- Rangée 2 -->
+          <g>
+            <rect class="dg-box dg-box--accent" x="20" y="228" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="33" y="247">05</text>
+            <text class="dg-title" x="33" y="268">TimescaleDB</text>
+            <text class="dg-sub" x="33" y="285">hypertable partitionnée</text>
+            <text class="dg-sub" x="33" y="298">compression 460 → 27 Mo</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="253" y="228" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="266" y="247">06</text>
+            <text class="dg-title" x="266" y="268">API FastAPI</text>
+            <text class="dg-sub" x="266" y="285">&lt; 50 ms · horodatage UTC</text>
+            <text class="dg-sub" x="266" y="298">exports Excel</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="487" y="228" width="200" height="84" rx="3"/>
+            <text class="dg-step" x="500" y="247">07</text>
+            <text class="dg-title" x="500" y="268">Interface React / TS</text>
+            <text class="dg-sub" x="500" y="285">sous-échantillonnage LTTB</text>
+            <text class="dg-sub" x="500" y="298">synchronisation des marées</text>
+          </g>
+
+          <!-- Flèches rangée 2 -->
+          <path class="dg-line" d="M222 270 H246"/>
+          <polygon class="dg-arrow" points="246,266 253,270 246,274"/>
+          <path class="dg-line" d="M455 270 H480"/>
+          <polygon class="dg-arrow" points="480,266 487,270 480,274"/>
+        </svg>
+
+        <!-- Version empilée (mobile) -->
+        <svg class="diagram__tall" viewBox="0 0 300 688" role="img" aria-labelledby="schema-titre-m schema-desc-m">
+          <title id="schema-titre-m">Architecture de la plateforme Vigie Océan</title>
+          <desc id="schema-desc-m">Chaîne en sept étapes : sondes en mer, ingestion, normalisation, contrôle qualité, stockage TimescaleDB, API FastAPI, puis interface React.</desc>
+
+          <g>
+            <rect class="dg-box" x="20" y="8" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="26">01</text>
+            <text class="dg-title" x="33" y="46">Sondes en mer</text>
+            <text class="dg-sub" x="33" y="62">3 fournisseurs · 3G/4G</text>
+            <text class="dg-sub" x="33" y="75">dépôt de fichiers en FTP</text>
+          </g>
+          <path class="dg-line" d="M150 82 V99"/><polygon class="dg-arrow" points="146,99 154,99 150,106"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="106" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="124">02</text>
+            <text class="dg-title" x="33" y="144">Ingestion</text>
+            <text class="dg-sub" x="33" y="160">VM Google Cloud · Python</text>
+            <text class="dg-sub" x="33" y="173">ftplib + APScheduler · 15 min</text>
+          </g>
+          <path class="dg-line" d="M150 180 V197"/><polygon class="dg-arrow" points="146,197 154,197 150,204"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="204" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="222">03</text>
+            <text class="dg-title" x="33" y="242">Normalisation</text>
+            <text class="dg-sub" x="33" y="258">parsers + routeur de format</text>
+            <text class="dg-sub" x="33" y="271">référentiel unifié</text>
+          </g>
+          <path class="dg-line" d="M150 278 V295"/><polygon class="dg-arrow" points="146,295 154,295 150,302"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="302" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="320">04</text>
+            <text class="dg-title" x="33" y="340">Contrôle qualité</text>
+            <text class="dg-sub" x="33" y="356">manquants · doublons · bornes</text>
+            <text class="dg-sub" x="33" y="369">mise à l'écart réversible</text>
+          </g>
+          <path class="dg-line" d="M150 376 V393"/><polygon class="dg-arrow" points="146,393 154,393 150,400"/>
+
+          <g>
+            <rect class="dg-box dg-box--accent" x="20" y="400" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="418">05</text>
+            <text class="dg-title" x="33" y="438">TimescaleDB</text>
+            <text class="dg-sub" x="33" y="454">hypertable partitionnée</text>
+            <text class="dg-sub" x="33" y="467">compression 460 → 27 Mo</text>
+          </g>
+          <path class="dg-line" d="M150 474 V491"/><polygon class="dg-arrow" points="146,491 154,491 150,498"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="498" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="516">06</text>
+            <text class="dg-title" x="33" y="536">API FastAPI</text>
+            <text class="dg-sub" x="33" y="552">&lt; 50 ms · horodatage UTC</text>
+            <text class="dg-sub" x="33" y="565">exports Excel horodatés</text>
+          </g>
+          <path class="dg-line" d="M150 572 V589"/><polygon class="dg-arrow" points="146,589 154,589 150,596"/>
+
+          <g>
+            <rect class="dg-box" x="20" y="596" width="260" height="74" rx="3"/>
+            <text class="dg-step" x="33" y="614">07</text>
+            <text class="dg-title" x="33" y="634">Interface React / TS</text>
+            <text class="dg-sub" x="33" y="650">sous-échantillonnage LTTB</text>
+            <text class="dg-sub" x="33" y="663">synchronisation des marées</text>
+          </g>
+        </svg>
+
+        <figcaption>
+          Chaîne de traitement de bout en bout. Transverse : déploiement sous Docker Compose,
+          14 tests d'intégration Pytest, sauvegardes quotidiennes par cron.
+        </figcaption>
+      </figure>
+
+      <div class="chain">
+        <article class="chain__item">
+          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">01</span><span class="chain__name">Ingestion</span></h4>
+          <div class="chain__body">
+            <p>
+              Des sondes multiparamètres connectées en 3G/4G déposent leurs fichiers sur un serveur FTP.
+              Le réseau de l'université bloquait les connexions entrantes : j'ai monté une VM sur Google Cloud
+              et un service Python qui rapatrie les fichiers toutes les 15 minutes.
+            </p>
+            <ul class="tags">
+              <li>Python</li><li>ftplib</li><li>APScheduler</li><li>Google Cloud Platform</li><li>FTP</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="chain__item">
+          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">02</span><span class="chain__name">Normalisation</span></h4>
+          <div class="chain__body">
+            <p>
+              Trois fournisseurs, trois formats CSV différents. Un parser dédié par format, un routeur
+              qui détecte automatiquement le format d'un fichier entrant, et une table de correspondance
+              qui unifie les paramètres physico-chimiques dans un référentiel unique.
+            </p>
+            <ul class="tags">
+              <li>Python</li><li>Pandas</li><li>CSV</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="chain__item">
+          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">03</span><span class="chain__name">Contrôle qualité</span></h4>
+          <div class="chain__body">
+            <p>
+              Chaque mesure passe une série de contrôles avant intégration : valeurs manquantes, doublons,
+              bornes physiques, valeurs aberrantes. Environ 1,7 million de mesures traitées. Une mesure
+              écartée est mise de côté de façon réversible plutôt que supprimée — la décision reste annulable.
+            </p>
+            <ul class="tags">
+              <li>Python</li><li>Pandas</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="chain__item">
+          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">04</span><span class="chain__name">Stockage</span></h4>
+          <div class="chain__body">
+            <p>
+              Les séries temporelles sont stockées dans une hypertable TimescaleDB partitionnée.
+              La compression columnaire ramène 460 Mo à 27 Mo.
+            </p>
+            <ul class="tags">
+              <li>TimescaleDB</li><li>PostgreSQL</li><li>SQL</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="chain__item">
+          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">05</span><span class="chain__name">API</span></h4>
+          <div class="chain__body">
+            <p>
+              Un backend FastAPI répond sous les 50 millisecondes. Normalisation stricte des horodatages
+              en UTC et exports Excel horodatés.
+            </p>
+            <ul class="tags">
+              <li>FastAPI</li><li>Python</li><li>REST</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="chain__item">
+          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">06</span><span class="chain__name">Interface</span></h4>
+          <div class="chain__body">
+            <p>
+              Frontend React / TypeScript. Un sous-échantillonnage LTTB garde un rendu fluide au zoom,
+              et les séries sont synchronisées avec les prédictions de marée.
+            </p>
+            <ul class="tags">
+              <li>React</li><li>TypeScript</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="chain__item">
+          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">07</span><span class="chain__name">Fiabilité &amp; exploitation</span></h4>
+          <div class="chain__body">
+            <p>
+              14 tests d'intégration Pytest, sauvegardes quotidiennes par cron, et un déploiement
+              complet sous Docker Compose.
+            </p>
+            <ul class="tags">
+              <li>Pytest</li><li>Docker Compose</li><li>cron</li><li>Linux</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — Expérience -->
+  <section class="section" id="experience" aria-labelledby="titre-experience">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">02</span>
+        <h2 class="section__title" id="titre-experience">Expérience</h2>
+      </div>
+
+      <article class="entry">
+        <p class="entry__when"><b>Mai – juillet 2025</b>Stage</p>
+        <div>
+          <h3 class="entry__role">Data analyst</h3>
+          <p class="entry__org">AI UNIVERS</p>
+          <div class="entry__body">
+            <p>Chaîne décisionnelle complète, de la source au tableau de bord.</p>
+            <ul>
+              <li>ETL sur cinq sources hétérogènes, avec Talend Open Studio et Pentaho Data Integration.</li>
+              <li>Cubes OLAP modélisés sous Pentaho Schema Workbench.</li>
+              <li>Trois tableaux de bord Power BI de suivi des KPI, livrés aux équipes métier.</li>
+            </ul>
+            <ul class="tags">
+              <li>Talend Open Studio</li><li>Pentaho Data Integration</li><li>Pentaho Schema Workbench</li><li>OLAP</li><li>Power BI</li><li>SQL</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="entry">
+        <p class="entry__when"><b>Mars – mai 2024</b>Stage de fin de licence</p>
+        <div>
+          <h3 class="entry__role">Développeur full-stack</h3>
+          <p class="entry__org">Banque El BADR — Alger</p>
+          <div class="entry__body">
+            <p>
+              Application interne de gestion RH — paie, congés et dossiers d'environ 50 collaborateurs —
+              en remplacement d'un traitement manuel.
+            </p>
+            <ul>
+              <li>Modélisation UML et conception de la base MySQL.</li>
+              <li>Développement en PHP, Bootstrap et JavaScript.</li>
+              <li>Rédaction du mode d'emploi et accompagnement des utilisateurs.</li>
+            </ul>
+            <ul class="tags">
+              <li>PHP</li><li>MySQL</li><li>Bootstrap</li><li>JavaScript</li><li>UML</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 04 — Projets -->
+  <section class="section section--tint" id="projets" aria-labelledby="titre-projets">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">03</span>
+        <h2 class="section__title" id="titre-projets">Projets académiques</h2>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <p class="kicker">Web · Équipe agile</p>
+          <h3>Job Board</h3>
+          <p>Application web conteneurisée, développée en équipe selon une méthode agile, avec une chaîne d'intégration et de déploiement continus.</p>
+          <ul class="tags"><li>Vue.js</li><li>NestJS</li><li>Docker</li><li>CI/CD</li></ul>
+        </article>
+
+        <article class="card">
+          <p class="kicker">Data engineering</p>
+          <h3>Pipeline ETL multi-sources</h3>
+          <p>Nettoyage et unification de sources CSV, API et SQL dans un pipeline construit sous Apache Hop.</p>
+          <ul class="tags"><li>Apache Hop</li><li>ETL</li><li>SQL</li></ul>
+        </article>
+
+        <article class="card">
+          <p class="kicker">Machine learning</p>
+          <h3>Classification d'images médicales</h3>
+          <p>Réseau de neurones convolutif entraîné sur un jeu de données déséquilibré.</p>
+          <ul class="tags"><li>Python</li><li>CNN</li></ul>
+        </article>
+
+        <article class="card">
+          <p class="kicker">Machine learning</p>
+          <h3>Prédiction de prix immobiliers</h3>
+          <p>Modèle de Gradient Boosting entraîné avec Scikit-learn, exposé dans une interface Tkinter.</p>
+          <ul class="tags"><li>Python</li><li>Scikit-learn</li><li>Tkinter</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — Compétences -->
+  <section class="section" id="competences" aria-labelledby="titre-competences">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">04</span>
+        <h2 class="section__title" id="titre-competences">Compétences</h2>
+      </div>
+
+      <dl class="skills">
+        <div>
+          <dt>Langages</dt>
+          <dd>
+            <ul>
+              <li>Python</li><li>Pandas</li><li>NumPy</li><li>Scikit-learn</li><li>SQL</li>
+              <li>JavaScript</li><li>TypeScript</li><li>Java</li><li>PHP</li><li>C++</li>
+              <li>HTML / CSS</li><li>Bash</li>
+            </ul>
+          </dd>
+        </div>
+        <div>
+          <dt>Data</dt>
+          <dd>
+            <ul>
+              <li>TimescaleDB / PostgreSQL</li><li>MySQL</li><li>SQLite</li>
+              <li>Talend</li><li>Pentaho</li><li>Apache Hop</li>
+              <li>Modélisation dimensionnelle</li><li>Cubes OLAP</li><li>Power BI</li><li>Streamlit</li>
+            </ul>
+          </dd>
+        </div>
+        <div>
+          <dt>Web</dt>
+          <dd>
+            <ul>
+              <li>React</li><li>Vue.js</li><li>NestJS</li><li>FastAPI</li><li>Bootstrap</li>
+            </ul>
+          </dd>
+        </div>
+        <div>
+          <dt>Infrastructure</dt>
+          <dd>
+            <ul>
+              <li>Docker</li><li>Docker Compose</li><li>Git / GitLab</li>
+              <li>Linux</li><li>Google Cloud Platform</li><li>CI/CD</li>
+            </ul>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 06 — Parcours -->
+  <section class="section section--tint" id="parcours" aria-labelledby="titre-parcours">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">05</span>
+        <h2 class="section__title" id="titre-parcours">Parcours</h2>
+      </div>
+
+      <div class="split">
+        <div>
+          <h3>Formation</h3>
+          <ul class="timeline">
+            <li>
+              <span><b>Master 2 Informatique — parcours SIGLIS</b>
+              <span>Université de Pau et des Pays de l'Adour, campus d'Anglet</span></span>
+              <time datetime="2026">2026 – 2027</time>
+            </li>
+            <li>
+              <span><b>Master 1 Informatique — parcours SIGLIS</b>
+              <span>Université de Pau et des Pays de l'Adour, campus d'Anglet</span></span>
+              <time datetime="2025">2025 – 2026</time>
+            </li>
+            <li>
+              <span><b>Master 1 Ingénierie des Systèmes Informatiques Intelligents</b>
+              <span>Université d'Alger 1 — année validée avant réorientation vers le cursus français</span></span>
+              <time datetime="2024">2024 – 2025</time>
+            </li>
+            <li>
+              <span><b>Licence Ingénierie des Systèmes d'Information et Logiciels</b>
+              <span>Université d'Alger 1</span></span>
+              <time datetime="2021">2021 – 2024</time>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Langues</h3>
+          <ul class="langs">
+            <li>Arabe <span>Langue maternelle</span></li>
+            <li>Français <span>C1 · certifié TCF</span></li>
+            <li>Anglais <span>B2</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 — Contact -->
+  <section class="section" id="contact" aria-labelledby="titre-contact">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">06</span>
+        <h2 class="section__title" id="titre-contact">Contact</h2>
+      </div>
+
+      <p class="contact__lede">
+        Je suis à la recherche d'une alternance à partir de septembre 2026 et d'un stage de fin
+        d'études à partir de mars 2027. Écrivez-moi, je réponds à tout le monde.
+      </p>
+
+      <div class="contact__links">
+        <a href="mailto:salben674@gmail.com">
+          <b>Email</b><span>salben674@gmail.com</span>
+        </a>
+        <a href="https://www.linkedin.com/in/mohamed-salem-benzineh-1517ab240" rel="me noopener" target="_blank">
+          <b>LinkedIn</b><span>mohamed-salem-benzineh</span>
+        </a>
+        <a href="https://github.com/sben003" rel="me noopener" target="_blank">
+          <b>GitHub</b><span>github.com/sben003</span>
+        </a>
+      </div>
+
+      <div class="contact-row">
+        <a class="btn btn--primary" href="assets/CV-Salem-Benzineh.pdf" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M12 3v12M7 11l5 5 5-5M4 20h16"/>
+          </svg>
+          Télécharger le CV (PDF)
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p>© 2026 Salem Benzineh · Anglet (64)</p>
+    <p>Site statique, sans dépendance ni traceur · <a href="en/" hreflang="en" lang="en">English version</a></p>
+  </div>
+</footer>
+
+<script src="assets/main.js" defer></script>
+</body>
+</html>
