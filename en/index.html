@@ -148,7 +148,13 @@
           </div>
         </div>
 
-        <div class="availability">
+        <div>
+          <figure class="portrait">
+            <img src="../assets/img/portrait.webp" width="640" height="800" fetchpriority="high" decoding="async"
+                 alt="Salem Benzineh, laptop in hand, configuring a monitoring station on a quay at the port of Bayonne.">
+          </figure>
+
+          <div class="availability">
           <h2>Currently looking for</h2>
           <dl>
             <div>
@@ -160,6 +166,7 @@
               <dd>Data engineering, data analysis or full-stack development.</dd>
             </div>
           </dl>
+          </div>
         </div>
       </div>
     </div>
@@ -191,20 +198,20 @@
 
         <dl class="stats">
           <div>
-            <dt>Measurements checked</dt>
-            <dd>~1.7 M</dd>
+            <dt>Measurements stored</dt>
+            <dd>103,940</dd>
           </div>
           <div>
-            <dt>Storage</dt>
-            <dd>460 → 27 MB</dd>
+            <dt>Compression</dt>
+            <dd>29 → 2.3 MB</dd>
           </div>
           <div>
-            <dt>API response</dt>
+            <dt>Everyday queries</dt>
             <dd>&lt; 50 ms</dd>
           </div>
           <div>
-            <dt>Integration tests</dt>
-            <dd>14</dd>
+            <dt>Docker containers</dt>
+            <dd>7</dd>
           </div>
         </dl>
       </div>
@@ -220,7 +227,7 @@
             <rect class="dg-box" x="20" y="64" width="200" height="84" rx="3"/>
             <text class="dg-step" x="33" y="83">01</text>
             <text class="dg-title" x="33" y="104">Probes at sea</text>
-            <text class="dg-sub" x="33" y="121">3 vendors · 3G/4G</text>
+            <text class="dg-sub" x="33" y="121">2 active stations · 4G</text>
             <text class="dg-sub" x="33" y="134">files dropped over FTP</text>
           </g>
           <g>
@@ -241,7 +248,7 @@
             <rect class="dg-box" x="720" y="64" width="200" height="84" rx="3"/>
             <text class="dg-step" x="733" y="83">04</text>
             <text class="dg-title" x="733" y="104">Quality control</text>
-            <text class="dg-sub" x="733" y="121">missing · duplicates · bounds</text>
+            <text class="dg-sub" x="733" y="121">physical bounds · duplicates</text>
             <text class="dg-sub" x="733" y="134">reversible set-aside</text>
           </g>
 
@@ -263,7 +270,7 @@
             <text class="dg-step" x="33" y="247">05</text>
             <text class="dg-title" x="33" y="268">TimescaleDB</text>
             <text class="dg-sub" x="33" y="285">partitioned hypertable</text>
-            <text class="dg-sub" x="33" y="298">compression 460 → 27 MB</text>
+            <text class="dg-sub" x="33" y="298">compression 29 → 2.3 MB</text>
           </g>
           <g>
             <rect class="dg-box" x="253" y="228" width="200" height="84" rx="3"/>
@@ -296,7 +303,7 @@
             <rect class="dg-box" x="20" y="8" width="260" height="74" rx="3"/>
             <text class="dg-step" x="33" y="26">01</text>
             <text class="dg-title" x="33" y="46">Probes at sea</text>
-            <text class="dg-sub" x="33" y="62">3 vendors · 3G/4G</text>
+            <text class="dg-sub" x="33" y="62">2 active stations · 4G</text>
             <text class="dg-sub" x="33" y="75">files dropped over FTP</text>
           </g>
           <path class="dg-line" d="M150 82 V99"/><polygon class="dg-arrow" points="146,99 154,99 150,106"/>
@@ -323,7 +330,7 @@
             <rect class="dg-box" x="20" y="302" width="260" height="74" rx="3"/>
             <text class="dg-step" x="33" y="320">04</text>
             <text class="dg-title" x="33" y="340">Quality control</text>
-            <text class="dg-sub" x="33" y="356">missing · duplicates · bounds</text>
+            <text class="dg-sub" x="33" y="356">physical bounds · duplicates</text>
             <text class="dg-sub" x="33" y="369">reversible set-aside</text>
           </g>
           <path class="dg-line" d="M150 376 V393"/><polygon class="dg-arrow" points="146,393 154,393 150,400"/>
@@ -333,7 +340,7 @@
             <text class="dg-step" x="33" y="418">05</text>
             <text class="dg-title" x="33" y="438">TimescaleDB</text>
             <text class="dg-sub" x="33" y="454">partitioned hypertable</text>
-            <text class="dg-sub" x="33" y="467">compression 460 → 27 MB</text>
+            <text class="dg-sub" x="33" y="467">compression 29 → 2.3 MB</text>
           </g>
           <path class="dg-line" d="M150 474 V491"/><polygon class="dg-arrow" points="146,491 154,491 150,498"/>
 
@@ -361,101 +368,93 @@
         </figcaption>
       </figure>
 
+      <div class="figure-grid figure-grid--2" style="margin-bottom:2.75rem">
+        <figure class="figure">
+          <img src="../assets/img/coffret-acquisition.webp" width="900" height="1200" loading="lazy" decoding="async"
+               alt="Inside an open acquisition cabinet: programmable data logger, solar charge controller, batteries and wiring terminals.">
+          <figcaption>
+            <b>The acquisition cabinet</b>
+            Programmable logger, solar charge controller and batteries — upstream of the entire software chain.
+          </figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="../assets/img/biofouling.webp" width="900" height="1200" loading="lazy" decoding="async"
+               alt="The end of a probe lifted out of the water, completely colonised by marine organisms covering the guard cage and the sensors.">
+          <figcaption>
+            <b>Why the correction module exists</b>
+            A fouled probe does not stop measuring: it measures wrong, and keeps emitting plausible values.
+          </figcaption>
+        </figure>
+      </div>
+
       <div class="chain">
         <article class="chain__item">
-          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">01</span><span class="chain__name">Ingestion</span></h4>
+          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">01</span><span class="chain__name">Ingestion &amp; normalisation</span></h4>
           <div class="chain__body">
             <p>
-              Multiparameter probes connected over 3G/4G drop their files onto an FTP server.
-              The university network blocked inbound connections, so I set up a VM on Google Cloud
-              running a Python service that pulls the files every 15 minutes.
+              Probes connected over 4G drop their readings onto an FTP server. The university network
+              blocked inbound connections, so I set up a VM on Google Cloud running a Python service
+              that pulls the files in. A parser registry recognises each format by reading the file's
+              contents, never its name — two vendors, three formats, hardware alarms included.
             </p>
             <ul class="tags">
-              <li>Python</li><li>ftplib</li><li>APScheduler</li><li>Google Cloud Platform</li><li>FTP</li>
+              <li>Python</li><li>watchdog</li><li>Pandas</li><li>Google Cloud Platform</li><li>FTP</li>
             </ul>
           </div>
         </article>
 
         <article class="chain__item">
-          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">02</span><span class="chain__name">Normalisation</span></h4>
+          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">02</span><span class="chain__name">Time &amp; quality</span></h4>
           <div class="chain__body">
             <p>
-              Three vendors, three different CSV formats. A dedicated parser per format, a router that
-              automatically detects the format of an incoming file, and a mapping table that unifies
-              the physico-chemical parameters into a single reference model.
+              Every timestamp is anchored to the Europe/Paris zone then converted to UTC at ingestion,
+              which fixes a hard-coded two-hour offset that was only ever correct in summer. Each
+              measurement passes physical bounds specific to its parameter, and a composite primary
+              key makes ingestion idempotent: replaying a file duplicates nothing.
             </p>
             <ul class="tags">
-              <li>Python</li><li>Pandas</li><li>CSV</li>
+              <li>zoneinfo</li><li>UTC</li><li>PostgreSQL</li>
             </ul>
           </div>
         </article>
 
         <article class="chain__item">
-          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">03</span><span class="chain__name">Quality control</span></h4>
+          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">03</span><span class="chain__name">Storage &amp; API</span></h4>
           <div class="chain__body">
             <p>
-              Every measurement goes through a series of checks before it is stored: missing values,
-              duplicates, physical bounds, outliers. Around 1.7 million measurements processed.
-              A rejected measurement is set aside reversibly rather than deleted — the decision can be undone.
+              A TimescaleDB hypertable partitioned into seven-day chunks, a composite index shaped to
+              match the real query pattern, and columnar compression that brings the history down from
+              29 MB to 2.3 MB without losing a single row. On top, a FastAPI backend answering in under
+              50 ms and producing Excel exports whose header states the timezone explicitly.
             </p>
             <ul class="tags">
-              <li>Python</li><li>Pandas</li>
+              <li>TimescaleDB</li><li>PostgreSQL 16</li><li>FastAPI</li><li>Pandas</li><li>openpyxl</li>
             </ul>
           </div>
         </article>
 
         <article class="chain__item">
-          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">04</span><span class="chain__name">Storage</span></h4>
+          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">04</span><span class="chain__name">Interface &amp; correction</span></h4>
           <div class="chain__body">
             <p>
-              Time series are stored in a partitioned TimescaleDB hypertable.
-              Columnar compression brings 460 MB down to 27 MB.
+              A React / TypeScript frontend. LTTB downsampling capped at 1,800 points holds 60 frames
+              per second while zooming, and the series stay synchronised with tide forecasts. A
+              measurement set aside by an administrator is never deleted: it receives a quality flag
+              and stays restorable in one click.
             </p>
             <ul class="tags">
-              <li>TimescaleDB</li><li>PostgreSQL</li><li>SQL</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="chain__item">
-          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">05</span><span class="chain__name">API</span></h4>
-          <div class="chain__body">
-            <p>
-              A FastAPI backend answers in under 50 milliseconds. Strict UTC timestamp normalisation
-              and timestamped Excel exports.
-            </p>
-            <ul class="tags">
-              <li>FastAPI</li><li>Python</li><li>REST</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="chain__item">
-          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">06</span><span class="chain__name">Interface</span></h4>
-          <div class="chain__body">
-            <p>
-              A React / TypeScript frontend. LTTB downsampling keeps rendering smooth while zooming,
-              and the series are synchronised with tide forecasts.
-            </p>
-            <ul class="tags">
-              <li>React</li><li>TypeScript</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="chain__item">
-          <h4 class="chain__label"><span class="chain__step" aria-hidden="true">07</span><span class="chain__name">Reliability &amp; operations</span></h4>
-          <div class="chain__body">
-            <p>
-              14 Pytest integration tests, daily backups via cron, and a full deployment under
-              Docker Compose.
-            </p>
-            <ul class="tags">
-              <li>Pytest</li><li>Docker Compose</li><li>cron</li><li>Linux</li>
+              <li>React</li><li>TypeScript</li><li>LTTB</li><li>Docker Compose</li><li>Pytest</li>
             </ul>
           </div>
         </article>
       </div>
+
+      <a class="read-more" href="vigie-ocean/">
+        Read the full case study
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </a>
     </div>
   </section>
 

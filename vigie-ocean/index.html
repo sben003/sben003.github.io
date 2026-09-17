@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vigie Océan — étude de cas · Salem Benzineh</title>
+<meta name="description" content="Étude de cas : conception et mise en production d'une plateforme de supervision environnementale marine de la côte basque. Ingestion multi-format, TimescaleDB, FastAPI, React — sept conteneurs Docker, de la sonde immergée à l'analyste.">
+<meta name="author" content="Salem Benzineh">
+<meta name="theme-color" content="#f7f5f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1b2025" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://sben003.github.io/vigie-ocean/">
+<link rel="alternate" hreflang="fr" href="https://sben003.github.io/vigie-ocean/">
+<link rel="alternate" hreflang="en" href="https://sben003.github.io/en/vigie-ocean/">
+<link rel="alternate" hreflang="x-default" href="https://sben003.github.io/vigie-ocean/">
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:site_name" content="Salem Benzineh">
+<meta property="og:url" content="https://sben003.github.io/vigie-ocean/">
+<meta property="og:title" content="Vigie Océan — étude de cas">
+<meta property="og:description" content="De la sonde immergée à l'analyste : ingestion multi-format, TimescaleDB compressé ×12,7, API FastAPI sous 50 ms, correction scientifique réversible.">
+<meta property="og:image" content="https://sben003.github.io/assets/img/sonde-bouee.webp">
+<meta property="og:image:alt" content="Sonde multiparamètre fixée sous la bouée d'atterrissage de Bayonne.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vigie Océan — étude de cas">
+<meta name="twitter:description" content="Plateforme de supervision environnementale marine de la côte basque, conçue et mise en production seul.">
+<meta name="twitter:image" content="https://sben003.github.io/assets/img/sonde-bouee.webp">
+
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="stylesheet" href="../assets/styles.css">
+
+<script>
+(function(){try{var t=localStorage.getItem("sb-theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="../">Salem&nbsp;Benzineh<span> /</span></a>
+
+    <nav class="site-nav" aria-label="Sections de l'étude de cas">
+      <ul>
+        <li><a href="#contexte">Contexte</a></li>
+        <li><a href="#stations">Stations</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#ingestion">Ingestion</a></li>
+        <li><a href="#stockage">Stockage</a></li>
+        <li><a href="#api">API</a></li>
+        <li><a href="#interface">Interface</a></li>
+        <li><a href="#correction">Correction</a></li>
+        <li><a href="#resultats">Résultats</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-tools">
+      <p class="lang-switch" aria-label="Langue">
+        <span aria-current="true" lang="fr">FR</span><a href="../en/vigie-ocean/" hreflang="en" lang="en">EN</a>
+      </p>
+      <button class="theme-toggle" type="button" hidden
+              data-label-dark="Passer en thème sombre"
+              data-label-light="Passer en thème clair">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="contenu">
+
+  <section class="section case-hero">
+    <div class="wrap">
+      <p class="breadcrumb"><a href="../">Portfolio</a> &nbsp;/&nbsp; Étude de cas</p>
+      <p class="kicker">Supervision environnementale marine · Côte basque</p>
+      <h1 class="case-hero__title">Vigie Océan</h1>
+      <p class="flagship__meta">
+        Stage de fin de M1 · UPPA Tech, plateau SCOPE · Avril – juillet 2026<br>
+        Conçu, développé et mis en production seul
+      </p>
+      <p class="case-hero__lede">
+        Collecter, normaliser, valider, stocker et restituer en continu les mesures de sondes
+        environnementales hétérogènes, sur une infrastructure unique, auto-hébergée et
+        entièrement conteneurisée. De la sonde immergée dans l'estuaire de l'Adour jusqu'à
+        l'écran de l'océanographe.
+      </p>
+
+      <dl class="stats stats--bar" style="margin-top:2rem">
+        <div><dt>Mesures en base</dt><dd>103 940</dd></div>
+        <div><dt>Compression</dt><dd>29 → 2,3 Mo</dd></div>
+        <div><dt>Requêtes courantes</dt><dd>&lt; 50 ms</dd></div>
+        <div><dt>Conteneurs Docker</dt><dd>7</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 01 — Contexte -->
+  <section class="section section--tint" id="contexte" aria-labelledby="t-contexte">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">01</span>
+        <h2 class="section__title" id="t-contexte">Le problème : une donnée sous licence</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          UPPA Tech est le centre de services instrumental de l'Université de Pau et des Pays de
+          l'Adour. Ce n'est ni un laboratoire isolé ni un service administratif : c'est une
+          plateforme mutualisée qui met des moyens instrumentaux lourds à la disposition des
+          équipes de géosciences, de chimie de l'environnement, de biologie marine et de physique.
+        </p>
+        <p>
+          Cette structure vit avec une contrainte qui a tout déterminé dans ma mission : la
+          <strong>souveraineté des données</strong>. Les capteurs océanographiques modernes se
+          vendent avec un abonnement à la plateforme cloud propriétaire du constructeur. Chaque
+          marque impose son interface, son format de fichier et son coût récurrent. Pour une
+          structure publique qui exploite des instruments de plusieurs fournisseurs, la facture
+          est double : les données scientifiques se fragmentent en silos incompatibles, et le
+          budget de fonctionnement est grevé par des abonnements dont le renouvellement n'est
+          jamais garanti.
+        </p>
+        <p>
+          Vigie Océan est né de la volonté de reprendre le contrôle de cette chaîne. La plateforme
+          suit l'état hydro-physique, biologique et spectrométrique de la côte basque, plus
+          précisément l'estuaire de l'Adour et son débouché maritime au large de Bayonne.
+        </p>
+      </div>
+
+      <figure class="figure" style="max-width:34rem;margin-top:2rem">
+        <img src="../assets/img/station-quai.webp" width="1200" height="900" loading="lazy" decoding="async"
+             alt="Station de mesure sur un quai du port de Bayonne : coffret d'acquisition monté sur mât, alimenté par un panneau solaire, au bord du bassin.">
+        <figcaption>
+          <b>Station de quai — Port de Bayonne</b>
+          Coffret d'acquisition autonome sur mât, alimenté par panneau solaire.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 02 — Les trois tensions -->
+  <section class="section" id="tensions" aria-labelledby="t-tensions">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">02</span>
+        <h2 class="section__title" id="t-tensions">Trois tensions à résoudre</h2>
+        <p class="section__note">Le fil conducteur de toute la mission</p>
+      </div>
+
+      <div class="chain">
+        <article class="chain__item">
+          <h3 class="chain__label"><span class="chain__step" aria-hidden="true">I</span><span class="chain__name">Hétérogénéité</span></h3>
+          <div class="chain__body">
+            <p>
+              Chaque constructeur sérialise ses mesures à sa façon. L'Observator produit des
+              fichiers structurés par canal, la sonde NKE émet un CSV horodaté auquel s'ajoutent
+              des fichiers d'alarme au format point-virgule, et d'autres passerelles suivent
+              encore d'autres conventions. Sans couche de normalisation, aucune comparaison
+              rigoureuse entre deux sondes n'est possible : les grandeurs ne partagent ni la
+              même unité, ni le même référentiel temporel.
+            </p>
+          </div>
+        </article>
+
+        <article class="chain__item">
+          <h3 class="chain__label"><span class="chain__step" aria-hidden="true">II</span><span class="chain__name">Temporalité</span></h3>
+          <div class="chain__body">
+            <p>
+              Les sondes enregistrent en heure locale française, qui bascule deux fois par an.
+              Une mesure horodatée « 14 h 00 » ne veut rien dire tant qu'on ignore s'il s'agit
+              d'heure locale ou de temps universel. Une donnée dont le fuseau n'est pas explicité
+              est une donnée scientifiquement ambiguë.
+            </p>
+          </div>
+        </article>
+
+        <article class="chain__item">
+          <h3 class="chain__label"><span class="chain__step" aria-hidden="true">III</span><span class="chain__name">Confiance</span></h3>
+          <div class="chain__body">
+            <p>
+              Une sonde immergée subit des maintenances, des dérives de calibration, des sorties
+              d'eau accidentelles. Ces épisodes produisent des valeurs aberrantes qui faussent
+              l'interprétation si on les affiche sans distinction. Mais les supprimer altérerait
+              irréversiblement l'archive brute — ce qu'un dispositif scientifique ne peut se
+              permettre.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <div class="callout" style="margin-top:2rem">
+        <p><b>Ce que ça change</b>
+        Ces trois tensions ne sont pas un plan de rapport : ce sont les contraintes qui ont
+        dicté chaque décision technique qui suit — le registre de parseurs, le stockage en UTC,
+        et la suppression logique réversible.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — Stations -->
+  <section class="section section--tint" id="stations" aria-labelledby="t-stations">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">03</span>
+        <h2 class="section__title" id="t-stations">Le réseau de sondes</h2>
+        <p class="section__note">2 stations actives · 2 déclarées</p>
+      </div>
+
+      <div class="stations">
+        <article class="station">
+          <p class="kicker">Active</p>
+          <h3>Port de Bayonne</h3>
+          <p class="station__hw">Boîtier Observator · sonde YSI EXO · spectromètre UV Trios OPUS</p>
+          <p>
+            Température, pH, oxygène dissous et sa saturation, conductivité, salinité, turbidité,
+            matières en suspension, chlorophylle a, nitrates, et une série d'absorbances optiques.
+          </p>
+        </article>
+
+        <article class="station">
+          <p class="kicker">Active</p>
+          <h3>Bouée atterrissage Bayonne</h3>
+          <p class="station__hw">Sonde NKE WiMo mouillée en mer</p>
+          <p>
+            Un jeu de paramètres physico-chimiques comparable, complété par des fichiers d'alarme
+            matérielle propres à l'électronique NKE — batterie, dérive GPS, état des capteurs.
+          </p>
+        </article>
+
+        <article class="station station--idle">
+          <p class="kicker">Déclarée, inactive</p>
+          <h3>Trios OPUS 2 — baie de Socoa</h3>
+          <p class="station__hw">En attente de flux terrain</p>
+          <p>Déclarée dans le système pour anticiper l'extension du réseau.</p>
+        </article>
+
+        <article class="station station--idle">
+          <p class="kicker">Déclarée, inactive</p>
+          <h3>Systea WIZ — la Nivelle</h3>
+          <p class="station__hw">En attente de flux terrain</p>
+          <p>Déclarée dans le système pour anticiper l'extension du réseau.</p>
+        </article>
+      </div>
+
+      <div class="figure-grid figure-grid--3" style="margin-top:2rem">
+        <figure class="figure">
+          <img src="../assets/img/sonde-bouee.webp" width="900" height="1200" loading="lazy" decoding="async"
+               alt="Tube noir d'une sonde multiparamètre fixé par colliers inox sous le flotteur d'une bouée de balisage rouge et blanche.">
+          <figcaption>
+            <b>La sonde sur la bouée</b>
+            Mouillée sous le flotteur de la bouée d'atterrissage.
+          </figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="../assets/img/bouee-large.webp" width="900" height="1200" loading="lazy" decoding="async"
+               alt="Bouée d'atterrissage rouge et blanche au large, avec une annexe pneumatique accostée pour une intervention de maintenance.">
+          <figcaption>
+            <b>Intervention au large</b>
+            L'accès à la sonde impose une sortie en mer et un accostage.
+          </figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="../assets/img/biofouling.webp" width="900" height="1200" loading="lazy" decoding="async"
+               alt="Extrémité d'une sonde relevée de l'eau, entièrement colonisée par des organismes marins qui recouvrent la cage de protection et les capteurs.">
+          <figcaption>
+            <b>Pourquoi la correction existe</b>
+            Une sonde relevée après plusieurs semaines d'immersion.
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="prose" style="margin-top:2rem">
+        <p>
+          Cette troisième photo explique mieux qu'un paragraphe la section « Correction » plus
+          bas. Une sonde colonisée ne cesse pas de mesurer : elle mesure faux, progressivement,
+          et continue d'émettre des valeurs plausibles. C'est exactement le genre d'épisode
+          qu'il faut pouvoir écarter d'un graphique sans l'effacer de l'archive.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 — Architecture -->
+  <section class="section" id="architecture" aria-labelledby="t-archi">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">04</span>
+        <h2 class="section__title" id="t-archi">Sept conteneurs, des contrats explicites</h2>
+      </div>
+
+      <div class="prose" style="margin-bottom:2rem">
+        <p>
+          L'infrastructure entière est décrite par un unique fichier Docker Compose qui orchestre
+          sept conteneurs aux responsabilités nettement séparées. Cette propriété n'est pas
+          cosmétique : elle garantit que la plateforme se reconstruit à l'identique, condition
+          nécessaire pour un projet destiné à vivre après mon départ.
+        </p>
+        <p>
+          Chaque frontière entre deux conteneurs est un <strong>contrat</strong> que j'ai dû
+          spécifier : le format des fichiers entre les sondes et l'ingestion, le schéma relationnel
+          entre l'ingestion et la base, le contrat REST entre l'API et le frontend. Une part
+          importante du travail a consisté à rendre ces contrats explicites et stables.
+        </p>
+      </div>
+
+      <figure class="diagram">
+        <svg class="diagram__wide" viewBox="0 0 940 405" role="img" aria-labelledby="ar-t ar-d">
+          <title id="ar-t">Infrastructure de Vigie Océan</title>
+          <desc id="ar-d">Les sondes déposent leurs fichiers sur le conteneur ftp ; le conteneur d'ingestion les parse et insère dans la base TimescaleDB ; l'API FastAPI lit la base ; le proxy nginx expose l'API et le frontend React à l'analyste ; pgadmin administre la base ; les prédictions de marée alimentent l'API.</desc>
+
+          <!-- Rangée 1 : acquisition -->
+          <g>
+            <rect class="dg-box dg-box--ext" x="20" y="56" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="33" y="74">EXTERNE</text>
+            <text class="dg-title" x="33" y="95">Sondes de terrain</text>
+            <text class="dg-sub" x="33" y="112">Observator · NKE WiMo</text>
+            <text class="dg-sub" x="33" y="125">liaison 4G</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="253" y="56" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="266" y="74">01</text>
+            <text class="dg-title" x="266" y="95">ftp</text>
+            <text class="dg-sub" x="266" y="112">vsftpd, mode passif</text>
+            <text class="dg-sub" x="266" y="125">dépôt des relevés bruts</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="487" y="56" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="500" y="74">02</text>
+            <text class="dg-title" x="500" y="95">ingestion</text>
+            <text class="dg-sub" x="500" y="112">démon Python ETL</text>
+            <text class="dg-sub" x="500" y="125">détecte · parse · valide · UTC</text>
+          </g>
+          <g>
+            <rect class="dg-box dg-box--accent" x="720" y="56" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="733" y="74">03</text>
+            <text class="dg-title" x="733" y="95">db</text>
+            <text class="dg-sub" x="733" y="112">TimescaleDB / PG 16</text>
+            <text class="dg-sub" x="733" y="125">hypertable · 15 chunks</text>
+          </g>
+
+          <path class="dg-line" d="M222 94 H246"/><polygon class="dg-arrow" points="246,90 253,94 246,98"/>
+          <path class="dg-line" d="M455 94 H480"/><polygon class="dg-arrow" points="480,90 487,94 480,98"/>
+          <path class="dg-line" d="M689 94 H713"/><polygon class="dg-arrow" points="713,90 720,94 713,98"/>
+
+          <!-- Liaison db <-> api (coude) et db <-> pgadmin -->
+          <path class="dg-line" d="M760 132 V170 H587 V197"/>
+          <polygon class="dg-arrow" points="583,197 591,197 587,204"/>
+          <polygon class="dg-arrow" points="756,139 764,139 760,132"/>
+          <text class="dg-edge" x="600" y="165">SQLAlchemy</text>
+
+          <path class="dg-line" d="M860 132 V197"/>
+          <polygon class="dg-arrow" points="856,197 864,197 860,204"/>
+
+          <!-- Rangée 2 : restitution -->
+          <g>
+            <rect class="dg-box dg-box--ext" x="20" y="204" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="33" y="222">EXTERNE</text>
+            <text class="dg-title" x="33" y="243">Analyste</text>
+            <text class="dg-sub" x="33" y="260">navigateur</text>
+            <text class="dg-sub" x="33" y="273">HTTP 80 / 443</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="253" y="204" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="266" y="222">06</text>
+            <text class="dg-title" x="266" y="243">nginx</text>
+            <text class="dg-sub" x="266" y="260">proxy inverse + gzip</text>
+            <text class="dg-sub" x="266" y="273">sert la SPA et /api/*</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="487" y="204" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="500" y="222">04</text>
+            <text class="dg-title" x="500" y="243">api</text>
+            <text class="dg-sub" x="500" y="260">FastAPI + Pandas</text>
+            <text class="dg-sub" x="500" y="273">time_bucket · seuils · export</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="720" y="204" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="733" y="222">07</text>
+            <text class="dg-title" x="733" y="243">pgadmin</text>
+            <text class="dg-sub" x="733" y="260">administration</text>
+            <text class="dg-sub" x="733" y="273">de la base</text>
+          </g>
+
+          <path class="dg-line" d="M222 242 H246"/>
+          <polygon class="dg-arrow" points="246,238 253,242 246,246"/>
+          <polygon class="dg-arrow" points="229,238 222,242 229,246"/>
+          <path class="dg-line" d="M455 242 H480"/>
+          <polygon class="dg-arrow" points="480,238 487,242 480,246"/>
+          <polygon class="dg-arrow" points="462,238 455,242 462,246"/>
+
+          <!-- Rangée 3 -->
+          <g>
+            <rect class="dg-box" x="253" y="330" width="200" height="60" rx="3"/>
+            <text class="dg-step" x="266" y="347">05</text>
+            <text class="dg-title" x="266" y="367">web-app</text>
+            <text class="dg-sub" x="266" y="382">React / TypeScript (build)</text>
+          </g>
+          <g>
+            <rect class="dg-box dg-box--ext" x="487" y="330" width="200" height="60" rx="3"/>
+            <text class="dg-step" x="500" y="347">EXTERNE</text>
+            <text class="dg-title" x="500" y="367">maree.info / 140</text>
+            <text class="dg-sub" x="500" y="382">Bayonne — Boucau</text>
+          </g>
+
+          <path class="dg-line" d="M353 280 V323"/><polygon class="dg-arrow" points="349,323 357,323 353,330"/>
+          <path class="dg-line" d="M587 330 V291"/><polygon class="dg-arrow" points="583,291 591,291 587,284"/>
+        </svg>
+
+        <svg class="diagram__tall" viewBox="0 0 300 700" role="img" aria-labelledby="ar-tm ar-dm">
+          <title id="ar-tm">Infrastructure de Vigie Océan</title>
+          <desc id="ar-dm">Les sondes déposent leurs fichiers sur le conteneur ftp ; le conteneur d'ingestion les parse et insère dans la base TimescaleDB ; l'API FastAPI lit la base ; le proxy nginx sert le frontend React à l'analyste ; pgadmin administre la base.</desc>
+
+          <g><rect class="dg-box dg-box--ext" x="20" y="8" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="25">EXTERNE</text>
+            <text class="dg-title" x="33" y="45">Sondes de terrain</text>
+            <text class="dg-sub" x="33" y="62">Observator · NKE WiMo · 4G</text></g>
+          <path class="dg-line" d="M150 74 V89"/><polygon class="dg-arrow" points="146,89 154,89 150,96"/>
+
+          <g><rect class="dg-box" x="20" y="96" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="113">01</text>
+            <text class="dg-title" x="33" y="133">ftp — vsftpd</text>
+            <text class="dg-sub" x="33" y="150">dépôt des relevés bruts</text></g>
+          <path class="dg-line" d="M150 162 V177"/><polygon class="dg-arrow" points="146,177 154,177 150,184"/>
+
+          <g><rect class="dg-box" x="20" y="184" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="201">02</text>
+            <text class="dg-title" x="33" y="221">ingestion</text>
+            <text class="dg-sub" x="33" y="238">détecte · parse · valide · UTC</text></g>
+          <path class="dg-line" d="M150 250 V265"/><polygon class="dg-arrow" points="146,265 154,265 150,272"/>
+
+          <g><rect class="dg-box dg-box--accent" x="20" y="272" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="289">03</text>
+            <text class="dg-title" x="33" y="309">db — TimescaleDB</text>
+            <text class="dg-sub" x="33" y="326">hypertable · 15 chunks</text></g>
+          <path class="dg-line" d="M150 338 V353"/><polygon class="dg-arrow" points="146,353 154,353 150,360"/>
+
+          <g><rect class="dg-box" x="20" y="360" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="377">04</text>
+            <text class="dg-title" x="33" y="397">api — FastAPI</text>
+            <text class="dg-sub" x="33" y="414">time_bucket · seuils · export</text></g>
+          <path class="dg-line" d="M150 426 V441"/><polygon class="dg-arrow" points="146,441 154,441 150,448"/>
+
+          <g><rect class="dg-box" x="20" y="448" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="465">05 · 06</text>
+            <text class="dg-title" x="33" y="485">nginx + web-app</text>
+            <text class="dg-sub" x="33" y="502">proxy inverse · SPA React</text></g>
+          <path class="dg-line" d="M150 514 V529"/><polygon class="dg-arrow" points="146,529 154,529 150,536"/>
+
+          <g><rect class="dg-box dg-box--ext" x="20" y="536" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="553">EXTERNE</text>
+            <text class="dg-title" x="33" y="573">Analyste</text>
+            <text class="dg-sub" x="33" y="590">navigateur · HTTP 80 / 443</text></g>
+
+          <g><rect class="dg-box" x="20" y="624" width="260" height="60" rx="3"/>
+            <text class="dg-step" x="33" y="641">07</text>
+            <text class="dg-title" x="33" y="661">pgadmin</text>
+            <text class="dg-sub" x="33" y="677">administration de la base</text></g>
+        </svg>
+
+        <figcaption>
+          Sept conteneurs orchestrés par un unique fichier Docker Compose, sur une VM Google Cloud
+          sous Linux. Développement sous Windows — l'écart entre les deux a coûté du temps
+          sur les fins de ligne et le comportement des volumes.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 05 — Ingestion -->
+  <section class="section section--tint" id="ingestion" aria-labelledby="t-ing">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">05</span>
+        <h2 class="section__title" id="t-ing">Ingestion : ne jamais perdre un fichier</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          Le démon d'ingestion a une seule responsabilité : transformer un fichier brut déposé par
+          une sonde en lignes normalisées prêtes à insérer. Il surveille le répertoire de dépôt
+          alimenté par le serveur FTP, au moyen de la bibliothèque <code>watchdog</code>, qui
+          s'appuie sur les notifications du noyau et évite toute scrutation active.
+        </p>
+
+        <h3>Deux pièges de terrain</h3>
+        <p>
+          Cette réactivité événementielle, élégante sur le papier, s'est révélée
+          <strong>insuffisante en conditions réelles</strong>. Les volumes montés dans un
+          conteneur Docker ne propagent pas toujours fidèlement les événements du système de
+          fichiers de l'hôte : un dépôt pouvait passer inaperçu. J'ai donc doublé la détection
+          événementielle d'un <strong>balayage périodique de sécurité</strong> qui parcourt le
+          répertoire à intervalle régulier et rattrape ce qu'une notification manquée aurait
+          laissé de côté. Cette redondance coûte peu et garantit la seule propriété qui compte
+          pour une archive scientifique : aucune donnée déposée n'est perdue.
+        </p>
+        <p>
+          Second piège, propre au FTP : un fichier en cours d'écriture est visible bien avant que
+          son transfert ne soit terminé, et le parser risquait de lire un contenu tronqué. La
+          parade consiste à surveiller la taille du fichier et à n'engager le traitement qu'une
+          fois cette taille <strong>stabilisée sur plusieurs observations successives</strong>. Un
+          verrou matérialisé par un fichier <code>.processing</code> interdit par ailleurs qu'un
+          même relevé soit traité deux fois par des exécutions concurrentes.
+        </p>
+
+        <h3>Un registre de parseurs, pas une convention de nommage</h3>
+        <p>
+          Plutôt que d'imposer un format unique à chaque station, chaque parser expose deux
+          méthodes : <code>can_parse</code> examine les premières lignes d'un fichier pour décider
+          s'il sait le décoder, <code>parse</code> produit la liste des mesures normalisées. Une
+          fabrique interroge successivement les parseurs et confie le fichier au premier qui le
+          reconnaît. Cette <strong>détection par le contenu</strong>, et non par un nom de fichier
+          fragile, rend le système robuste aux variations d'appellation.
+        </p>
+      </div>
+
+      <div class="table-wrap" style="margin:1.75rem 0">
+        <table class="data-table">
+          <caption>Les trois parseurs en production. Ajouter un constructeur revient à ajouter une classe.</caption>
+          <thead>
+            <tr><th scope="col">Parser</th><th scope="col">Station</th><th scope="col">Format d'entrée</th><th scope="col">Particularité</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">ObservatorParser</th>
+              <td>Port de Bayonne</td>
+              <td>Fichiers structurés par canal</td>
+              <td>Association canal → paramètre, dates ISO et européennes</td>
+            </tr>
+            <tr>
+              <th scope="row">NkeParser</th>
+              <td>Bouée atterrissage</td>
+              <td>CSV horodaté <code>Timestamp,CH0:…</code></td>
+              <td>Correspondance colonne → grandeur, unités NKE</td>
+            </tr>
+            <tr>
+              <th scope="row">NkeAlarmParser</th>
+              <td>Bouée atterrissage</td>
+              <td>Alarmes <code>timestamp;CODE;ÉTAT;LIBELLÉ</code></td>
+              <td>Isole les codes matériels hors des séries physiques</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose">
+        <h3>Séparer l'électronique de la physique</h3>
+        <p>
+          La sonde NKE n'émet pas que des mesures : elle signale aussi l'état de son électronique.
+          Un code <code>D980</code> traduit une tension de batterie basse, <code>D981</code> une
+          dérive de position au-delà du rayon d'évitage, <code>D982</code> un délai de réponse GPS
+          dépassé, <code>F053</code> un défaut sur le canal de chlorophylle a. Ces événements sont
+          essentiels au diagnostic de l'instrument — et n'ont rien à faire sur un graphique de
+          salinité. Le parser d'alarmes les isole dans un flux distinct, restitué dans l'onglet de
+          santé système, pendant que les courbes physiques restent vierges de ces artefacts.
+        </p>
+
+        <h3>Le temps, réglé une fois pour toutes</h3>
+        <p>
+          À l'ingestion, chaque horodatage naïf est ancré au fuseau <code>Europe/Paris</code> puis
+          converti en temps universel avant insertion.
+        </p>
+      </div>
+
+      <figure class="snippet">
+<pre>dt_utc = dt_naive.replace(tzinfo=ZoneInfo("Europe/Paris")).astimezone(timezone.utc)</pre>
+        <figcaption>ingestion — normalisation temporelle</figcaption>
+      </figure>
+
+      <div class="prose">
+        <p>
+          Ce choix corrige un défaut hérité : le boîtier appliquait auparavant un décalage codé en
+          dur de deux heures, valable seulement pendant l'heure d'été et faux le reste de l'année.
+          En déléguant la conversion à la base de fuseaux, qui connaît les règles de bascule
+          saisonnière, les deux stations s'alignent sur une même échelle en toute saison.
+        </p>
+        <p>
+          L'insertion finale s'appuie sur une <strong>clé primaire composite</strong>
+          <code>(time, station_id, parameter)</code>. Une réinsertion de la même mesure — fréquente
+          quand une sonde retransmet un fichier — est absorbée sans duplication par une clause de
+          résolution de conflit. Cette idempotence est ce qui autorise les rejeux sans crainte de
+          corrompre le jeu de données.
+        </p>
+      </div>
+
+      <figure class="figure" style="max-width:26rem;margin-top:2rem">
+        <img src="../assets/img/coffret-acquisition.webp" width="900" height="1200" loading="lazy" decoding="async"
+             alt="Intérieur d'un coffret d'acquisition ouvert : centrale d'acquisition programmable, adaptateur de sortie de sonde, régulateur de charge solaire, batteries et bornier de raccordement.">
+        <figcaption>
+          <b>En amont de la chaîne logicielle</b>
+          Le coffret d'acquisition : centrale programmable, régulateur solaire, batteries.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 06 — Stockage -->
+  <section class="section" id="stockage" aria-labelledby="t-sto">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">06</span>
+        <h2 class="section__title" id="t-sto">Stockage : un facteur 12,7 sans perte</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          Les données de Vigie Océan sont des séries temporelles régulières : les mêmes grandeurs,
+          au même pas de quinze minutes, indéfiniment. Ce profil appelle un moteur spécialisé —
+          <strong>TimescaleDB</strong>, extension de PostgreSQL 16, qui conserve toute la richesse
+          du SQL relationnel tout en ajoutant les mécanismes propres aux séries temporelles.
+        </p>
+        <p>
+          La table centrale est déclarée comme <strong>hypertable</strong>. Derrière une table
+          logique unique, TimescaleDB gère un partitionnement automatique en tranches temporelles
+          — les <em>chunks</em> — découpées ici par intervalles de sept jours. Une requête bornée
+          dans le temps ne consulte que les chunks pertinents, ce qui évite de parcourir
+          l'historique entier pour restituer une semaine. À la clôture du stage, l'hypertable
+          comptait quinze chunks pour 103 940 mesures.
+        </p>
+        <p>
+          L'accès rapide repose sur un index composite conçu pour la charge réelle du tableau
+          de bord :
+        </p>
+      </div>
+
+      <figure class="snippet">
+<pre>CREATE INDEX IF NOT EXISTS idx_measurements_perf
+    ON measurements (station_id, parameter, time DESC);</pre>
+        <figcaption>db — index de performance</figcaption>
+      </figure>
+
+      <div class="prose">
+        <p>
+          L'ordre des colonnes n'est pas arbitraire : il épouse la forme exacte des requêtes, qui
+          filtrent d'abord sur une station, puis sur un paramètre, avant de trier par temps
+          décroissant. Le plan d'exécution, vérifié par <code>EXPLAIN ANALYZE</code>, confirme
+          l'usage de cet index et l'absence de tout parcours séquentiel — y compris sur les chunks
+          compressés, où le moteur recourt à un balayage columnaire vectorisé.
+        </p>
+      </div>
+
+      <div class="callout">
+        <p><b>Le résultat</b>
+        La compression columnar native, paramétrée pour regrouper par station et paramètre et
+        ordonner par temps décroissant, fait passer l'historique de <strong>29 Mo à 2,3 Mo — un
+        facteur 12,7</strong>, treize des quinze chunks compressés, sans la perte d'une seule
+        ligne. Conjuguée à la rotation des journaux Docker et au nettoyage du cache d'images,
+        l'opération a ramené l'occupation disque de la VM à 17,4 %, soit près de 9,4 Go libérés.</p>
+      </div>
+
+      <div class="prose">
+        <p>
+          La version de TimescaleDB employée autorisant les écritures sur chunks compressés,
+          l'ingestion et la correction restent pleinement opérationnelles sur cet historique
+          condensé. À la trajectoire d'ingestion actuelle, la base compressée croît si lentement
+          que la capacité disponible couvre un horizon de plusieurs décennies.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 — API -->
+  <section class="section section--tint" id="api" aria-labelledby="t-api">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">07</span>
+        <h2 class="section__title" id="t-api">API et exports : lever toute ambiguïté</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          L'exposition des données passe par une API <strong>FastAPI</strong> : validation
+          automatique des paramètres par typage, documentation OpenAPI générée sans effort, et
+          accès à l'écosystème scientifique de Python pour l'export.
+        </p>
+        <p>
+          Toutes les routes de consultation agrègent au pas standard grâce à la fonction
+          <code>time_bucket</code> de TimescaleDB :
+        </p>
+      </div>
+
+      <figure class="snippet">
+<pre>SELECT time_bucket('15 minutes', time) AS tb, avg(value)
+FROM measurements
+WHERE station_id = :sid AND parameter = :param AND time BETWEEN :start AND :end
+GROUP BY tb ORDER BY tb;</pre>
+        <figcaption>api — agrégation au pas de quinze minutes</figcaption>
+      </figure>
+
+      <div class="prose">
+        <p>
+          Un raffinement mérite d'être signalé : le graphe et le tableau ne réclament jamais
+          l'ensemble des paramètres d'une station, mais uniquement la série effectivement
+          affichée, au moyen d'un filtre appliqué côté serveur. Cette restriction
+          <strong>divise la charge utile transmise d'un ordre de grandeur</strong>. La
+          normalisation des bornes temporelles est par ailleurs centralisée dans une fonction
+          unique, qui rejette par un code 400 structuré toute plage où la date de début serait
+          postérieure à la date de fin — en miroir de la validation opérée dans l'interface.
+        </p>
+
+        <h3>L'export Excel, et la question du fuseau</h3>
+        <p>
+          La demande des utilisateurs était précise : un fichier Excel véritable, exploitable dans
+          un tableur, où chaque paramètre occupe sa propre colonne. La fonction s'appuie sur
+          <code>pandas</code>, dont <code>pivot_table</code> réalise le passage du format long
+          — une ligne par mesure — au format large — une ligne par horodatage, une colonne par
+          paramètre — que <code>openpyxl</code> matérialise en <code>.xlsx</code>.
+        </p>
+        <p>
+          Les horodatages étant stockés en temps universel, l'export les convertit vers le fuseau
+          sélectionné à l'écran, puis <strong>inscrit ce fuseau explicitement dans l'en-tête de la
+          colonne temporelle</strong>. Un scientifique qui ouvre le fichier lit donc
+          <code>Horodatage (Heure locale Europe/Paris, UTC+02:00)</code> ou
+          <code>Horodatage (UTC)</code>, sans la moindre ambiguïté. Les en-têtes de paramètres
+          portent un libellé lisible et son unité — <code>Température (°C)</code>,
+          <code>Oxygène dissous (mg/L)</code> — plutôt que des identifiants techniques internes.
+        </p>
+        <p>
+          La vérification finale a été menée en production sur le fichier binaire réel : un même
+          relevé apparaissait à 14 h 02 en heure locale et à 12 h 02 en temps universel, l'écart
+          de deux heures attestant l'exactitude du calcul estival.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 — Interface -->
+  <section class="section" id="interface" aria-labelledby="t-ui">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">08</span>
+        <h2 class="section__title" id="t-ui">Interface : 60 images par seconde sur trois mois de données</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          Le défi du frontend React / TypeScript n'était pas fonctionnel mais performanciel.
+          Afficher plusieurs mois de mesures à un pas de quinze minutes revient à demander au
+          navigateur de tracer des dizaines de milliers de segments, dont l'immense majorité se
+          superposent au point d'être invisibles. Le rendu saturait le fil d'exécution principal
+          et chaque interaction devenait poussive.
+        </p>
+        <p>
+          La réponse tient dans le <strong>LTTB</strong> (<em>Largest-Triangle-Three-Buckets</em>).
+          Son principe : conserver non pas un point sur deux mécaniquement, mais les points qui
+          portent l'information visuelle — ceux qui forment, avec leurs voisins, les plus grands
+          triangles, c'est-à-dire les inflexions et les pics. J'ai plafonné le rendu à
+          <strong>1 800 points</strong>, seuil au-delà duquel l'œil ne distingue plus de détail
+          mais que le processeur paie cher. La courbe reste fidèle, les extrema scientifiquement
+          signifiants sont préservés, et la charge du DOM s'effondre.
+        </p>
+      </div>
+
+      <div class="callout">
+        <p><b>Le détail qui fait la différence</b>
+        L'efficacité de cette réduction dépend entièrement de <em>l'endroit où elle est calculée</em>.
+        L'erreur classique consiste à recalculer l'échantillonnage à chaque rendu, y compris quand
+        l'utilisateur ne fait que déplacer sa souris. J'ai isolé le calcul dans un
+        <code>useMemo</code> dont les dépendances comprennent les données et la fenêtre de zoom,
+        mais <strong>excluent délibérément toute variable liée au mouvement du curseur</strong> —
+        position, aperçu de sélection, état du tooltip. Le ré-échantillonnage ne se déclenche donc
+        que lorsque les données changent réellement, jamais soixante fois par seconde pendant un
+        survol.</p>
+      </div>
+
+      <div class="prose">
+        <h3>Un zoom rectangulaire à deux dimensions</h3>
+        <p>
+          D'un glissement, l'utilisateur définit un rectangle qui restreint simultanément la
+          fenêtre temporelle en abscisse et la plage de valeurs en ordonnée. J'ai renoncé à
+          m'appuyer sur les métadonnées d'événement de la bibliothèque de graphes, peu fiables
+          selon le type de tracé, au profit d'une lecture directe de la géométrie de la zone de
+          rendu et des coordonnées natives de la souris — ce qui procure un comportement identique
+          sur tous les graphes.
+        </p>
+        <p>
+          L'échelle verticale s'ajuste aux valeurs réellement présentes, entre leur minimum et leur
+          maximum, <strong>sans jamais forcer l'origine à zéro</strong>. Ce point est crucial pour
+          visualiser de faibles variations autour d'une valeur élevée, comme la salinité en milieu
+          marin.
+        </p>
+
+        <h3>La lecture croisée avec les marées</h3>
+        <p>
+          L'influence de la marée sur la salinité et la turbidité d'un estuaire est déterminante :
+          les océanographes cherchent précisément cette corrélation. Un second graphe, alimenté par
+          les prédictions du port de Bayonne / Boucau, partage avec le graphe principal un même
+          identifiant de synchronisation : le curseur de survol et la fenêtre de zoom se propagent
+          instantanément de l'un à l'autre.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 — Correction -->
+  <section class="section section--tint" id="correction" aria-labelledby="t-cor">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">09</span>
+        <h2 class="section__title" id="t-cor">Correction : écarter sans jamais effacer</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          Cette dernière brique répond à la troisième tension : préserver la confiance dans la
+          donnée sans jamais l'altérer irréversiblement. Le principe est celui de la
+          <strong>suppression logique</strong>. Quand un administrateur écarte une plage de mesures
+          — parce qu'elle correspond à une maintenance ou à une dérive manifeste — aucune ligne
+          n'est effacée physiquement. La mesure reçoit un drapeau de qualité qui l'exclut de toutes
+          les vues publiques sans la détruire ; les périodes de maintenance obéissent à la même
+          logique avec leur propre drapeau.
+        </p>
+        <p>
+          Les requêtes destinées au public filtrent systématiquement ces drapeaux, tandis que les
+          routes d'administration restituent l'intégralité des données pour le diagnostic. La
+          réversibilité prend corps dans un onglet dédié qui présente l'historique complet des
+          mesures masquées : chaque ligne porte un bouton de restauration qui, d'un clic,
+          réintègre la donnée dans les graphiques et les tableaux. Chaque action — suppression
+          comme restauration — est consignée dans un journal de correction.
+        </p>
+        <p>
+          <strong>L'archive brute demeure intacte en permanence.</strong> Toute décision de
+          correction reste rattrapable, garantie sans laquelle un dispositif scientifique ne
+          saurait être crédible.
+        </p>
+
+        <h3>Des seuils dynamiques pour rendre l'anomalie lisible</h3>
+        <p>
+          Un administrateur peut définir, pour chaque couple station-paramètre, une borne basse et
+          une borne haute au-delà desquelles une valeur est anormale. Ces seuils sont conservés en
+          base et maintenus en cache mémoire avec une durée de vie de trente secondes, invalidé à
+          chaque écriture, de sorte que l'évaluation s'effectue en temps réel sans surcoût de
+          requête.
+        </p>
+        <p>
+          Chaque mesure transmise au frontend porte alors un indicateur de dépassement, exploité
+          visuellement : marqueur cramoisi sur les courbes, surlignage rouge dans les tableaux,
+          mention explicite dans l'infobulle. L'anomalie devient immédiatement lisible, sans que
+          l'analyste ait à comparer mentalement chaque valeur à un référentiel.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 — Résultats -->
+  <section class="section" id="resultats" aria-labelledby="t-res">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">10</span>
+        <h2 class="section__title" id="t-res">Mesuré en production</h2>
+        <p class="section__note">Cache chaud, plusieurs appels moyennés</p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption>Relevés effectués directement sur la machine virtuelle cible, en production.</caption>
+          <thead>
+            <tr><th scope="col">Indicateur</th><th scope="col">Mesure</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Consultation du registre des stations</th><td class="num">≈ 5 ms</td></tr>
+            <tr><th scope="row">Mesures d'un paramètre sur 7 jours</th><td class="num">≈ 45 ms</td></tr>
+            <tr><th scope="row">Analyse comparative sur 7 jours</th><td class="num">≈ 50 ms</td></tr>
+            <tr><th scope="row">Prédictions de marée sur 7 jours</th><td class="num">≈ 32 ms</td></tr>
+            <tr><th scope="row">Trois mois en pleine résolution (pire cas)</th><td class="num">≈ 117 ms</td></tr>
+            <tr><th scope="row">Volume de la base (historique)</th><td class="num">29 → 2,3 Mo (×12,7)</td></tr>
+            <tr><th scope="row">Espace disque regagné sur la VM</th><td class="num">≈ 9,4 Go</td></tr>
+            <tr><th scope="row">Points maximaux tracés par courbe</th><td class="num">1 800</td></tr>
+            <tr><th scope="row">Fluidité du rendu au zoom</th><td class="num">60 img/s</td></tr>
+            <tr><th scope="row">Tests Pytest sur l'API</th><td class="num">14</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose" style="margin-top:2rem">
+        <p>
+          Les requêtes du quotidien — celles qu'un scientifique déclenche des dizaines de fois par
+          séance — se règlent sous la barre des cinquante millisecondes, seuil en deçà duquel la
+          réponse est perçue comme immédiate. Seule l'extraction de trois mois à pleine résolution
+          atteint 117 ms, valeur confortable pour une opération aussi lourde, et qui reste adossée
+          à l'index sans parcours séquentiel. Le rapport entre le coût de cette requête extrême et
+          celui des requêtes courantes traduit le bénéfice de l'architecture :
+          <strong>le système ne se dégrade pas brutalement quand la charge augmente</strong>.
+        </p>
+
+        <h3>Ce que je referais autrement</h3>
+        <p>
+          Le réseau ne compte à ce jour que deux stations réellement actives : le caractère
+          générique du pipeline a été vérifié, mais pas éprouvé à grande échelle. La procédure de
+          déploiement, fondée sur une copie de fichiers suivie d'une reconstruction ciblée du seul
+          conteneur impacté, reste manuelle et gagnerait à passer par une chaîne d'intégration
+          continue. Et la couverture de tests s'appuie davantage sur une recette systématique menée
+          en conditions réelles que sur une batterie de tests unitaires exhaustive — choix
+          pragmatique dans le cadre d'un stage, mais perfectible.
+        </p>
+
+        <h3>Ce que la plateforme permet maintenant</h3>
+        <p>
+          Un administrateur peut déclarer une nouvelle station depuis le navigateur : la saisie du
+          nom, du code de flux, du type de sonde et de ses capteurs suffit à créer l'entrée en
+          base, associer automatiquement le parser adéquat, provisionner le sous-dossier FTP de
+          réception et faire apparaître la sonde partout dans l'interface,
+          <strong>sans aucune recompilation</strong>. L'ajout d'un instrument, jadis affaire de
+          développement, devient une opération de configuration.
+        </p>
+        <p>
+          Au-delà, le corpus normalisé — propre et homogène — offre un terrain propice à des
+          analyses plus ambitieuses : détection automatique d'anomalies, corrélations
+          multi-paramètres, modélisation prédictive de certaines grandeurs en fonction des marées.
+        </p>
+      </div>
+
+      <div class="contact-row">
+        <a class="btn btn--primary" href="../#contact">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>
+          </svg>
+          Me contacter
+        </a>
+        <a class="btn" href="../">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M19 12H5M11 18l-6-6 6-6"/>
+          </svg>
+          Retour au portfolio
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p>© 2026 Salem Benzineh · Anglet (64)</p>
+    <p>Photographies prises pendant le stage · <a href="../en/vigie-ocean/" hreflang="en" lang="en">English version</a></p>
+  </div>
+</footer>
+
+<script src="../assets/main.js" defer></script>
+</body>
+</html>
