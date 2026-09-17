@@ -632,6 +632,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(16.5rem, 1fr));
+  align-items: start;
 }
 .card {
   background: var(--surface);
@@ -1085,30 +1086,31 @@ ul { margin: 0; padding: 0; list-style: none; }
 .bento__legend .badge { cursor: default; }
 .legend__text { margin-right: .35rem; }
 
+/* Cartes autonomes plutot qu'une grille fusionnee : les quatre domaines ont
+   des volumes tres differents, et une grille fusionnee etirait chaque carte a
+   la hauteur de la plus haute, creant de larges vides internes. */
 .bento {
   display: grid;
-  gap: 1px;
+  gap: 1rem;
   grid-template-columns: 1fr;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  overflow: hidden;
+  align-items: start;
 }
-@media (min-width: 46rem) { .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 64rem) {
-  .bento { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (min-width: 56rem) {
+  .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .bento__card--span2 { grid-column: span 2; }
 }
 
 .bento__card {
   background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
   padding: 1.5rem 1.5rem 1.6rem;
   display: flex;
   flex-direction: column;
   gap: .9rem;
   transition: background-color .2s ease;
 }
-.bento__card:hover { background: color-mix(in srgb, var(--accent-wash) 55%, var(--surface)); }
+.bento__card:hover { border-color: var(--rule-strong); }
 
 .bento__head { display: flex; align-items: center; gap: .65rem; }
 .bento__glyph {
@@ -1193,7 +1195,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   display: flex;
   flex-wrap: wrap;
   gap: .3rem .4rem;
-  margin-top: auto;
+  margin-top: .3rem;
   padding-top: .9rem;
   border-top: 1px solid var(--rule);
 }
@@ -1217,7 +1219,10 @@ ul { margin: 0; padding: 0; list-style: none; }
 /* ==========================================================================
    Projet vedette
    ========================================================================== */
-.featured { display: grid; gap: 2.25rem; }
+.featured { display: grid; gap: 2rem; }
+/* .diagram porte deja une marge basse : cumulee au gap du bloc elle
+   creait 80 px de vide avant la stack. */
+.featured .diagram { margin-bottom: 0; }
 
 /* --- En-tête -------------------------------------------------------------- */
 .featured__head {
@@ -1336,29 +1341,46 @@ ul { margin: 0; padding: 0; list-style: none; }
   color: var(--muted);
 }
 
-/* --- Vitrine visuelle ----------------------------------------------------- */
-.showcase { display: grid; gap: .75rem; }
-
-.showcase__main {
+/* --- Vitrine visuelle -----------------------------------------------------
+   Une photo unique en grand (620 px de haut) ecrasait la page et reléguait le
+   schema d'architecture, qui porte pourtant l'information. Rangee compacte. */
+.showcase {
   margin: 0;
   border: 1px solid var(--rule);
-  border-radius: 8px;
-  overflow: hidden;
+  border-radius: 4px;
   background: var(--surface);
-  box-shadow: 0 1px 2px rgba(34, 40, 46, .04), 0 8px 24px -12px rgba(34, 40, 46, .18);
+  overflow: hidden;
 }
-:root[data-theme="dark"] .showcase__main,
-:root:not([data-theme="light"]) .showcase__main { box-shadow: none; }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) .showcase__main {
-    box-shadow: 0 1px 2px rgba(34, 40, 46, .04), 0 8px 24px -12px rgba(34, 40, 46, .18);
-  }
+.showcase__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--rule);
 }
+@media (min-width: 52rem) {
+  .showcase__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.showcase figcaption {
+  padding: .8rem 1rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: .71rem;
+  line-height: 1.6;
+  color: var(--muted);
+  letter-spacing: .02em;
+}
+.showcase figcaption b {
+  display: block;
+  color: var(--accent-ink);
+  font-weight: 600;
+  margin-bottom: .15rem;
+}
+
 /* Conteneur de ratio.
-   `aspect-ratio` posé directement sur un <img> qui porte des attributs
-   width/height n'est pas honoré par tous les moteurs : l'image garde son
-   ratio naturel. On fixe donc le ratio sur un bloc parent et l'image le
-   remplit en absolu — technique fiable partout. */
+   `aspect-ratio` pose directement sur un <img> qui porte des attributs
+   width/height n'est pas honore par tous les moteurs : l'image garde son ratio
+   naturel. On fixe donc le ratio sur un bloc parent et l'image le remplit en
+   absolu — technique fiable partout. */
 .ratio { position: relative; overflow: hidden; }
 .ratio > img {
   position: absolute;
@@ -1367,40 +1389,15 @@ ul { margin: 0; padding: 0; list-style: none; }
   height: 100%;
   object-fit: cover;
 }
-/* Source verticale (900x1200) recadrée en paysage : le sujet — la sonde et
-   ses colliers — se situe vers 55 % de la hauteur. Un cadrage centré le
-   couperait. */
-.ratio--wide { aspect-ratio: 16 / 10; }
-.ratio--wide > img { object-position: center 55%; }
-.ratio--thumb { aspect-ratio: 4 / 3; }
 
-.showcase__main .ratio { border-bottom: 1px solid var(--rule); }
-.showcase__main figcaption {
-  padding: .85rem 1.1rem;
-  font-family: var(--font-mono);
-  font-size: .72rem;
-  color: var(--muted);
-  line-height: 1.6;
-  letter-spacing: .02em;
+/* Cadrage par photo : `--pos` est pose en ligne depuis data/projects.mjs. */
+.ratio--photo { aspect-ratio: 4 / 3; }
+.ratio--photo > img {
+  object-position: var(--pos, center);
+  transition: transform .25s ease;
 }
-.showcase__main figcaption b {
-  display: block;
-  color: var(--accent-ink);
-  font-weight: 600;
-  margin-bottom: .15rem;
-}
-
-.showcase__strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
-.showcase__thumb {
-  margin: 0;
-  border: 1px solid var(--rule);
-  border-radius: 6px;
-  overflow: hidden;
-  background: var(--surface);
-}
-.showcase__thumb img { transition: transform .25s ease; }
-.showcase__thumb:hover img { transform: scale(1.03); }
-@media (prefers-reduced-motion: reduce) { .showcase__thumb:hover img { transform: none; } }
+.ratio--photo:hover > img { transform: scale(1.04); }
+@media (prefers-reduced-motion: reduce) { .ratio--photo:hover > img { transform: none; } }
 
 /* --- Stack, actions ------------------------------------------------------- */
 .featured__stack-label {
@@ -1480,3 +1477,21 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .pills li { display: inline-flex; align-items: center; gap: .4rem; }
 .pills li:hover .pill__icon { opacity: 1; }
+
+/* Bandeau « Recherche en cours » sur toute la largeur.
+   Dans la colonne de droite, sous le portrait, il laissait ~370 px de vide
+   au pied de la colonne de texte. En bandeau, les deux recherches se lisent
+   cote a cote et l'intro se referme proprement. */
+.availability--wide { margin-top: clamp(2rem, 4vw, 2.75rem); }
+.availability--wide dl { display: grid; gap: 1rem 2.25rem; }
+@media (min-width: 40rem) {
+  .availability--wide dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Le filet separateur passe de l'horizontale a la verticale */
+  .availability--wide div + div {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    padding-left: 2.25rem;
+    border-left: 1px solid var(--rule);
+  }
+}

@@ -198,12 +198,12 @@ function renderFeatured(lang, diagram, base) {
     .join('');
   const metrics = f.metrics.map((m) => renderMetric(m, lang)).join('');
 
-  const strip = f.showcase.strip
+  const photos = f.showcase.photos
     .map(
-      (s) =>
-        '<figure class="showcase__thumb"><div class="ratio ratio--thumb">' +
-        `<img src="${esc(base + s.src)}" width="${s.width}" height="${s.height}" loading="lazy" decoding="async" alt="${esc(t(s.alt, lang))}">` +
-        '</div></figure>'
+      (ph) =>
+        `<div class="ratio ratio--photo" style="--pos:${esc(ph.pos)}">` +
+        `<img src="${esc(base + ph.src)}" width="${ph.width}" height="${ph.height}" loading="lazy" decoding="async" alt="${esc(t(ph.alt, lang))}">` +
+        '</div>'
     )
     .join('');
 
@@ -242,14 +242,10 @@ function renderFeatured(lang, diagram, base) {
     /* Métriques */
     `<dl class="metrics">${metrics}</dl>` +
     /* Vitrine visuelle */
-    '<div class="showcase">' +
-    '<figure class="showcase__main"><div class="ratio ratio--wide">' +
-    `<img src="${esc(base + f.showcase.src)}" width="${f.showcase.width}" height="${f.showcase.height}" loading="lazy" decoding="async" alt="${esc(t(f.showcase.alt, lang))}">` +
-    '</div>' +
+    '<figure class="showcase">' +
+    `<div class="showcase__grid">${photos}</div>` +
     `<figcaption><b>${labels.showcase}</b>${esc(t(f.showcase.caption, lang))}</figcaption>` +
     '</figure>' +
-    `<div class="showcase__strip">${strip}</div>` +
-    '</div>' +
     /* Schéma d'architecture (fragment maintenu à la main) */
     diagram +
     /* Stack + actions */

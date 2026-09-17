@@ -47,27 +47,29 @@ export const featured = {
     { name: 'Nginx', icon: 'nginx' },
     { name: 'Pytest', icon: 'pytest' },
   ],
+  /* Rangee compacte de quatre photos. Une photo unique en grand ecrasait la
+     page : sur un portfolio de data engineer, le schema d'architecture est le
+     visuel qui porte l'information, pas la photo. */
   showcase: {
-    src: 'assets/img/sonde-bouee.webp',
-    width: 900,
-    height: 1200,
-    alt: {
-      fr: 'Tube noir d’une sonde multiparamètre fixé par colliers inox sous le flotteur de la bouée d’atterrissage de Bayonne.',
-      en: 'Black tube of a multiparameter probe clamped with stainless steel brackets under the float of the Bayonne landfall buoy.',
-    },
     caption: {
-      fr: 'La sonde NKE WiMo mouillée sous la bouée d’atterrissage — première source de la chaîne.',
-      en: 'The NKE WiMo probe moored under the landfall buoy — the first source in the chain.',
+      fr: 'La sonde sous la bouée d’atterrissage, le coffret d’acquisition, la station de quai, et une sonde relevée après plusieurs semaines d’immersion.',
+      en: 'The probe under the landfall buoy, the acquisition cabinet, the quayside station, and a probe recovered after several weeks in the water.',
     },
-    // Bandeau secondaire sous la photo principale
-    strip: [
+    photos: [
+      { src: 'assets/img/sonde-bouee.webp', width: 900, height: 1200,
+        pos: 'center 55%',
+        alt: { fr: 'Sonde multiparamètre fixée par colliers inox sous le flotteur de la bouée d’atterrissage de Bayonne.',
+               en: 'Multiparameter probe clamped under the float of the Bayonne landfall buoy.' } },
       { src: 'assets/img/coffret-acquisition.webp', width: 900, height: 1200,
+        pos: 'center 45%',
         alt: { fr: 'Intérieur du coffret d’acquisition : centrale programmable, régulateur solaire, batteries.',
                en: 'Inside the acquisition cabinet: programmable logger, solar controller, batteries.' } },
       { src: 'assets/img/station-quai.webp', width: 1200, height: 900,
+        pos: 'center 50%',
         alt: { fr: 'Station de mesure sur un quai du port de Bayonne, alimentée par panneau solaire.',
                en: 'Monitoring station on a quay at the port of Bayonne, powered by a solar panel.' } },
       { src: 'assets/img/biofouling.webp', width: 900, height: 1200,
+        pos: 'center 50%',
         alt: { fr: 'Sonde relevée après immersion, colonisée par des organismes marins.',
                en: 'Probe recovered after immersion, colonised by marine organisms.' } },
     ],
@@ -105,8 +107,8 @@ export const projects = [
     context: { fr: 'Master 1 ISII, Université d’Alger 1 · 2024 – 2025',
                en: 'Master 1 ISII, Université d’Alger 1 · 2024 – 2025' },
     summary: {
-      fr: 'Système d’aide à la décision sur l’évolution et l’impact des ventes de colorants naturels dans l’agroalimentaire. Schéma en étoile autour d’une table de faits et de cinq dimensions, chaîne ETL sous Talend Open Studio, entrepôt MySQL, cube OLAP puis restitution Power BI. Mesures suivies : quantité vendue, montant, score sanitaire et score environnemental.',
-      en: 'A decision-support system on the evolution and impact of natural colourant sales in the food industry. Star schema around one fact table and five dimensions, ETL chain in Talend Open Studio, MySQL warehouse, OLAP cube and Power BI reporting. Measures tracked: quantity sold, amount, health score and environmental score.',
+      fr: 'Aide à la décision sur les ventes de colorants naturels dans l’agroalimentaire : schéma en étoile à cinq dimensions, chaîne ETL sous Talend, entrepôt MySQL, cube OLAP et restitution Power BI.',
+      en: 'Decision support on natural colourant sales in the food industry: a five-dimension star schema, an ETL chain in Talend, a MySQL warehouse, an OLAP cube and Power BI reporting.',
     },
     stack: ['Talend Open Studio', 'MySQL', 'OLAP', 'Power BI', 'Schéma en étoile'],
     note: { fr: 'Projet réalisé en binôme avec Chanez Ressam.',

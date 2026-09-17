@@ -78,7 +78,6 @@ Pour ajouter un glyphe absent du sprite :
 npm install simple-icons          # temporaire, hors du dépôt
 # ajouter le slug voulu dans la liste SLUGS de build/extract-icons.mjs
 node build/extract-icons.mjs
-node build/optimize-icons.mjs
 npm run build
 ```
 
@@ -103,11 +102,33 @@ git push
 Attendre une à deux minutes, puis recharger <https://sben003.github.io> avec
 `Ctrl + F5` (le cache du navigateur est parfois têtu).
 
-### Remplacer le CV
+### Remettre le CV en ligne
 
-Déposer le PDF dans `assets/` sous le nom exact `CV-Salem-Benzineh.pdf`, puis
-`git add -A && git commit -m "Nouveau CV" && git push`. Les boutons de
-téléchargement, en français et en anglais, pointent déjà sur ce chemin.
+Le CV est **volontairement hors ligne** : le document contient encore
+`Rythme [À COMPLÉTER]`. Une fois corrigé :
+
+1. retirer la ligne `assets/CV-Salem-Benzineh.pdf` du `.gitignore` ;
+2. remettre le bouton dans l'intro et dans la section Contact des deux pages
+   d'accueil (voir le commit « Compétences en bento… » pour le markup exact) :
+
+```html
+<a class="btn btn--primary" href="assets/CV-Salem-Benzineh.pdf" download>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M12 3v12M7 11l5 5 5-5M4 20h16"/>
+  </svg>
+  Télécharger le CV (PDF)
+</a>
+```
+
+Pour régénérer le PDF depuis le `.docx` (Word requis) :
+
+```powershell
+$w = New-Object -ComObject Word.Application
+$d = $w.Documents.Open("...ssets\CV_Salem_Benzineh_Data_Alternance_2026.docx", $false, $true)
+$d.ExportAsFixedFormat("...ssets\CV-Salem-Benzineh.pdf", 17)
+$d.Close($false); $w.Quit()
+```
 
 ### Modifier un texte
 
@@ -150,6 +171,12 @@ seconde fois pour le thème sombre. La palette reprend celle du CV : anthracite
 `#22282E`, cuivre `#8F4A28`.
 
 ## Notes techniques
+
+- **Ne pas « optimiser » les tracés d'icônes.** Une tentative d'arrondi des
+  décimales a produit des glyphes corrompus : arrondir une valeur à zéro ou
+  retirer un zéro de tête rend la séquence de nombres ambiguë et les
+  coordonnées fusionnent (`C5.3729.0384.0003` devenait `C5.370.040 5.39 0`).
+  Les tracés Simple Icons sont déjà minifiés ; ils sont recopiés tels quels.
 
 - **Thème** : suit la préférence système par défaut ; le bouton force un thème et
   mémorise le choix dans `localStorage`. Un script en ligne dans le `<head>`
