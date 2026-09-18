@@ -13,7 +13,7 @@ Trois sections sont générées depuis des fichiers de données par un script No
 qui tourne **sur ta machine** (voir « Données et génération »). Ce qui est publié
 reste du HTML statique : GitHub Pages ne compile rien.
 
-### Quatre pages
+### Six pages
 
 | Page | Fichier |
 | --- | --- |
@@ -21,6 +21,8 @@ reste du HTML statique : GitHub Pages ne compile rien.
 | Accueil (EN) | `en/index.html` |
 | Étude de cas Vigie Océan (FR) | `vigie-ocean/index.html` |
 | Étude de cas Vigie Océan (EN) | `en/vigie-ocean/index.html` |
+| Étude de cas Entrepôt de données (FR) | `entrepot-donnees/index.html` |
+| Étude de cas Entrepôt de données (EN) | `en/data-warehouse/index.html` |
 
 ### Le reste
 
@@ -200,7 +202,17 @@ seconde fois pour le thème sombre. La palette reprend celle du CV : anthracite
 
 ## Provenance des chiffres
 
-Les chiffres de l'étude de cas proviennent du rapport de stage M1 et du dépôt du
-projet : 103 940 mesures, compression de 29 Mo à 2,3 Mo (facteur 12,7), latences
-relevées en production, 14 tests Pytest dans `api/tests/`. Ne pas les modifier
-sans une source correspondante.
+**Vigie Océan** — rapport de stage M1 et dépôt du projet : 103 940 mesures,
+compression de 29 Mo à 2,3 Mo (facteur 12,7), latences relevées en production,
+14 tests Pytest dans `api/tests/`.
+
+**Entrepôt de données** — rapport `RapportProjetEntrepotDeDonnees.pdf` :
+100 ventes, dimensions de 30 à 65 lignes, 5 dimensions, 8 data marts, job
+Talend `EDD_Colorants`, base MySQL `EntrepotDeDonnees`. Le jeu de données est
+**simulé** ; la page le dit explicitement, à deux endroits.
+
+**AI UNIVERS** — CV : cinq sources hétérogènes, trois tableaux de bord Power BI.
+Ces chiffres décrivent le périmètre du stage, distincts de ceux du rapport, qui
+décrivent le projet d'entrepôt rendu comme travail de module.
+
+Ne modifier aucun de ces chiffres sans une source correspondante.

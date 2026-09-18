@@ -98,24 +98,9 @@ export const featured = {
   },
 };
 
+/* L'entrepot de donnees n'est plus ici : c'est le travail du stage AI UNIVERS,
+   rattache a l'entree Experience et detaille dans sa propre etude de cas. */
 export const projects = [
-  {
-    id: 'entrepot-colorants',
-    name: { fr: 'Entrepôt de données — ventes de colorants naturels',
-            en: 'Data warehouse — natural food colourant sales' },
-    kicker: { fr: 'Décisionnel · Binôme', en: 'Business intelligence · Pair project' },
-    context: { fr: 'Master 1 ISII, Université d’Alger 1 · 2024 – 2025',
-               en: 'Master 1 ISII, Université d’Alger 1 · 2024 – 2025' },
-    summary: {
-      fr: 'Aide à la décision sur les ventes de colorants naturels dans l’agroalimentaire : schéma en étoile à cinq dimensions, chaîne ETL sous Talend, entrepôt MySQL, cube OLAP et restitution Power BI.',
-      en: 'Decision support on natural colourant sales in the food industry: a five-dimension star schema, an ETL chain in Talend, a MySQL warehouse, an OLAP cube and Power BI reporting.',
-    },
-    stack: ['Talend Open Studio', 'MySQL', 'OLAP', 'Power BI', 'Schéma en étoile'],
-    note: { fr: 'Projet réalisé en binôme avec Chanez Ressam.',
-            en: 'Built as a pair with Chanez Ressam.' },
-    action: { href: 'assets/RapportProjetEntrepotDeDonnees.pdf',
-              label: { fr: 'Rapport complet (PDF, 62 p.)', en: 'Full report (PDF, 62 pp.)' } },
-  },
   {
     id: 'job-board',
     name: { fr: 'Job Board', en: 'Job Board' },

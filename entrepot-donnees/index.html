@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Entrepôt de données — étude de cas · Salem Benzineh</title>
+<meta name="description" content="Étude de cas : conception d'une chaîne décisionnelle complète — modélisation en étoile selon Kimball, ETL sous Talend Open Studio, entrepôt MySQL, cube OLAP Pentaho et restitution Power BI.">
+<meta name="author" content="Salem Benzineh">
+<meta name="theme-color" content="#f7f5f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1b2025" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://sben003.github.io/entrepot-donnees/">
+<link rel="alternate" hreflang="fr" href="https://sben003.github.io/entrepot-donnees/">
+<link rel="alternate" hreflang="en" href="https://sben003.github.io/en/data-warehouse/">
+<link rel="alternate" hreflang="x-default" href="https://sben003.github.io/entrepot-donnees/">
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:site_name" content="Salem Benzineh">
+<meta property="og:url" content="https://sben003.github.io/entrepot-donnees/">
+<meta property="og:title" content="Entrepôt de données — étude de cas">
+<meta property="og:description" content="De la source au tableau de bord : schéma en étoile selon Kimball, ETL Talend, entrepôt MySQL, cube OLAP Pentaho, restitution Power BI.">
+<meta property="og:image" content="https://sben003.github.io/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Entrepôt de données — étude de cas">
+<meta name="twitter:description" content="Chaîne décisionnelle complète : modélisation dimensionnelle, ETL, entrepôt, cube OLAP, Power BI.">
+<meta name="twitter:image" content="https://sben003.github.io/assets/og.png">
+
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="stylesheet" href="../assets/styles.css">
+
+<script>
+(function(){try{var t=localStorage.getItem("sb-theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t);}}catch(e){}})();
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#contenu">Aller au contenu principal</a>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="../">Salem&nbsp;Benzineh<span> /</span></a>
+
+    <nav class="site-nav" aria-label="Sections de l'étude de cas">
+      <ul>
+        <li><a href="#besoin">Le besoin</a></li>
+        <li><a href="#modele">Modèle</a></li>
+        <li><a href="#etl">ETL</a></li>
+        <li><a href="#entrepot">Entrepôt</a></li>
+        <li><a href="#cube">Cube OLAP</a></li>
+        <li><a href="#restitution">Restitution</a></li>
+        <li><a href="#bilan">Bilan</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-tools">
+      <p class="lang-switch" aria-label="Langue">
+        <span aria-current="true" lang="fr">FR</span><a href="../en/data-warehouse/" hreflang="en" lang="en">EN</a>
+      </p>
+      <button class="theme-toggle" type="button" hidden
+              data-label-dark="Passer en thème sombre"
+              data-label-light="Passer en thème clair">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="contenu">
+
+  <section class="section case-hero">
+    <div class="wrap">
+      <p class="breadcrumb"><a href="../">Portfolio</a> &nbsp;/&nbsp; Étude de cas</p>
+      <p class="kicker">Décisionnel · Chaîne complète</p>
+      <h1 class="case-hero__title">Entrepôt de données</h1>
+      <p class="flagship__meta">
+        Ventes de colorants naturels dans l'agroalimentaire<br>
+        Travail mené pendant le stage Data Analyst chez AI UNIVERS (mai – juillet 2025),
+        rendu comme projet du module Entrepôt de données — Master 1 ISII, Université d'Alger 1<br>
+        En binôme avec Chanez Ressam
+      </p>
+      <p class="case-hero__lede">
+        Construire, de bout en bout, la chaîne qui va d'un fichier plat à un tableau de bord :
+        modélisation dimensionnelle selon la méthode Kimball, ETL sous Talend, entrepôt MySQL,
+        cube OLAP, puis restitution Power BI. L'objectif analytique : croiser la performance
+        commerciale des colorants alimentaires avec leur impact sanitaire et environnemental.
+      </p>
+
+      <dl class="stats stats--bar" style="margin-top:2rem">
+        <div><dt>Ventes modélisées</dt><dd>100</dd></div>
+        <div><dt>Dimensions</dt><dd>5</dd></div>
+        <div><dt>Data marts analytiques</dt><dd>8</dd></div>
+        <div><dt>Outils de la chaîne</dt><dd>4</dd></div>
+      </dl>
+
+      <div class="callout" style="margin-top:2rem">
+        <p><b>Précision honnête</b>
+        Le jeu de données est <strong>simulé</strong>, construit par nos soins pour être réaliste
+        et exploitable. Ce qui se démontre ici n'est donc pas un résultat métier, mais la maîtrise
+        d'une chaîne décisionnelle complète et des choix de conception qu'elle impose.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 — Le besoin -->
+  <section class="section section--tint" id="besoin" aria-labelledby="t-besoin">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">01</span>
+        <h2 class="section__title" id="t-besoin">La question posée</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          L'industrie agroalimentaire a longtemps utilisé des colorants synthétiques, régulièrement
+          critiqués pour leurs effets sanitaires potentiels et leur empreinte environnementale.
+          La tendance s'oriente vers les colorants naturels — mais cette bascule se raisonne mal
+          sans données : un colorant naturel se vend-il autant ? Son profil sanitaire est-il
+          réellement meilleur ? Quelles origines sont les plus durables ?
+        </p>
+        <p>
+          Répondre suppose de croiser des grandeurs qui ne vivent pas dans le même tableau :
+          des <strong>mesures commerciales</strong> (quantités, chiffre d'affaires) et des
+          <strong>scores qualitatifs</strong> (impact sanitaire, impact environnemental), lus
+          selon plusieurs axes — le produit, le colorant, son origine, son fournisseur, la période.
+        </p>
+        <p>
+          C'est exactement le problème que résout une modélisation dimensionnelle. D'où le point
+          de départ : identifier les faits à mesurer, puis les dimensions qui leur donnent un sens.
+        </p>
+
+        <h3>Les quatre mesures retenues</h3>
+        <ul>
+          <li><strong>Quantité (kg)</strong> — masse de colorant écoulée sur la vente.</li>
+          <li><strong>Montant de la vente (€)</strong> — chiffre d'affaires généré.</li>
+          <li><strong>Score santé (%)</strong> — indice d'impact sanitaire estimé.</li>
+          <li><strong>Score environnement (%)</strong> — indice d'impact environnemental.</li>
+        </ul>
+        <p>
+          Les deux premières relèvent de la performance commerciale, les deux dernières de la
+          responsabilité produit. Les faire cohabiter dans une même table de faits est ce qui
+          rend l'analyse croisée possible.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — Modèle -->
+  <section class="section" id="modele" aria-labelledby="t-modele">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">02</span>
+        <h2 class="section__title" id="t-modele">Un schéma en étoile, pas un tableau de plus</h2>
+        <p class="section__note">Méthode Kimball</p>
+      </div>
+
+      <div class="prose" style="margin-bottom:2rem">
+        <p>
+          La règle de conception est simple et elle tient tout le reste : la table de faits ne
+          contient <strong>que des clés étrangères et des mesures</strong> ; chaque dimension ne
+          décrit <strong>qu'une entité de référence</strong>, avec des valeurs uniques. Aucune
+          redondance, aucun attribut descriptif dans les faits.
+        </p>
+        <p>
+          Ce découpage n'est pas théorique : il s'est révélé décisif deux fois. Dans Talend d'abord,
+          où les jointures deviennent lisibles au lieu de se perdre dans un fichier large. Dans
+          Power BI ensuite, où les agrégations se font naturellement selon chaque axe sans avoir à
+          rejouer des jointures à chaque visuel.
+        </p>
+      </div>
+
+      <figure class="diagram">
+        <svg class="diagram__wide" viewBox="0 0 940 520" role="img" aria-labelledby="et-t et-d">
+          <title id="et-t">Schéma en étoile de l'entrepôt</title>
+          <desc id="et-d">Une table de faits centrale, Faits_Ventes_Colorants, porte quatre mesures et cinq clés étrangères. Elle est reliée à cinq dimensions : temps, produit, colorant, fournisseur et origine.</desc>
+
+          <path class="dg-line" d="M230 112 L420 205"/>
+          <path class="dg-line" d="M710 112 L520 205"/>
+          <path class="dg-line" d="M220 274 H370"/>
+          <path class="dg-line" d="M720 274 H570"/>
+          <path class="dg-line" d="M470 400 V325"/>
+
+          <g>
+            <rect class="dg-box" x="130" y="24" width="200" height="88" rx="3"/>
+            <text class="dg-step" x="143" y="43">DIMENSION</text>
+            <text class="dg-title" x="143" y="64">Dim_Temps</text>
+            <text class="dg-sub" x="143" y="81">jour · mois · trimestre</text>
+            <text class="dg-sub" x="143" y="94">année</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="610" y="24" width="200" height="88" rx="3"/>
+            <text class="dg-step" x="623" y="43">DIMENSION</text>
+            <text class="dg-title" x="623" y="64">Dim_Produit</text>
+            <text class="dg-sub" x="623" y="81">nom du produit</text>
+            <text class="dg-sub" x="623" y="94">catégorie</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="20" y="230" width="200" height="88" rx="3"/>
+            <text class="dg-step" x="33" y="249">DIMENSION</text>
+            <text class="dg-title" x="33" y="270">Dim_Colorant</text>
+            <text class="dg-sub" x="33" y="287">type · code E</text>
+            <text class="dg-sub" x="33" y="300">prix unitaire</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="720" y="230" width="200" height="88" rx="3"/>
+            <text class="dg-step" x="733" y="249">DIMENSION</text>
+            <text class="dg-title" x="733" y="270">Dim_Fournisseur</text>
+            <text class="dg-sub" x="733" y="287">pays</text>
+            <text class="dg-sub" x="733" y="300">certification</text>
+          </g>
+          <g>
+            <rect class="dg-box dg-box--accent" x="370" y="205" width="200" height="120" rx="3"/>
+            <text class="dg-step" x="383" y="226">TABLE DE FAITS</text>
+            <text class="dg-title" x="383" y="247">Faits_Ventes_Colorants</text>
+            <text class="dg-sub" x="383" y="266">quantité (kg)</text>
+            <text class="dg-sub" x="383" y="279">montant de vente (€)</text>
+            <text class="dg-sub" x="383" y="292">score santé (%)</text>
+            <text class="dg-sub" x="383" y="305">score environnement (%)</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="370" y="400" width="200" height="88" rx="3"/>
+            <text class="dg-step" x="383" y="419">DIMENSION</text>
+            <text class="dg-title" x="383" y="440">Dim_Origine</text>
+            <text class="dg-sub" x="383" y="457">source : plante, algue…</text>
+            <text class="dg-sub" x="383" y="470">nature : bio ou non</text>
+          </g>
+        </svg>
+
+        <svg class="diagram__tall" viewBox="0 0 300 700" role="img" aria-labelledby="et-tm et-dm">
+          <title id="et-tm">Schéma en étoile de l'entrepôt</title>
+          <desc id="et-dm">Une table de faits centrale, Faits_Ventes_Colorants, porte quatre mesures et cinq clés étrangères vers les dimensions temps, produit, colorant, fournisseur et origine.</desc>
+
+          <g>
+            <rect class="dg-box dg-box--accent" x="20" y="8" width="260" height="104" rx="3"/>
+            <text class="dg-step" x="33" y="28">TABLE DE FAITS</text>
+            <text class="dg-title" x="33" y="49">Faits_Ventes_Colorants</text>
+            <text class="dg-sub" x="33" y="68">quantité (kg) · montant (€)</text>
+            <text class="dg-sub" x="33" y="81">score santé · score environnement</text>
+            <text class="dg-sub" x="33" y="98">5 clés étrangères</text>
+          </g>
+
+          <path class="dg-line" d="M48 112 V636"/>
+
+          <g>
+            <path class="dg-line" d="M48 176 H76"/>
+            <rect class="dg-box" x="76" y="148" width="204" height="58" rx="3"/>
+            <text class="dg-title" x="89" y="172">Dim_Temps</text>
+            <text class="dg-sub" x="89" y="190">jour · mois · trimestre · année</text>
+          </g>
+          <g>
+            <path class="dg-line" d="M48 268 H76"/>
+            <rect class="dg-box" x="76" y="240" width="204" height="58" rx="3"/>
+            <text class="dg-title" x="89" y="264">Dim_Produit</text>
+            <text class="dg-sub" x="89" y="282">nom · catégorie</text>
+          </g>
+          <g>
+            <path class="dg-line" d="M48 360 H76"/>
+            <rect class="dg-box" x="76" y="332" width="204" height="58" rx="3"/>
+            <text class="dg-title" x="89" y="356">Dim_Colorant</text>
+            <text class="dg-sub" x="89" y="374">type · code E · prix unitaire</text>
+          </g>
+          <g>
+            <path class="dg-line" d="M48 452 H76"/>
+            <rect class="dg-box" x="76" y="424" width="204" height="58" rx="3"/>
+            <text class="dg-title" x="89" y="448">Dim_Fournisseur</text>
+            <text class="dg-sub" x="89" y="466">pays · certification</text>
+          </g>
+          <g>
+            <path class="dg-line" d="M48 544 H76"/>
+            <rect class="dg-box" x="76" y="516" width="204" height="58" rx="3"/>
+            <text class="dg-title" x="89" y="540">Dim_Origine</text>
+            <text class="dg-sub" x="89" y="558">source · nature</text>
+          </g>
+          <g>
+            <path class="dg-line" d="M48 636 H76"/>
+            <rect class="dg-box dg-box--ext" x="76" y="608" width="204" height="58" rx="3"/>
+            <text class="dg-title" x="89" y="632">Cube OLAP</text>
+            <text class="dg-sub" x="89" y="650">Pentaho Schema Workbench</text>
+          </g>
+        </svg>
+
+        <figcaption>
+          Modélisation dimensionnelle selon la méthode Kimball. La table de faits ne contient
+          que des clés étrangères et des mesures ; chaque dimension ne décrit qu'une entité de
+          référence, sans redondance.
+        </figcaption>
+      </figure>
+
+      <div class="table-wrap" style="margin-top:2rem">
+        <table class="data-table">
+          <caption>Métadonnées de la table de faits. Chaque mesure est typée et bornée avant toute insertion.</caption>
+          <thead>
+            <tr><th scope="col">Attribut</th><th scope="col">Type</th><th scope="col">Rôle</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row"><code>id_vente</code></th><td>INT</td><td>Clé primaire</td></tr>
+            <tr><th scope="row"><code>id_temps</code>, <code>id_produit</code>, <code>id_colorant</code>, <code>id_origine</code>, <code>id_fournisseur</code></th><td>INT</td><td>Clés étrangères vers les cinq dimensions</td></tr>
+            <tr><th scope="row"><code>quantite_kg</code></th><td>FLOAT</td><td>Mesure — masse vendue</td></tr>
+            <tr><th scope="row"><code>montant_vente</code></th><td>FLOAT</td><td>Mesure — chiffre d'affaires, calculé à l'ETL</td></tr>
+            <tr><th scope="row"><code>score_sante</code></th><td>FLOAT</td><td>Mesure — pourcentage borné 0–100</td></tr>
+            <tr><th scope="row"><code>score_env</code></th><td>FLOAT</td><td>Mesure — pourcentage borné 0–100</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose" style="margin-top:2rem">
+        <p>
+          Côté volumes, le jeu a été calibré volontairement : <strong>100 ventes</strong> dans la
+          table de faits, des dimensions plus compactes de 30 à 65 lignes. Ce rapport reproduit ce
+          qu'on observe en production — beaucoup de faits pointant vers peu d'entités de
+          référence — tout en gardant assez de variété pour que les analyses croisées aient du sens.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — ETL -->
+  <section class="section section--tint" id="etl" aria-labelledby="t-etl">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">03</span>
+        <h2 class="section__title" id="t-etl">La chaîne ETL sous Talend</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          Le job <code>EDD_Colorants</code>, construit dans Talend Open Studio, lit un fichier
+          source unique, le transforme et le charge dans l'entrepôt. Le choix de consolider toutes
+          les données en un seul fichier — <code>Colorants_Entrepot_Complet.csv</code> — mérite
+          d'être expliqué : il permet une lecture en un seul composant, des transformations dans un
+          flux unique, et une préparation Power BI sans jointures supplémentaires.
+        </p>
+
+        <h3>Ce qui se passe avant Talend</h3>
+        <p>
+          Aucun fichier n'entre dans le flux sans vérification. Avec mon binôme, nous contrôlions
+          systématiquement trois choses : le <strong>typage</strong> (prix, quantités, dates,
+          scores), l'<strong>absence de doublons</strong> dans les dimensions, et la
+          <strong>correspondance des clés</strong> primaires et étrangères. Un ETL qui démarre sur
+          des données incohérentes ne produit pas une erreur : il produit un résultat faux, ce qui
+          est bien pire.
+        </p>
+      </div>
+
+      <div class="table-wrap" style="margin:1.75rem 0">
+        <table class="data-table">
+          <caption>Les composants Talend du job, et le rôle de chacun dans le flux.</caption>
+          <thead>
+            <tr><th scope="col">Composant</th><th scope="col">Étape</th><th scope="col">Rôle</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><code>tFileInputDelimited</code></th>
+              <td>Extraction</td>
+              <td>Lit le CSV ligne à ligne — séparateur virgule, encodage UTF-8, dates au modèle <code>dd/MM/yyyy</code></td>
+            </tr>
+            <tr>
+              <th scope="row"><code>tMap</code></th>
+              <td>Transformation</td>
+              <td>Jointures entre sources, champs calculés, dérivations, filtrage des colonnes inutiles</td>
+            </tr>
+            <tr>
+              <th scope="row"><code>tDBOutput</code> (MySQL)</th>
+              <td>Chargement</td>
+              <td>Écrit dimensions et table de faits dans l'entrepôt, table recréée à chaque exécution</td>
+            </tr>
+            <tr>
+              <th scope="row"><code>tLogRow</code></th>
+              <td>Contrôle</td>
+              <td>Affiche le flux en sortie pour vérifier visuellement ce qui transite</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose">
+        <h3>Le cœur du flux : tMap</h3>
+        <p>
+          C'est là que la donnée brute devient exploitable. Deux transformations méritent d'être
+          citées parce qu'elles illustrent bien la logique d'un entrepôt.
+        </p>
+        <p>
+          Le <strong>montant de la vente n'est pas lu, il est calculé</strong> :
+          <code>montant_vente = quantite_kg × prix_unitaire</code>, le prix venant de la dimension
+          colorant. Stocker un montant déjà calculé dans la source aurait introduit une incohérence
+          possible entre deux colonnes ; le dériver à l'ETL garantit qu'il reste toujours en accord
+          avec ses composantes.
+        </p>
+        <p>
+          Le <strong>trimestre est dérivé du mois</strong> plutôt que saisi. La dimension temps est
+          reconstruite depuis la date de vente — jour, mois, trimestre, année — ce qui donne à
+          l'analyse une granularité hiérarchique complète sans rien demander à la source.
+        </p>
+      </div>
+
+      <div class="callout">
+        <p><b>Un détail d'exploitation</b>
+        Le chargement est configuré en « supprimer la table si elle existe et la créer ». Le job est
+        donc <strong>rejouable à volonté</strong> : chaque exécution reconstruit l'entrepôt depuis
+        la source, sans accumulation ni doublon. Sur un entrepôt alimenté par lots, cette propriété
+        vaut mieux qu'un chargement incrémental fragile.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 — Entrepôt -->
+  <section class="section" id="entrepot" aria-labelledby="t-entrepot">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">04</span>
+        <h2 class="section__title" id="t-entrepot">L'entrepôt</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          La base cible, <code>EntrepotDeDonnees</code>, est une base MySQL hébergée sur un
+          environnement XAMPP local. Le choix est délibérément modeste et il se justifie : ce qui
+          est démontré ici n'est pas la capacité à encaisser du volume, mais la
+          <strong>correction du modèle</strong> et la propreté de la chaîne qui l'alimente.
+        </p>
+        <p>
+          Chaque dimension est construite séparément par son propre flux, puis la table de faits est
+          assemblée en dernier — elle ne peut exister qu'une fois ses cinq dimensions peuplées,
+          puisqu'elle ne contient que des références vers elles. Cet ordre de chargement n'est pas
+          un détail : c'est ce qui garantit l'intégrité référentielle de l'entrepôt.
+        </p>
+        <p>
+          Une base intermédiaire a servi de zone de transit entre l'extraction et les
+          transformations, pour éviter de rejouer la lecture du fichier source à chaque
+          modification du flux.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — Cube OLAP -->
+  <section class="section section--tint" id="cube" aria-labelledby="t-cube">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">05</span>
+        <h2 class="section__title" id="t-cube">Le cube OLAP</h2>
+        <p class="section__note">Pentaho Schema Workbench</p>
+      </div>
+
+      <div class="prose">
+        <p>
+          L'entrepôt répond à des requêtes ; le cube répond à des <em>questions</em>. Modélisé sous
+          Pentaho Schema Workbench, il expose la table de faits et ses dimensions sous forme
+          navigable, avec des hiérarchies d'analyse — <code>Année &gt; Mois &gt; Jour</code> pour le
+          temps — qui permettent de descendre ou remonter dans le détail sans réécrire de requête.
+        </p>
+        <p>
+          Au-dessus du cube, nous avons défini <strong>huit data marts analytiques</strong> : autant
+          de sous-ensembles thématiques répondant chacun à une question précise. C'est la traduction
+          concrète de l'intérêt d'un modèle dimensionnel — une même structure, huit angles de lecture.
+        </p>
+      </div>
+
+      <div class="table-wrap" style="margin-top:1.75rem">
+        <table class="data-table">
+          <caption>Les huit data marts définis sur le cube, et la question à laquelle chacun répond.</caption>
+          <thead>
+            <tr><th scope="col">Data mart</th><th scope="col">Question</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Popularité par colorant</th><td>Quels colorants dominent en volume et en note moyenne ?</td></tr>
+            <tr><th scope="row">Ventes par période</th><td>Quelles sont les saisons les plus actives ?</td></tr>
+            <tr><th scope="row">Performances fournisseur</th><td>Quels fournisseurs performent, en quantité comme en évaluation ?</td></tr>
+            <tr><th scope="row">Analyse par type de colorant</th><td>Naturel ou synthétique : lequel domine les ventes ?</td></tr>
+            <tr><th scope="row">Impact de l'origine</th><td>L'origine influence-t-elle le volume et la popularité ?</td></tr>
+            <tr><th scope="row">Évolution annuelle</th><td>Comment ventes et satisfaction évoluent-elles dans le temps ?</td></tr>
+            <tr><th scope="row">Répartition géographique</th><td>Quels pays de fournisseurs, et avec quelles performances ?</td></tr>
+            <tr><th scope="row">Relation usage / quantité</th><td>Le type d'usage influence-t-il les quantités vendues ?</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — Restitution -->
+  <section class="section" id="restitution" aria-labelledby="t-resti">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">06</span>
+        <h2 class="section__title" id="t-resti">La restitution Power BI</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          Power BI se connecte directement à la base <code>EntrepotDeDonnees</code> et importe les
+          tables du modèle. Parce que le schéma est en étoile, les relations se déduisent presque
+          d'elles-mêmes et les agrégations suivent chaque axe sans manipulation supplémentaire.
+        </p>
+
+        <h3>Ce que les visuels donnent à voir</h3>
+        <ul>
+          <li>
+            <strong>Barres groupées</strong> — les volumes de vente confrontés aux scores santé,
+            répartis par année et par catégorie de produit.
+          </li>
+          <li>
+            <strong>Barres empilées</strong> — la distribution des scores santé par source
+            d'origine et par année, qui fait ressortir le poids des origines végétales.
+          </li>
+          <li>
+            <strong>Secteurs et anneau</strong> — la répartition des ventes et des scores qualité
+            par colorant, qui met en regard part de marché et performance qualitative.
+          </li>
+          <li>
+            <strong>Séries temporelles</strong> — la distribution par source et la quantité vendue
+            par trimestre, puis l'évolution des scores santé selon la nature du colorant.
+          </li>
+        </ul>
+
+        <p>
+          Sur le jeu simulé, la lecture croisée fait apparaître une tension intéressante : les
+          colorants synthétiques occupent la part de marché majoritaire, tandis que les naturels,
+          moins présents en volume, affichent des scores qualitatifs nettement supérieurs et une
+          plus grande stabilité entre performance commerciale et profil sanitaire.
+        </p>
+      </div>
+
+      <div class="callout">
+        <p><b>Ce que ça vaut, et ce que ça ne vaut pas</b>
+        Ces observations décrivent un jeu de données que nous avons construit. Elles valident que
+        la chaîne restitue correctement ce qu'on y a mis et que les axes d'analyse fonctionnent —
+        pas qu'elles constituent un résultat sur le marché réel des colorants alimentaires.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 — Bilan -->
+  <section class="section section--tint" id="bilan" aria-labelledby="t-bilan">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">07</span>
+        <h2 class="section__title" id="t-bilan">Bilan</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          Le projet couvre la totalité d'une chaîne décisionnelle : analyse du besoin, modélisation
+          dimensionnelle, ETL, entreposage, cube OLAP, restitution. Quatre outils s'y enchaînent —
+          Talend Open Studio, MySQL, Pentaho Schema Workbench, Power BI — et chaque passage de
+          relais impose un contrat : un format de fichier, un schéma relationnel, une connexion, un
+          modèle de données.
+        </p>
+
+        <h3>Ce que j'en retire</h3>
+        <p>
+          La leçon la plus durable n'est pas dans l'outillage mais dans la
+          <strong>discipline de modélisation</strong>. Un schéma en étoile mal découpé ne se voit
+          pas tout de suite : il se paie plus tard, en jointures illisibles dans l'ETL et en
+          agrégations fausses dans le reporting. Décider en amont ce qui est un fait et ce qui est
+          une dimension conditionne tout l'aval.
+        </p>
+        <p>
+          Cette méthode s'est prolongée ensuite, dans un tout autre contexte, sur la plateforme de
+          supervision environnementale marine que j'ai conçue en fin de M1 — où la question du
+          modèle de données, cette fois en série temporelle, était de nouveau la décision
+          structurante.
+        </p>
+
+        <h3>Les limites</h3>
+        <p>
+          Le jeu est simulé et les volumes modestes : rien ici ne démontre un comportement à
+          l'échelle. Le chargement est intégral à chaque exécution, ce qui convient à ce volume
+          mais ne tiendrait pas sur un entrepôt alimenté en continu — il faudrait alors un
+          chargement incrémental et une gestion des dimensions à évolution lente.
+        </p>
+      </div>
+
+      <div class="contact-row">
+        <a class="btn btn--primary" href="../assets/RapportProjetEntrepotDeDonnees.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M12 3v12M7 11l5 5 5-5M4 20h16"/>
+          </svg>
+          Rapport complet (PDF, 62 p.)
+        </a>
+        <a class="btn" href="../vigie-ocean/">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+          L'autre étude de cas : Vigie Océan
+        </a>
+        <a class="btn" href="../">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M19 12H5M11 18l-6-6 6-6"/>
+          </svg>
+          Retour au portfolio
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p>© 2026 Salem Benzineh · Anglet (64)</p>
+    <p>Projet en binôme avec Chanez Ressam · <a href="../en/data-warehouse/" hreflang="en" lang="en">English version</a></p>
+  </div>
+</footer>
+
+<script src="../assets/main.js" defer></script>
+</body>
+</html>
