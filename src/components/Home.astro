@@ -1,0 +1,100 @@
+---
+/**
+ * Page d'accueil, commune aux deux langues : seules les chaînes changent.
+ */
+import Base from '../layouts/Base.astro';
+import BrandSprite from './BrandSprite.astro';
+import Hero from './Hero.astro';
+import SectionHead from './SectionHead.astro';
+import CaseCard from './CaseCard.astro';
+import AcademicGrid from './AcademicGrid.astro';
+import SkillsBento from './SkillsBento.astro';
+import Timeline from './Timeline.astro';
+import Contact from './Contact.astro';
+import { ui, t, type Lang } from '../i18n/ui';
+import { profile } from '../data/profile';
+import { cases } from '../data/projects';
+import { domains } from '../data/skills';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const fr = lang === 'fr';
+
+const ids = fr
+  ? { projects: 'projets', skills: 'competences', path: 'parcours', contact: 'contact' }
+  : { projects: 'projects', skills: 'skills', path: 'background', contact: 'contact' };
+
+const nav = [
+  { href: `#${ids.projects}`, label: t(ui.nav.projects, lang) },
+  { href: `#${ids.skills}`, label: t(ui.nav.skills, lang) },
+  { href: `#${ids.path}`, label: t(ui.nav.path, lang) },
+  { href: `#${ids.contact}`, label: t(ui.nav.contact, lang) },
+];
+
+const slugs = [
+  ...domains.flatMap((d) => d.groups.flatMap((g) => g.items.map((i) => i.icon))),
+  ...cases.flatMap((c) => c.stack.map((s) => s.icon)),
+].filter((s): s is string => Boolean(s));
+
+const title = fr ? 'Salem Benzineh — Data engineer & développeur full-stack' : 'Salem Benzineh — Data engineer & full-stack developer';
+const description = fr
+  ? 'Salem Benzineh, étudiant en Master 2 Informatique SIGLIS à l’UPPA (Anglet). Data engineering, data analyse et développement full-stack. Recherche une alternance dès septembre 2026.'
+  : 'Salem Benzineh, Master 2 Computer Science student (SIGLIS track) at the Université de Pau et des Pays de l’Adour, Anglet. Data engineering, data analysis and full-stack development. Looking for an apprenticeship from September 2026.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  jobTitle: fr ? 'Data engineer et développeur full-stack' : 'Data engineer and full-stack developer',
+  email: `mailto:${profile.email}`,
+  url: `${profile.site}${fr ? '/' : '/en/'}`,
+  image: `${profile.site}/assets/og.png`,
+  address: { '@type': 'PostalAddress', addressLocality: 'Anglet', addressRegion: 'Pyrénées-Atlantiques', addressCountry: 'FR' },
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'Université de Pau et des Pays de l’Adour' },
+    { '@type': 'CollegeOrUniversity', name: 'Université d’Alger 1' },
+  ],
+  knowsLanguage: ['ar', 'fr', 'en'],
+  sameAs: [profile.linkedin, profile.github],
+};
+---
+<Base lang={lang} title={title} description={description}
+      path={fr ? '/' : '/en/'} altPath={fr ? '/en/' : '/'}
+      nav={nav} ogType="profile" jsonLd={jsonLd}>
+  <BrandSprite slugs={slugs} />
+
+  <Hero lang={lang} />
+
+  <section id={ids.projects} class="relative scroll-mt-16 py-20 sm:py-28" aria-labelledby="h-projects">
+    <div class="wrap">
+      <SectionHead id="h-projects" index="01" eyebrow={t(ui.sections.projects.eyebrow, lang)}
+                   title={t(ui.sections.projects.title, lang)} lede={t(ui.sections.projects.lede, lang)} />
+      <div class="grid gap-8">
+        {cases.map((c, i) => <CaseCard project={c} lang={lang} index={i + 1} />)}
+      </div>
+      <AcademicGrid lang={lang} />
+    </div>
+  </section>
+
+  <section id={ids.skills} class="relative isolate scroll-mt-16 border-y border-rule bg-bg-alt/60 py-20 sm:py-28" aria-labelledby="h-skills">
+    <div aria-hidden="true" class="dot-grid absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,transparent,#000_20%,#000_80%,transparent)]"></div>
+    <div class="wrap">
+      <SectionHead id="h-skills" index="02" eyebrow={t(ui.sections.skills.eyebrow, lang)}
+                   title={t(ui.sections.skills.title, lang)} lede={t(ui.sections.skills.lede, lang)} />
+      <SkillsBento lang={lang} />
+    </div>
+  </section>
+
+  <section id={ids.path} class="relative scroll-mt-16 py-20 sm:py-28" aria-labelledby="h-path">
+    <div class="wrap">
+      <SectionHead id="h-path" index="03" eyebrow={t(ui.sections.path.eyebrow, lang)} title={t(ui.sections.path.title, lang)} />
+      <Timeline lang={lang} />
+    </div>
+  </section>
+
+  <section id={ids.contact} class="relative scroll-mt-16 pb-24 sm:pb-32" aria-labelledby="contact-title">
+    <div class="wrap">
+      <Contact lang={lang} />
+    </div>
+  </section>
+</Base>

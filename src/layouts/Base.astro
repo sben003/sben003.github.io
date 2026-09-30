@@ -1,0 +1,95 @@
+---
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '../styles/global.css';
+// Mêmes fichiers que ceux déclarés par @fontsource : Vite les dédoublonne.
+import geistLatin from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import geistMonoLatin from '@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2?url';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { ui, t, type Lang } from '../i18n/ui';
+import { profile } from '../data/profile';
+
+export interface NavItem { href: string; label: string }
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Résumé plus court pour les aperçus de partage ; `description` sinon. */
+  ogDescription?: string;
+  /** Chemin de cette page, ex. « /vigie-ocean/ ». */
+  path: string;
+  /** Chemin de la même page dans l'autre langue. */
+  altPath: string;
+  nav: NavItem[];
+  ogType?: 'website' | 'profile' | 'article';
+  progress?: boolean;
+  jsonLd?: Record<string, unknown>;
+}
+
+const { lang, title, description, ogDescription = description, path, altPath, nav, ogType = 'website', progress = false, jsonLd } = Astro.props;
+const site = profile.site;
+const url = site + path;
+const [frPath, enPath] = lang === 'fr' ? [path, altPath] : [altPath, path];
+const og = `${site}/assets/og.png`;
+---
+<!doctype html>
+<html lang={lang} data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={profile.name} />
+    <meta name="theme-color" content="#0a0a0b" />
+    <link rel="canonical" href={url} />
+    <link rel="alternate" hreflang="fr" href={site + frPath} />
+    <link rel="alternate" hreflang="en" href={site + enPath} />
+    <link rel="alternate" hreflang="x-default" href={site + frPath} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_GB'} />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={og} />
+
+    <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={geistMonoLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Thème appliqué avant le premier rendu : sombre par défaut, clair si choisi.
+         La classe « js » active les améliorations progressives (apparitions). -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        try { if (localStorage.getItem('sb-theme') === 'light') d.dataset.theme = 'light'; } catch (e) {}
+      })();
+    </script>
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body class="min-h-dvh">
+    {progress && <div class="progress" aria-hidden="true"></div>}
+    <a class="skip-link" href="#contenu">{t(ui.skip, lang)}</a>
+    <Header lang={lang} nav={nav} altPath={altPath} />
+    <main id="contenu">
+      <slot />
+    </main>
+    <Footer lang={lang} altPath={altPath} />
+    <div class="toast" data-toast role="status" aria-live="polite"></div>
+    <script>
+      import '../scripts/main.ts';
+    </script>
+  </body>
+</html>

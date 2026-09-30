@@ -1,0 +1,74 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import portrait from '../assets/portrait.jpg';
+import trace from '../content/charts/trace.html?raw';
+import { ui, t, type Lang } from '../i18n/ui';
+import { profile, heroStats } from '../data/profile';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const anchors = lang === 'fr' ? { projects: '#projets', contact: '#contact' } : { projects: '#projects', contact: '#contact' };
+---
+<section class="relative isolate overflow-hidden" aria-labelledby="hero-title">
+  <!-- Fond : trame de relevé, halo cuivré, et une vraie série de mesures -->
+  <div aria-hidden="true" class="dot-grid absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_80%_70%_at_50%_0%,#000_40%,transparent_100%)]"></div>
+  <div aria-hidden="true" class="absolute -top-40 right-[-10%] -z-10 size-[42rem] rounded-full opacity-60 blur-3xl [background:radial-gradient(circle,var(--accent-glow),transparent_62%)]"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[62%] [mask-image:linear-gradient(to_top,#000_15%,rgb(0_0_0/.45)_55%,transparent_95%)]" set:html={trace}></div>
+
+  <div class="wrap grid items-center gap-12 pt-14 pb-10 lg:grid-cols-[1.3fr_.7fr] lg:gap-16 lg:pt-24 lg:pb-16">
+    <div>
+      <p class="status m-0">
+        <span class="status__dot" aria-hidden="true"></span>
+        {t(ui.hero.status, lang)}
+      </p>
+
+      <p class="eyebrow mt-8 mb-0">{t(ui.hero.roles, lang)}</p>
+      <h1 id="hero-title"
+          class="mt-3 mb-0 bg-gradient-to-b from-ink from-35% to-ink/55 bg-clip-text text-[clamp(2.8rem,8vw,5.25rem)] leading-[.98] font-semibold tracking-[-.045em] text-transparent">
+        {profile.name}
+      </h1>
+      <p class="mt-6 mb-0 max-w-[34ch] text-[clamp(1.2rem,2.6vw,1.6rem)] leading-snug font-medium tracking-tight text-ink">
+        {t(ui.hero.hook, lang)}
+      </p>
+      <p class="mt-5 mb-0 max-w-[58ch] text-[1.02rem] leading-relaxed text-muted">{t(ui.hero.sub, lang)}</p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-3">
+        <a class="btn btn--primary" href={anchors.projects}>{t(ui.hero.ctaProjects, lang)} <Icon name="arrow-right" /></a>
+        <a class="btn" href={anchors.contact}><Icon name="mail" /> {t(ui.hero.ctaContact, lang)}</a>
+        {profile.cv && <a class="btn" href={profile.cv} download><Icon name="download" /> {t(ui.hero.ctaCv, lang)}</a>}
+        <span class="mx-1 hidden h-6 w-px bg-rule-strong sm:block" aria-hidden="true"></span>
+        <a class="btn btn--icon" href={profile.github} rel="me noopener" target="_blank" aria-label="GitHub"><Icon name="github" /></a>
+        <a class="btn btn--icon" href={profile.linkedin} rel="me noopener" target="_blank" aria-label="LinkedIn"><Icon name="linkedin" /></a>
+      </div>
+    </div>
+
+    <figure class="relative m-0 mx-auto w-full max-w-[21rem] lg:max-w-none">
+      <div class="relative rounded-[1.75rem] p-px [background:linear-gradient(160deg,var(--accent),transparent_45%,var(--rule-strong))] shadow-[0_30px_80px_-30px_var(--accent-glow)]">
+        <Picture src={portrait} alt={t(ui.hero.portraitAlt, lang)}
+                 formats={['avif', 'webp']} widths={[320, 480, 640, 860]}
+                 sizes="(min-width: 1024px) 330px, 336px"
+                 loading="eager" fetchpriority="high"
+                 class="block aspect-[4/5] w-full rounded-[calc(1.75rem-1px)] object-cover object-[50%_28%]" />
+      </div>
+      <figcaption class="absolute -bottom-4 left-4 inline-flex items-center gap-2 rounded-full border border-rule-strong bg-surface/90 px-3 py-1.5 text-xs text-ink-soft shadow-lg backdrop-blur">
+        <Icon name="map-pin" class="size-3.5 text-accent-ink" /> {t(ui.hero.location, lang)}
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="wrap pb-6">
+    <dl class="m-0 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-rule bg-rule lg:grid-cols-4">
+      {heroStats.map((s) => (
+        <div class="bg-surface/85 px-5 py-5 backdrop-blur">
+          <dt class="font-mono text-[.68rem] tracking-[.12em] text-muted uppercase">{t(s.label, lang)}</dt>
+          <dd class="m-0 mt-1.5 font-mono text-[clamp(1.35rem,3vw,1.8rem)] font-semibold tracking-tight text-accent-ink tabular-nums"
+              data-count={s.value} data-decimals={s.decimals ?? 0} data-prefix={s.prefix ? t(s.prefix, lang) : ''} data-suffix={s.suffix ? t(s.suffix, lang) : ''} data-lang={lang}>
+            {t(s.display, lang)}
+          </dd>
+        </div>
+      ))}
+    </dl>
+    <p class="mt-3 mb-0 text-right font-mono text-[.66rem] text-muted/80">{t(ui.hero.traceNote, lang)}</p>
+  </div>
+</section>

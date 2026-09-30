@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+import { ui, t, type Lang } from '../i18n/ui';
+import { profile } from '../data/profile';
+
+interface Props { lang: Lang; altPath: string; }
+const { lang, altPath } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer class="border-t border-rule">
+  <div class="wrap flex flex-col gap-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+    <p class="m-0">© {year} {profile.name} · {t(ui.footer.built, lang)}</p>
+    <div class="flex items-center gap-4">
+      <a href={profile.repo} class="inline-flex items-center gap-1.5 text-muted no-underline hover:text-ink" rel="noopener" target="_blank">
+        <Icon name="github" /> {t(ui.footer.source, lang)}
+      </a>
+      <a href={altPath} hreflang={lang === 'fr' ? 'en' : 'fr'} lang={lang === 'fr' ? 'en' : 'fr'} class="text-muted underline decoration-rule-strong underline-offset-4 hover:text-ink">
+        {t(ui.footer.other, lang)}
+      </a>
+    </div>
+  </div>
+</footer>

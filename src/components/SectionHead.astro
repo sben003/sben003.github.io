@@ -1,0 +1,21 @@
+---
+interface Props {
+  id: string;
+  index: string;
+  eyebrow: string;
+  title: string;
+  lede?: string;
+}
+const { id, index, eyebrow, title, lede } = Astro.props;
+---
+<header class="mb-10 grid gap-4 md:mb-14 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-end md:gap-12" data-reveal>
+  <div>
+    <p class="eyebrow m-0 flex items-center gap-3">
+      <span class="text-muted">{index}</span>
+      <span class="h-px w-8 bg-rule-strong" aria-hidden="true"></span>
+      {eyebrow}
+    </p>
+    <h2 id={id} class="mt-4 mb-0 text-[clamp(2rem,5vw,3.1rem)] leading-[1.05] font-semibold tracking-[-.035em] text-ink">{title}</h2>
+  </div>
+  {lede && <p class="m-0 max-w-[56ch] text-[1.02rem] leading-relaxed text-muted md:justify-self-end">{lede}</p>}
+</header>

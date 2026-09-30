@@ -1,0 +1,79 @@
+---
+/**
+ * Parcours compact : l'expérience sur une ligne de temps à gauche,
+ * la formation et les langues à droite.
+ */
+import Icon from './Icon.astro';
+import { ui, t, type Lang } from '../i18n/ui';
+import { experience, education, languages } from '../data/timeline';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+---
+<div class="grid gap-10 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:gap-14">
+  <section aria-labelledby="tl-exp">
+    <h3 id="tl-exp" class="m-0 mb-6 font-mono text-[.7rem] font-normal tracking-[.14em] text-muted uppercase">{t(ui.path.experience, lang)}</h3>
+    <ol class="relative m-0 list-none p-0 before:absolute before:top-2 before:bottom-2 before:left-[5px] before:w-px before:bg-gradient-to-b before:from-accent before:via-rule-strong before:to-transparent">
+      {experience.map((job, i) => (
+        <li class="relative pb-10 pl-8 last:pb-0" data-reveal>
+          <span class:list={[
+            'absolute top-1.5 left-0 size-[11px] rounded-full border-2 border-bg',
+            i === 0 ? 'bg-accent shadow-[0_0_0_4px_var(--accent-wash),0_0_16px_var(--accent-glow)]' : 'bg-rule-strong',
+          ]} aria-hidden="true"></span>
+          <p class="m-0 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[.72rem] text-muted">
+            <span class="text-accent-ink">{t(job.when, lang)}</span>
+            <span aria-hidden="true">·</span>
+            <span>{t(job.kind, lang)}</span>
+          </p>
+          <h4 class="mt-1.5 mb-0 text-[1.15rem] font-semibold tracking-tight text-ink">
+            {t(job.role, lang)} <span class="font-normal text-muted">— {t(job.org, lang)}</span>
+          </h4>
+          <p class="mt-2 mb-0 max-w-[62ch] text-[.95rem] leading-relaxed text-ink-soft">{t(job.summary, lang)}</p>
+          <ul class="mt-3 mb-0 grid list-none gap-1.5 p-0 text-[.88rem] leading-relaxed text-muted">
+            {job.points.map((pt) => (
+              <li class="relative pl-4 before:absolute before:top-[.72em] before:left-0 before:h-px before:w-2 before:bg-rule-strong">{t(pt, lang)}</li>
+            ))}
+          </ul>
+          <div class="mt-4 flex flex-wrap items-center gap-1.5">
+            {job.tags.map((tag) => (
+              <span class="rounded-md border border-rule bg-surface-2 px-2 py-0.5 font-mono text-[.68rem] text-ink-soft">{tag}</span>
+            ))}
+            {job.href && (
+              <a href={t(job.href, lang)} class="ml-1 inline-flex items-center gap-1 text-[.82rem] font-medium text-accent-ink no-underline hover:underline">
+                {t(ui.path.read, lang)} <Icon name="arrow-up-right" class="size-3.5" />
+              </a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <div class="grid content-start gap-10">
+    <section aria-labelledby="tl-edu" data-reveal>
+      <h3 id="tl-edu" class="m-0 mb-6 font-mono text-[.7rem] font-normal tracking-[.14em] text-muted uppercase">{t(ui.path.education, lang)}</h3>
+      <ol class="card m-0 list-none divide-y divide-rule p-0">
+        {education.map((e) => (
+          <li class="px-5 py-4">
+            <p class="m-0 font-mono text-[.7rem] text-accent-ink">{e.when}</p>
+            <p class="mt-1 mb-0 text-[.95rem] leading-snug font-semibold text-ink">{t(e.title, lang)}</p>
+            <p class="mt-0.5 mb-0 text-[.84rem] text-muted">{t(e.school, lang)}</p>
+            {e.note && <p class="mt-1.5 mb-0 text-[.78rem] text-muted italic">{t(e.note, lang)}</p>}
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section aria-labelledby="tl-lang" data-reveal>
+      <h3 id="tl-lang" class="m-0 mb-4 font-mono text-[.7rem] font-normal tracking-[.14em] text-muted uppercase">{t(ui.path.languages, lang)}</h3>
+      <dl class="m-0 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-rule bg-rule">
+        {languages.map((l) => (
+          <div class="flex flex-col bg-surface px-4 py-3.5">
+            <dt class="text-[.92rem] font-semibold text-ink">{t(l.name, lang)}</dt>
+            <dd class="m-0 mt-0.5 text-[.76rem] leading-snug text-muted">{t(l.level, lang)}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  </div>
+</div>

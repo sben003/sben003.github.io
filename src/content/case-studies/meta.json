@@ -1,0 +1,158 @@
+{
+  "vigie-ocean.fr": {
+    "title": "Vigie Océan — étude de cas · Salem Benzineh",
+    "description": "Étude de cas : conception et mise en production d'une plateforme de supervision environnementale marine de la côte basque. Ingestion multi-format, TimescaleDB, FastAPI, React — sept conteneurs Docker, de la sonde immergée à l'analyste.",
+    "ogDescription": "De la sonde immergée à l'analyste : ingestion multi-format, TimescaleDB compressé ×12,7, API FastAPI sous 50 ms, correction scientifique réversible.",
+    "nav": [
+      {
+        "href": "#contexte",
+        "label": "Contexte"
+      },
+      {
+        "href": "#stations",
+        "label": "Stations"
+      },
+      {
+        "href": "#architecture",
+        "label": "Architecture"
+      },
+      {
+        "href": "#ingestion",
+        "label": "Ingestion"
+      },
+      {
+        "href": "#stockage",
+        "label": "Stockage"
+      },
+      {
+        "href": "#api",
+        "label": "API"
+      },
+      {
+        "href": "#interface",
+        "label": "Interface"
+      },
+      {
+        "href": "#correction",
+        "label": "Correction"
+      },
+      {
+        "href": "#resultats",
+        "label": "Résultats"
+      }
+    ]
+  },
+  "vigie-ocean.en": {
+    "title": "Vigie Océan — case study · Salem Benzineh",
+    "description": "Case study: designing and shipping a marine environmental monitoring platform for the Basque coast. Multi-format ingestion, TimescaleDB, FastAPI, React — seven Docker containers, from the submerged probe to the analyst.",
+    "ogDescription": "From the submerged probe to the analyst: multi-format ingestion, TimescaleDB compressed 12.7×, a FastAPI backend under 50 ms, and reversible scientific correction.",
+    "nav": [
+      {
+        "href": "#context",
+        "label": "Context"
+      },
+      {
+        "href": "#stations",
+        "label": "Stations"
+      },
+      {
+        "href": "#architecture",
+        "label": "Architecture"
+      },
+      {
+        "href": "#ingestion",
+        "label": "Ingestion"
+      },
+      {
+        "href": "#storage",
+        "label": "Storage"
+      },
+      {
+        "href": "#api",
+        "label": "API"
+      },
+      {
+        "href": "#interface",
+        "label": "Interface"
+      },
+      {
+        "href": "#correction",
+        "label": "Correction"
+      },
+      {
+        "href": "#results",
+        "label": "Results"
+      }
+    ]
+  },
+  "entrepot-donnees.fr": {
+    "title": "Entrepôt de données — étude de cas · Salem Benzineh",
+    "description": "Étude de cas : conception d'une chaîne décisionnelle complète — modélisation en étoile selon Kimball, ETL sous Talend Open Studio, entrepôt MySQL, cube OLAP Pentaho et restitution Power BI.",
+    "ogDescription": "De la source au tableau de bord : schéma en étoile selon Kimball, ETL Talend, entrepôt MySQL, cube OLAP Pentaho, restitution Power BI.",
+    "nav": [
+      {
+        "href": "#besoin",
+        "label": "Le besoin"
+      },
+      {
+        "href": "#modele",
+        "label": "Modèle"
+      },
+      {
+        "href": "#etl",
+        "label": "ETL"
+      },
+      {
+        "href": "#entrepot",
+        "label": "Entrepôt"
+      },
+      {
+        "href": "#cube",
+        "label": "Cube OLAP"
+      },
+      {
+        "href": "#restitution",
+        "label": "Restitution"
+      },
+      {
+        "href": "#bilan",
+        "label": "Bilan"
+      }
+    ]
+  },
+  "entrepot-donnees.en": {
+    "title": "Data warehouse — case study · Salem Benzineh",
+    "description": "Case study: building a complete business-intelligence chain — Kimball dimensional modelling, ETL in Talend Open Studio, a MySQL warehouse, a Pentaho OLAP cube and Power BI reporting.",
+    "ogDescription": "From source to dashboard: a Kimball star schema, a Talend ETL chain, a MySQL warehouse, a Pentaho OLAP cube and Power BI reporting.",
+    "nav": [
+      {
+        "href": "#need",
+        "label": "The need"
+      },
+      {
+        "href": "#model",
+        "label": "Model"
+      },
+      {
+        "href": "#etl",
+        "label": "ETL"
+      },
+      {
+        "href": "#warehouse",
+        "label": "Warehouse"
+      },
+      {
+        "href": "#cube",
+        "label": "OLAP cube"
+      },
+      {
+        "href": "#reporting",
+        "label": "Reporting"
+      },
+      {
+        "href": "#review",
+        "label": "Review"
+      }
+    ]
+  }
+}

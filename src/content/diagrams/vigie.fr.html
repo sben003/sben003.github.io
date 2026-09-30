@@ -1,0 +1,160 @@
+<figure class="diagram">
+        <svg class="diagram__wide" viewBox="0 0 940 405" role="img" aria-labelledby="dlg-ar-t dlg-ar-d">
+          <title id="dlg-ar-t">Infrastructure de Vigie Océan</title>
+          <desc id="dlg-ar-d">Les sondes déposent leurs fichiers sur le conteneur ftp ; le conteneur d'ingestion les parse et insère dans la base TimescaleDB ; l'API FastAPI lit la base ; le proxy nginx expose l'API et le frontend React à l'analyste ; pgadmin administre la base ; les prédictions de marée alimentent l'API.</desc>
+
+          <!-- Rangée 1 : acquisition -->
+          <g>
+            <rect class="dg-box dg-box--ext" x="20" y="56" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="33" y="74">EXTERNE</text>
+            <text class="dg-title" x="33" y="95">Sondes de terrain</text>
+            <text class="dg-sub" x="33" y="112">Observator · NKE WiMo</text>
+            <text class="dg-sub" x="33" y="125">liaison 4G</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="253" y="56" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="266" y="74">01</text>
+            <text class="dg-title" x="266" y="95">ftp</text>
+            <text class="dg-sub" x="266" y="112">vsftpd, mode passif</text>
+            <text class="dg-sub" x="266" y="125">dépôt des relevés bruts</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="487" y="56" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="500" y="74">02</text>
+            <text class="dg-title" x="500" y="95">ingestion</text>
+            <text class="dg-sub" x="500" y="112">démon Python ETL</text>
+            <text class="dg-sub" x="500" y="125">détecte · parse · valide · UTC</text>
+          </g>
+          <g>
+            <rect class="dg-box dg-box--accent" x="720" y="56" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="733" y="74">03</text>
+            <text class="dg-title" x="733" y="95">db</text>
+            <text class="dg-sub" x="733" y="112">TimescaleDB / PG 16</text>
+            <text class="dg-sub" x="733" y="125">hypertable · 15 chunks</text>
+          </g>
+
+          <path class="dg-line" d="M222 94 H246"/><polygon class="dg-arrow" points="246,90 253,94 246,98"/>
+          <path class="dg-line" d="M455 94 H480"/><polygon class="dg-arrow" points="480,90 487,94 480,98"/>
+          <path class="dg-line" d="M689 94 H713"/><polygon class="dg-arrow" points="713,90 720,94 713,98"/>
+
+          <!-- Liaison db <-> api (coude) et db <-> pgadmin -->
+          <path class="dg-line" d="M760 132 V170 H587 V197"/>
+          <polygon class="dg-arrow" points="583,197 591,197 587,204"/>
+          <polygon class="dg-arrow" points="756,139 764,139 760,132"/>
+          <text class="dg-edge" x="600" y="165">SQLAlchemy</text>
+
+          <path class="dg-line" d="M860 132 V197"/>
+          <polygon class="dg-arrow" points="856,197 864,197 860,204"/>
+
+          <!-- Rangée 2 : restitution -->
+          <g>
+            <rect class="dg-box dg-box--ext" x="20" y="204" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="33" y="222">EXTERNE</text>
+            <text class="dg-title" x="33" y="243">Analyste</text>
+            <text class="dg-sub" x="33" y="260">navigateur</text>
+            <text class="dg-sub" x="33" y="273">HTTP 80 / 443</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="253" y="204" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="266" y="222">06</text>
+            <text class="dg-title" x="266" y="243">nginx</text>
+            <text class="dg-sub" x="266" y="260">proxy inverse + gzip</text>
+            <text class="dg-sub" x="266" y="273">sert la SPA et /api/*</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="487" y="204" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="500" y="222">04</text>
+            <text class="dg-title" x="500" y="243">api</text>
+            <text class="dg-sub" x="500" y="260">FastAPI + Pandas</text>
+            <text class="dg-sub" x="500" y="273">time_bucket · seuils · export</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="720" y="204" width="200" height="76" rx="3"/>
+            <text class="dg-step" x="733" y="222">07</text>
+            <text class="dg-title" x="733" y="243">pgadmin</text>
+            <text class="dg-sub" x="733" y="260">administration</text>
+            <text class="dg-sub" x="733" y="273">de la base</text>
+          </g>
+
+          <path class="dg-line" d="M222 242 H246"/>
+          <polygon class="dg-arrow" points="246,238 253,242 246,246"/>
+          <polygon class="dg-arrow" points="229,238 222,242 229,246"/>
+          <path class="dg-line" d="M455 242 H480"/>
+          <polygon class="dg-arrow" points="480,238 487,242 480,246"/>
+          <polygon class="dg-arrow" points="462,238 455,242 462,246"/>
+
+          <!-- Rangée 3 -->
+          <g>
+            <rect class="dg-box" x="253" y="330" width="200" height="60" rx="3"/>
+            <text class="dg-step" x="266" y="347">05</text>
+            <text class="dg-title" x="266" y="367">web-app</text>
+            <text class="dg-sub" x="266" y="382">React / TypeScript (build)</text>
+          </g>
+          <g>
+            <rect class="dg-box dg-box--ext" x="487" y="330" width="200" height="60" rx="3"/>
+            <text class="dg-step" x="500" y="347">EXTERNE</text>
+            <text class="dg-title" x="500" y="367">maree.info / 140</text>
+            <text class="dg-sub" x="500" y="382">Bayonne — Boucau</text>
+          </g>
+
+          <path class="dg-line" d="M353 280 V323"/><polygon class="dg-arrow" points="349,323 357,323 353,330"/>
+          <path class="dg-line" d="M587 330 V291"/><polygon class="dg-arrow" points="583,291 591,291 587,284"/>
+        </svg>
+
+        <svg class="diagram__tall" viewBox="0 0 300 700" role="img" aria-labelledby="dlg-ar-tm dlg-ar-dm">
+          <title id="dlg-ar-tm">Infrastructure de Vigie Océan</title>
+          <desc id="dlg-ar-dm">Les sondes déposent leurs fichiers sur le conteneur ftp ; le conteneur d'ingestion les parse et insère dans la base TimescaleDB ; l'API FastAPI lit la base ; le proxy nginx sert le frontend React à l'analyste ; pgadmin administre la base.</desc>
+
+          <g><rect class="dg-box dg-box--ext" x="20" y="8" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="25">EXTERNE</text>
+            <text class="dg-title" x="33" y="45">Sondes de terrain</text>
+            <text class="dg-sub" x="33" y="62">Observator · NKE WiMo · 4G</text></g>
+          <path class="dg-line" d="M150 74 V89"/><polygon class="dg-arrow" points="146,89 154,89 150,96"/>
+
+          <g><rect class="dg-box" x="20" y="96" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="113">01</text>
+            <text class="dg-title" x="33" y="133">ftp — vsftpd</text>
+            <text class="dg-sub" x="33" y="150">dépôt des relevés bruts</text></g>
+          <path class="dg-line" d="M150 162 V177"/><polygon class="dg-arrow" points="146,177 154,177 150,184"/>
+
+          <g><rect class="dg-box" x="20" y="184" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="201">02</text>
+            <text class="dg-title" x="33" y="221">ingestion</text>
+            <text class="dg-sub" x="33" y="238">détecte · parse · valide · UTC</text></g>
+          <path class="dg-line" d="M150 250 V265"/><polygon class="dg-arrow" points="146,265 154,265 150,272"/>
+
+          <g><rect class="dg-box dg-box--accent" x="20" y="272" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="289">03</text>
+            <text class="dg-title" x="33" y="309">db — TimescaleDB</text>
+            <text class="dg-sub" x="33" y="326">hypertable · 15 chunks</text></g>
+          <path class="dg-line" d="M150 338 V353"/><polygon class="dg-arrow" points="146,353 154,353 150,360"/>
+
+          <g><rect class="dg-box" x="20" y="360" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="377">04</text>
+            <text class="dg-title" x="33" y="397">api — FastAPI</text>
+            <text class="dg-sub" x="33" y="414">time_bucket · seuils · export</text></g>
+          <path class="dg-line" d="M150 426 V441"/><polygon class="dg-arrow" points="146,441 154,441 150,448"/>
+
+          <g><rect class="dg-box" x="20" y="448" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="465">05 · 06</text>
+            <text class="dg-title" x="33" y="485">nginx + web-app</text>
+            <text class="dg-sub" x="33" y="502">proxy inverse · SPA React</text></g>
+          <path class="dg-line" d="M150 514 V529"/><polygon class="dg-arrow" points="146,529 154,529 150,536"/>
+
+          <g><rect class="dg-box dg-box--ext" x="20" y="536" width="260" height="66" rx="3"/>
+            <text class="dg-step" x="33" y="553">EXTERNE</text>
+            <text class="dg-title" x="33" y="573">Analyste</text>
+            <text class="dg-sub" x="33" y="590">navigateur · HTTP 80 / 443</text></g>
+
+          <g><rect class="dg-box" x="20" y="624" width="260" height="60" rx="3"/>
+            <text class="dg-step" x="33" y="641">07</text>
+            <text class="dg-title" x="33" y="661">pgadmin</text>
+            <text class="dg-sub" x="33" y="677">administration de la base</text></g>
+        </svg>
+
+        <figcaption>
+          Sept conteneurs orchestrés par un unique fichier Docker Compose, sur une VM Google Cloud
+          sous Linux. Développement sous Windows — l'écart entre les deux a coûté du temps
+          sur les fins de ligne et le comportement des volumes.
+        </figcaption>
+      </figure>

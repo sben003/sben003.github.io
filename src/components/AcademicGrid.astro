@@ -1,0 +1,30 @@
+---
+import { ui, t, type Lang } from '../i18n/ui';
+import { academic } from '../data/projects';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+---
+<div class="mt-16" data-reveal>
+  <div class="mb-6 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2">
+    <h3 class="m-0 text-xl font-semibold tracking-tight text-ink">{t(ui.project.others, lang)}</h3>
+    <p class="m-0 max-w-[52ch] text-[.9rem] text-muted">{t(ui.project.othersLede, lang)}</p>
+  </div>
+  <ul class="m-0 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-4">
+    {academic.map((a) => (
+      <li class="card flex flex-col p-5">
+        <p class="eyebrow m-0 text-[.64rem]">{t(a.kicker, lang)}</p>
+        <h4 class="mt-2.5 mb-0 text-[1.02rem] leading-snug font-semibold tracking-tight text-ink">{t(a.name, lang)}</h4>
+        <p class="mt-2 mb-0 text-[.86rem] leading-relaxed text-muted">{t(a.summary, lang)}</p>
+        <div class="mt-auto pt-5">
+          <ul class="m-0 flex list-none flex-wrap gap-1.5 p-0">
+            {a.stack.map((s) => (
+              <li class="rounded-md border border-rule bg-surface-2 px-2 py-0.5 font-mono text-[.68rem] text-ink-soft">{s}</li>
+            ))}
+          </ul>
+          <p class="mt-4 mb-0 border-t border-rule pt-3 font-mono text-[.66rem] text-muted">{t(a.context, lang)}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>

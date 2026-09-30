@@ -1,0 +1,101 @@
+id_vente,id_Temps,id_produit,id_colorant,id_origine,id_Fournisseur,quantite_kg,score_sante,score_env,montant_vente,Date,trimestre,nom_produit,catégorie,nom_colorant,type_colorant,code_E,prix unitaire,source,nature,nom_Fournisseur,Pays,Certification
+1,5,41,60,8,34,63.33,33.0,7.000000000000001,715.0,2023-01-05,T1,Céréales bio,Boisson,Betterave,Naturel,E140,11.29,Plante,Biologique,PureNature,France,ISO 22000
+2,74,13,19,63,38,14.48,10.0,10.0,154.21,2023-03-15,T1,Boisson végétale,Boulangerie,Spiruline,Naturel,E140,10.65,Épice,Conventionnelle,ColorBio,Inde,Bio
+3,87,22,41,73,97,81.39,3.0,67.0,790.3,2023-03-28,T1,Céréales bio,Boulangerie,Hibiscus,Synthétique,E100,9.71,Algue,Conventionnelle,BioColorant,Brésil,Bio
+4,26,85,99,70,49,53.35,56.99999999999999,2.0,120.04,2023-01-26,T1,Pâtisserie artisanale,Laitier,Paprika,Synthétique,E162,2.25,Légume,Conventionnelle,GreenExtract,Inde,Bio
+5,76,93,81,62,54,56.19,99.0,48.0,635.51,2023-03-17,T1,Bonbon gélifié,Confiserie,Paprika,Naturel,E160c,11.31,Fleur,Conventionnelle,ColorBio,Maroc,Bio
+6,14,30,50,43,24,91.51,90.0,48.0,840.98,2023-01-14,T1,Céréales bio,Confiserie,Paprika,Synthétique,E160c,9.19,Algue,Biologique,NatFood,Brésil,ISO 22000
+7,83,22,83,93,20,71.41,25.0,74.0,154.96,2023-03-24,T1,Céréales bio,Boulangerie,Curcuma,Synthétique,E162,2.17,Plante,Conventionnelle,ColorBio,Inde,ISO 22000
+8,57,42,11,89,1,23.01,16.0,52.0,216.29,2023-02-26,T1,Bonbon gélifié,Boulangerie,Spiruline,Synthétique,E140,9.4,Algue,Biologique,ColorBio,Maroc,Non certifié
+9,10,20,67,61,46,58.82,72.0,44.0,179.99,2023-01-10,T1,Yaourt aux fruits,Petit-déjeuner,Betterave,Synthétique,E163,3.06,Légume,Conventionnelle,ColorBio,Maroc,ISO 22000
+10,100,88,44,36,89,17.73,86.0,80.0,120.39,2023-04-10,T2,Pâtisserie artisanale,Confiserie,Curcuma,Naturel,E140,6.79,Épice,Biologique,PureNature,Maroc,ISO 22000
+11,71,77,57,100,44,72.52,4.0,91.0,627.3,2023-03-12,T1,Boisson végétale,Petit-déjeuner,Betterave,Naturel,E160c,8.65,Fleur,Conventionnelle,ColorBio,France,ISO 22000
+12,13,56,45,23,7,29.08,40.0,23.0,275.39,2023-01-13,T1,Pâtisserie artisanale,Laitier,Betterave,Naturel,E140,9.47,Plante,Conventionnelle,ColorBio,Maroc,ISO 22000
+13,55,40,75,50,59,17.73,44.0,70.0,185.46,2023-02-24,T1,Boisson végétale,Petit-déjeuner,Spiruline,Naturel,E100,10.46,Épice,Conventionnelle,ColorBio,France,Non certifié
+14,22,20,51,26,58,37.54,38.0,85.0,251.52,2023-01-22,T1,Yaourt aux fruits,Petit-déjeuner,Curcuma,Synthétique,E140,6.7,Plante,Conventionnelle,NatFood,Allemagne,Bio
+15,54,32,3,60,31,80.67,55.00000000000001,19.0,498.54,2023-02-23,T1,Céréales bio,Laitier,Betterave,Synthétique,E162,6.18,Algue,Conventionnelle,PureNature,Allemagne,ISO 22000
+16,52,2,3,42,37,83.93,40.0,17.0,518.69,2023-02-21,T1,Pâtisserie artisanale,Boisson,Betterave,Synthétique,E162,6.18,Épice,Conventionnelle,BioColorant,France,Non certifié
+17,79,10,44,55,18,16.52,98.0,11.0,112.17,2023-03-20,T1,Pâtisserie artisanale,Laitier,Curcuma,Naturel,E140,6.79,Plante,Conventionnelle,GreenExtract,Allemagne,Non certifié
+18,22,9,17,65,45,64.75,66.0,65.0,389.15,2023-01-22,T1,Céréales bio,Confiserie,Hibiscus,Naturel,E160c,6.01,Épice,Biologique,GreenExtract,Inde,Bio
+19,31,8,67,12,84,64.62,76.0,75.0,197.74,2023-01-31,T1,Bonbon gélifié,Laitier,Betterave,Synthétique,E163,3.06,Fleur,Biologique,NatFood,Maroc,Bio
+20,27,8,16,68,22,62.63,11.0,50.0,427.76,2023-01-27,T1,Bonbon gélifié,Laitier,Paprika,Naturel,E140,6.83,Épice,Biologique,PureNature,Inde,Non certifié
+21,57,21,77,89,56,59.78,83.0,71.0,696.44,2023-02-26,T1,Pâtisserie artisanale,Petit-déjeuner,Paprika,Synthétique,E163,11.65,Algue,Biologique,ColorBio,Maroc,Non certifié
+22,3,54,50,52,51,19.16,35.0,81.0,176.08,2023-01-03,T1,Boisson végétale,Boisson,Paprika,Synthétique,E160c,9.19,Épice,Conventionnelle,GreenExtract,France,Non certifié
+23,54,35,27,64,20,20.96,0.0,2.0,60.57,2023-02-23,T1,Boisson végétale,Confiserie,Spiruline,Synthétique,E162,2.89,Légume,Conventionnelle,ColorBio,Inde,ISO 22000
+24,53,35,81,33,14,76.7,26.0,93.0,867.48,2023-02-22,T1,Boisson végétale,Confiserie,Paprika,Naturel,E160c,11.31,Épice,Biologique,GreenExtract,France,Non certifié
+25,15,99,39,52,26,46.06,35.0,99.0,356.04,2023-01-15,T1,Céréales bio,Petit-déjeuner,Spiruline,Synthétique,E163,7.73,Épice,Conventionnelle,PureNature,Maroc,Non certifié
+26,62,55,44,44,73,33.66,87.0,10.0,228.55,2023-03-03,T1,Yaourt aux fruits,Confiserie,Curcuma,Naturel,E140,6.79,Légume,Conventionnelle,NatFood,Inde,Non certifié
+27,59,71,41,76,17,69.42,50.0,12.0,674.07,2023-02-28,T1,Pâtisserie artisanale,Boulangerie,Hibiscus,Synthétique,E100,9.71,Algue,Conventionnelle,PureNature,Maroc,Non certifié
+28,73,49,26,65,63,92.28,57.99999999999999,35.0,958.79,2023-03-14,T1,Boisson végétale,Petit-déjeuner,Paprika,Synthétique,E160c,10.39,Épice,Biologique,ColorBio,Brésil,Bio
+29,93,35,100,49,40,33.71,84.0,37.0,119.0,2023-04-03,T2,Boisson végétale,Confiserie,Spiruline,Synthétique,E163,3.53,Algue,Biologique,GreenExtract,Allemagne,Non certifié
+30,57,71,2,66,20,22.35,51.0,66.0,78.45,2023-02-26,T1,Pâtisserie artisanale,Boulangerie,Hibiscus,Synthétique,E140,3.51,Plante,Conventionnelle,ColorBio,Inde,ISO 22000
+31,54,87,40,84,49,86.85,74.0,37.0,177.17,2023-02-23,T1,Pâtisserie artisanale,Confiserie,Hibiscus,Naturel,E160c,2.04,Fleur,Conventionnelle,GreenExtract,Inde,Bio
+32,52,7,18,39,88,38.62,50.0,68.0,266.86,2023-02-21,T1,Boisson végétale,Petit-déjeuner,Curcuma,Naturel,E100,6.91,Plante,Biologique,PureNature,Allemagne,Bio
+33,54,12,91,73,94,67.53,35.0,64.0,145.86,2023-02-23,T1,Pâtisserie artisanale,Petit-déjeuner,Hibiscus,Naturel,E162,2.16,Algue,Conventionnelle,ColorBio,France,ISO 22000
+34,23,96,54,73,57,86.64,59.0,20.0,807.48,2023-01-23,T1,Bonbon gélifié,Petit-déjeuner,Curcuma,Synthétique,E162,9.32,Algue,Conventionnelle,BioColorant,Maroc,Non certifié
+35,10,49,20,90,71,78.1,20.0,37.0,890.34,2023-01-10,T1,Boisson végétale,Petit-déjeuner,Betterave,Naturel,E163,11.4,Légume,Conventionnelle,NatFood,Maroc,Non certifié
+36,3,14,25,38,30,98.65,40.0,40.0,522.84,2023-01-03,T1,Pâtisserie artisanale,Boulangerie,Spiruline,Synthétique,E162,5.3,Légume,Biologique,NatFood,Maroc,Non certifié
+37,34,57,36,39,40,88.94,3.0,72.0,225.91,2023-02-03,T1,Céréales bio,Confiserie,Betterave,Naturel,E140,2.54,Plante,Biologique,GreenExtract,Allemagne,Non certifié
+38,32,91,16,19,62,82.8,98.0,11.0,565.52,2023-02-01,T1,Pâtisserie artisanale,Petit-déjeuner,Paprika,Naturel,E140,6.83,Algue,Biologique,ColorBio,Brésil,Bio
+39,26,9,78,16,29,80.08,3.0,42.0,495.7,2023-01-26,T1,Céréales bio,Confiserie,Curcuma,Synthétique,E163,6.19,Légume,Biologique,PureNature,Maroc,Non certifié
+40,91,8,16,82,98,46.27,21.0,77.0,316.02,2023-04-01,T2,Bonbon gélifié,Laitier,Paprika,Naturel,E140,6.83,Épice,Biologique,GreenExtract,Maroc,ISO 22000
+41,2,46,93,65,5,56.1,82.0,40.0,539.12,2023-01-02,T1,Yaourt aux fruits,Boisson,Betterave,Naturel,E140,9.61,Épice,Biologique,ColorBio,Maroc,Non certifié
+42,15,19,54,98,92,24.78,81.0,68.0,230.95,2023-01-15,T1,Bonbon gélifié,Petit-déjeuner,Curcuma,Synthétique,E162,9.32,Fleur,Conventionnelle,ColorBio,France,Non certifié
+43,10,68,69,71,55,77.17,75.0,19.0,882.05,2023-01-10,T1,Boisson végétale,Boisson,Betterave,Synthétique,E140,11.43,Épice,Biologique,ColorBio,France,Non certifié
+44,50,55,59,98,27,98.97,60.0,80.0,657.16,2023-02-19,T1,Yaourt aux fruits,Confiserie,Paprika,Synthétique,E160c,6.64,Fleur,Conventionnelle,GreenExtract,Allemagne,Bio
+45,93,22,94,88,48,47.27,44.0,9.0,415.03,2023-04-03,T2,Céréales bio,Boulangerie,Paprika,Naturel,E140,8.78,Algue,Conventionnelle,GreenExtract,Brésil,Non certifié
+46,45,31,43,6,75,25.41,9.0,61.0,58.19,2023-02-14,T1,Boisson végétale,Boisson,Hibiscus,Synthétique,E163,2.29,Légume,Biologique,PureNature,France,ISO 22000
+47,33,54,87,9,7,12.92,82.0,16.0,86.95,2023-02-02,T1,Boisson végétale,Boisson,Paprika,Naturel,E100,6.73,Légume,Biologique,ColorBio,Maroc,ISO 22000
+48,25,98,34,19,3,10.22,3.0,91.0,58.87,2023-01-25,T1,Boisson végétale,Petit-déjeuner,Curcuma,Synthétique,E140,5.76,Algue,Biologique,NatFood,Inde,ISO 22000
+49,98,91,48,5,36,37.74,44.0,57.99999999999999,139.26,2023-04-08,T2,Pâtisserie artisanale,Petit-déjeuner,Spiruline,Synthétique,E140,3.69,Fleur,Biologique,NatFood,Brésil,Non certifié
+50,56,45,21,53,27,92.23,70.0,54.0,285.91,2023-02-25,T1,Pâtisserie artisanale,Laitier,Hibiscus,Synthétique,E163,3.1,Légume,Biologique,GreenExtract,Allemagne,Bio
+51,100,52,71,28,93,64.27,57.99999999999999,30.0,492.95,2023-04-10,T2,Bonbon gélifié,Laitier,Hibiscus,Naturel,E162,7.67,Légume,Biologique,NatFood,Allemagne,Bio
+52,26,41,58,58,77,72.51,94.0,27.0,867.22,2023-01-26,T1,Céréales bio,Boisson,Hibiscus,Naturel,E160c,11.96,Fleur,Biologique,BioColorant,Inde,Bio
+53,22,82,54,84,94,91.15,74.0,95.0,849.52,2023-01-22,T1,Yaourt aux fruits,Boisson,Curcuma,Synthétique,E162,9.32,Fleur,Conventionnelle,ColorBio,France,ISO 22000
+54,94,14,7,33,20,83.12,51.0,79.0,832.86,2023-04-04,T2,Pâtisserie artisanale,Boulangerie,Betterave,Naturel,E162,10.02,Épice,Biologique,ColorBio,Inde,ISO 22000
+55,61,28,3,39,56,94.36,71.0,24.0,583.14,2023-03-02,T1,Bonbon gélifié,Confiserie,Betterave,Synthétique,E162,6.18,Plante,Biologique,ColorBio,Maroc,Non certifié
+56,66,82,91,18,89,47.64,52.0,49.0,102.9,2023-03-07,T1,Yaourt aux fruits,Boisson,Hibiscus,Naturel,E162,2.16,Plante,Conventionnelle,PureNature,Maroc,ISO 22000
+57,64,35,84,74,99,90.8,52.0,91.0,555.7,2023-03-05,T1,Boisson végétale,Confiserie,Spiruline,Naturel,E163,6.12,Plante,Biologique,GreenExtract,Maroc,Non certifié
+58,86,87,68,14,19,81.83,50.0,9.0,411.6,2023-03-27,T1,Pâtisserie artisanale,Confiserie,Hibiscus,Synthétique,E163,5.03,Plante,Biologique,NatFood,Maroc,Bio
+59,85,60,78,50,44,76.54,94.0,32.0,473.78,2023-03-26,T1,Pâtisserie artisanale,Petit-déjeuner,Curcuma,Synthétique,E163,6.19,Épice,Conventionnelle,ColorBio,France,ISO 22000
+60,84,98,11,68,27,85.9,75.0,53.0,807.46,2023-03-25,T1,Boisson végétale,Petit-déjeuner,Spiruline,Synthétique,E140,9.4,Épice,Biologique,GreenExtract,Allemagne,Bio
+61,92,37,61,34,8,98.31,25.0,45.0,521.04,2023-04-02,T2,Yaourt aux fruits,Confiserie,Spiruline,Synthétique,E163,5.3,Algue,Conventionnelle,NatFood,Maroc,ISO 22000
+62,61,22,3,18,6,22.59,85.0,37.0,139.61,2023-03-02,T1,Céréales bio,Boulangerie,Betterave,Synthétique,E162,6.18,Plante,Conventionnelle,GreenExtract,France,Bio
+63,52,27,7,52,99,34.35,72.0,23.0,344.19,2023-02-21,T1,Boisson végétale,Boulangerie,Betterave,Naturel,E162,10.02,Épice,Conventionnelle,GreenExtract,Maroc,Non certifié
+64,57,46,83,35,55,81.56,23.0,20.0,176.99,2023-02-26,T1,Yaourt aux fruits,Boisson,Curcuma,Synthétique,E162,2.17,Plante,Biologique,ColorBio,France,Non certifié
+65,18,12,94,20,73,94.75,70.0,9.0,831.9,2023-01-18,T1,Pâtisserie artisanale,Petit-déjeuner,Paprika,Naturel,E140,8.78,Fleur,Biologique,NatFood,Inde,Non certifié
+66,62,18,47,12,66,31.65,28.000000000000004,30.0,136.1,2023-03-03,T1,Yaourt aux fruits,Boisson,Betterave,Synthétique,E162,4.3,Fleur,Biologique,NatFood,Allemagne,Bio
+67,80,54,5,67,55,16.33,81.0,0.0,40.01,2023-03-21,T1,Boisson végétale,Boisson,Spiruline,Synthétique,E162,2.45,Épice,Biologique,ColorBio,France,Non certifié
+68,5,38,17,62,7,25.27,79.0,80.0,151.87,2023-01-05,T1,Pâtisserie artisanale,Laitier,Hibiscus,Naturel,E160c,6.01,Fleur,Conventionnelle,ColorBio,Maroc,ISO 22000
+69,64,75,29,24,60,83.98,24.0,83.0,999.36,2023-03-05,T1,Pâtisserie artisanale,Boulangerie,Spiruline,Synthétique,E163,11.9,Épice,Biologique,NatFood,Inde,Non certifié
+70,11,77,52,3,59,84.15,3.0,63.0,977.82,2023-01-11,T1,Boisson végétale,Petit-déjeuner,Hibiscus,Synthétique,E163,11.62,Fleur,Biologique,ColorBio,France,Non certifié
+71,42,12,28,84,64,20.18,56.00000000000001,49.0,95.25,2023-02-11,T1,Pâtisserie artisanale,Petit-déjeuner,Paprika,Synthétique,E100,4.72,Fleur,Conventionnelle,BioColorant,Brésil,Bio
+72,45,34,71,2,45,24.93,77.0,29.0,191.21,2023-02-14,T1,Boisson végétale,Laitier,Hibiscus,Naturel,E162,7.67,Fleur,Conventionnelle,GreenExtract,Inde,Bio
+73,99,74,51,93,11,96.27,20.0,15.0,645.01,2023-04-09,T2,Yaourt aux fruits,Laitier,Curcuma,Synthétique,E140,6.7,Plante,Conventionnelle,GreenExtract,Allemagne,Bio
+74,31,91,90,49,47,51.66,1.0,97.0,549.15,2023-01-31,T1,Pâtisserie artisanale,Petit-déjeuner,Hibiscus,Synthétique,E163,10.63,Algue,Biologique,PureNature,Brésil,Non certifié
+75,49,8,14,51,59,97.0,81.0,47.0,738.17,2023-02-18,T1,Bonbon gélifié,Laitier,Spiruline,Naturel,E160c,7.61,Fleur,Conventionnelle,ColorBio,France,Non certifié
+76,36,10,11,78,79,94.05,15.0,0.0,884.07,2023-02-05,T1,Pâtisserie artisanale,Laitier,Spiruline,Synthétique,E140,9.4,Algue,Conventionnelle,ColorBio,France,ISO 22000
+77,53,18,96,71,39,65.88,24.0,77.0,305.68,2023-02-22,T1,Yaourt aux fruits,Boisson,Betterave,Synthétique,E140,4.64,Épice,Biologique,GreenExtract,France,Non certifié
+78,45,87,86,35,70,63.6,89.0,41.0,498.62,2023-02-14,T1,Pâtisserie artisanale,Confiserie,Paprika,Synthétique,E100,7.84,Plante,Biologique,ColorBio,Inde,Non certifié
+79,74,26,98,33,89,87.04,17.0,61.0,607.54,2023-03-15,T1,Yaourt aux fruits,Petit-déjeuner,Curcuma,Synthétique,E163,6.98,Épice,Biologique,PureNature,Maroc,ISO 22000
+80,40,17,19,65,51,52.87,67.0,65.0,563.07,2023-02-09,T1,Boisson végétale,Boulangerie,Spiruline,Naturel,E140,10.65,Épice,Biologique,GreenExtract,France,Non certifié
+81,88,60,89,69,98,75.08,50.0,26.0,596.14,2023-03-29,T1,Pâtisserie artisanale,Petit-déjeuner,Hibiscus,Synthétique,E140,7.94,Légume,Biologique,GreenExtract,Maroc,ISO 22000
+82,5,28,83,2,18,37.44,15.0,27.0,81.24,2023-01-05,T1,Bonbon gélifié,Confiserie,Curcuma,Synthétique,E162,2.17,Fleur,Conventionnelle,GreenExtract,Allemagne,Non certifié
+83,11,19,35,32,86,59.28,25.0,97.0,551.3,2023-01-11,T1,Bonbon gélifié,Petit-déjeuner,Spiruline,Synthétique,E163,9.3,Algue,Conventionnelle,GreenExtract,Brésil,Non certifié
+84,45,83,13,16,78,51.11,56.00000000000001,46.0,202.91,2023-02-14,T1,Pâtisserie artisanale,Laitier,Curcuma,Synthétique,E100,3.97,Légume,Biologique,PureNature,Allemagne,Non certifié
+85,9,78,39,33,51,22.51,11.0,19.0,174.0,2023-01-09,T1,Yaourt aux fruits,Confiserie,Spiruline,Synthétique,E163,7.73,Épice,Biologique,GreenExtract,France,Non certifié
+86,31,11,93,91,77,93.3,10.0,87.0,896.61,2023-01-31,T1,Pâtisserie artisanale,Confiserie,Betterave,Naturel,E140,9.61,Légume,Biologique,BioColorant,Inde,Bio
+87,49,81,2,27,18,50.03,47.0,32.0,175.61,2023-02-18,T1,Céréales bio,Boisson,Hibiscus,Synthétique,E140,3.51,Plante,Conventionnelle,GreenExtract,Allemagne,Non certifié
+88,52,29,43,29,57,89.46,33.0,86.0,204.86,2023-02-21,T1,Pâtisserie artisanale,Petit-déjeuner,Hibiscus,Synthétique,E163,2.29,Plante,Conventionnelle,BioColorant,Maroc,Non certifié
+89,73,55,37,24,89,57.34,92.0,33.0,580.28,2023-03-14,T1,Yaourt aux fruits,Confiserie,Paprika,Synthétique,E160c,10.12,Épice,Biologique,PureNature,Maroc,ISO 22000
+90,23,89,24,4,92,76.87,97.0,49.0,724.12,2023-01-23,T1,Pâtisserie artisanale,Petit-déjeuner,Betterave,Synthétique,E100,9.42,Algue,Conventionnelle,ColorBio,France,Non certifié
+91,80,42,39,5,66,75.93,53.0,69.0,586.94,2023-03-21,T1,Bonbon gélifié,Boulangerie,Spiruline,Synthétique,E163,7.73,Fleur,Biologique,NatFood,Allemagne,Bio
+92,48,22,3,53,83,70.73,57.99999999999999,71.0,437.11,2023-02-17,T1,Céréales bio,Boulangerie,Betterave,Synthétique,E162,6.18,Légume,Biologique,BioColorant,Brésil,Bio
+93,40,82,22,97,90,41.77,90.0,53.0,169.59,2023-02-09,T1,Yaourt aux fruits,Boisson,Hibiscus,Synthétique,E140,4.06,Légume,Conventionnelle,PureNature,Brésil,Bio
+94,28,10,92,87,61,39.26,86.0,86.0,454.63,2023-01-28,T1,Pâtisserie artisanale,Laitier,Curcuma,Synthétique,E163,11.58,Algue,Biologique,GreenExtract,France,ISO 22000
+95,100,14,71,82,93,61.96,44.0,30.0,475.23,2023-04-10,T2,Pâtisserie artisanale,Boulangerie,Hibiscus,Naturel,E162,7.67,Épice,Biologique,NatFood,Allemagne,Bio
+96,72,94,44,5,7,99.76,61.0,86.0,677.37,2023-03-13,T1,Bonbon gélifié,Confiserie,Curcuma,Naturel,E140,6.79,Fleur,Biologique,ColorBio,Maroc,ISO 22000
+97,69,60,58,81,98,77.88,91.0,17.0,931.44,2023-03-10,T1,Pâtisserie artisanale,Petit-déjeuner,Hibiscus,Naturel,E160c,11.96,Fleur,Conventionnelle,GreenExtract,Maroc,ISO 22000
+98,84,47,29,5,77,42.91,23.0,84.0,510.63,2023-03-25,T1,Pâtisserie artisanale,Laitier,Spiruline,Synthétique,E163,11.9,Fleur,Biologique,BioColorant,Inde,Bio
+99,85,62,10,70,74,71.58,14.000000000000002,82.0,171.08,2023-03-26,T1,Céréales bio,Boulangerie,Paprika,Naturel,E140,2.39,Légume,Conventionnelle,ColorBio,Brésil,Non certifié
+100,6,48,24,100,47,24.35,10.0,60.0,229.38,2023-01-06,T1,Céréales bio,Petit-déjeuner,Betterave,Synthétique,E100,9.42,Fleur,Conventionnelle,PureNature,Brésil,Non certifié

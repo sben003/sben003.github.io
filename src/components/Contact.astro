@@ -1,0 +1,52 @@
+---
+/**
+ * Contact en un clic : l'adresse s'affiche en clair, se copie, ou ouvre le
+ * client de messagerie. Pas de formulaire (pas de back-end sur GitHub Pages),
+ * pas de numéro de téléphone (spam).
+ */
+import Icon from './Icon.astro';
+import { ui, t, type Lang } from '../i18n/ui';
+import { profile } from '../data/profile';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+---
+<div class="card relative overflow-hidden px-6 py-10 sm:px-10 sm:py-14 lg:px-14" data-reveal>
+  <div aria-hidden="true" class="dot-grid pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_70%_90%_at_100%_0%,#000_20%,transparent_75%)]"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute -top-32 -right-24 -z-10 size-[28rem] rounded-full opacity-70 blur-3xl [background:radial-gradient(circle,var(--accent-glow),transparent_65%)]"></div>
+
+  <div class="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] lg:items-end">
+    <div>
+      <p class="status m-0">
+        <span class="status__dot" aria-hidden="true"></span>
+        {t(ui.hero.status, lang)}
+      </p>
+      <h2 id="contact-title" class="mt-6 mb-0 text-[clamp(2rem,5vw,3.1rem)] leading-[1.05] font-semibold tracking-[-.035em] text-ink">
+        {t(ui.sections.contact.title, lang)}
+      </h2>
+      <p class="mt-4 mb-0 max-w-[54ch] text-[1.02rem] leading-relaxed text-muted">{t(ui.sections.contact.lede, lang)}</p>
+    </div>
+
+    <div class="grid gap-3">
+      <div class="flex items-stretch overflow-hidden rounded-xl border border-rule-strong bg-bg/60 backdrop-blur">
+        <a href={`mailto:${profile.email}`} class="flex min-w-0 flex-1 items-center gap-3 px-4 py-3.5 text-ink no-underline transition-colors hover:bg-surface-2">
+          <Icon name="mail" class="size-4 flex-none text-accent-ink" />
+          <span class="truncate font-mono text-[.92rem]">{profile.email}</span>
+        </a>
+        <button type="button" class="group grid w-12 flex-none cursor-pointer place-items-center border-0 border-l border-rule-strong bg-transparent text-muted transition-colors hover:bg-surface-2 hover:text-accent-ink"
+                data-copy={profile.email} data-msg={t(ui.contact.copied, lang)} aria-label={t(ui.contact.copy, lang)} title={t(ui.contact.copy, lang)}>
+          <span class="group-data-[done]:hidden"><Icon name="copy" /></span>
+          <span class="hidden text-status group-data-[done]:block"><Icon name="check" /></span>
+        </button>
+      </div>
+      <div class="grid grid-cols-2 gap-2.5">
+        <a class="btn btn--primary col-span-2 justify-center" href={`mailto:${profile.email}`}><Icon name="mail" /> {t(ui.contact.write, lang)}</a>
+        <a class="btn justify-center" href={profile.linkedin} rel="me noopener" target="_blank"><Icon name="linkedin" /> LinkedIn</a>
+        <a class="btn justify-center" href={profile.github} rel="me noopener" target="_blank"><Icon name="github" /> GitHub</a>
+      </div>
+      {profile.cv && (
+        <a class="btn justify-center" href={profile.cv} download><Icon name="download" /> {t(ui.hero.ctaCv, lang)}</a>
+      )}
+    </div>
+  </div>
+</div>

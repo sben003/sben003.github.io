@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base lang="fr" title="Page introuvable · Salem Benzineh"
+      description="Cette page n’existe pas ou a été déplacée."
+      path="/404.html" altPath="/en/" nav={[]}>
+  <section class="relative isolate overflow-hidden">
+    <div aria-hidden="true" class="dot-grid absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_40%,#000_30%,transparent_100%)]"></div>
+    <div class="wrap grid min-h-[70dvh] place-content-center py-24 text-center">
+      <p class="eyebrow m-0">Erreur 404 · Error 404</p>
+      <h1 class="mt-4 mb-0 font-mono text-[clamp(4rem,16vw,9rem)] leading-none font-semibold tracking-tighter text-ink">404</h1>
+      <p class="mx-auto mt-5 mb-0 max-w-[44ch] text-muted">
+        Aucune mesure à cette adresse : la page n’existe pas ou a été déplacée.
+        <span lang="en" class="mt-1 block">Nothing recorded at this address: the page does not exist or has moved.</span>
+      </p>
+      <div class="mt-9 flex flex-wrap justify-center gap-3">
+        <a class="btn btn--primary" href="/"><Icon name="arrow-left" /> Accueil</a>
+        <a class="btn" href="/en/" lang="en">Home</a>
+      </div>
+    </div>
+  </section>
+</Base>

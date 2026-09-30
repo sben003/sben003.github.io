@@ -1,0 +1,117 @@
+<figure class="diagram">
+        <svg class="diagram__wide" viewBox="0 0 940 520" role="img" aria-labelledby="dlg-et-t dlg-et-d">
+          <title id="dlg-et-t">Schéma en étoile de l'entrepôt</title>
+          <desc id="dlg-et-d">Une table de faits centrale, Faits_Ventes_Colorants, porte quatre mesures et cinq clés étrangères. Elle est reliée à cinq dimensions : temps, produit, colorant, fournisseur et origine.</desc>
+
+          <path class="dg-line" d="M230 112 L420 205"/>
+          <path class="dg-line" d="M710 112 L520 205"/>
+          <path class="dg-line" d="M220 274 H370"/>
+          <path class="dg-line" d="M720 274 H570"/>
+          <path class="dg-line" d="M470 400 V325"/>
+
+          <g>
+            <rect class="dg-box" x="130" y="24" width="200" height="88" rx="3"/>
+            <text class="dg-step" x="143" y="43">DIMENSION</text>
+            <text class="dg-title" x="143" y="64">Dim_Temps</text>
+            <text class="dg-sub" x="143" y="81">jour · mois · trimestre</text>
+            <text class="dg-sub" x="143" y="94">année</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="610" y="24" width="200" height="88" rx="3"/>
+            <text class="dg-step" x="623" y="43">DIMENSION</text>
+            <text class="dg-title" x="623" y="64">Dim_Produit</text>
+            <text class="dg-sub" x="623" y="81">nom du produit</text>
+            <text class="dg-sub" x="623" y="94">catégorie</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="20" y="230" width="200" height="88" rx="3"/>
+            <text class="dg-step" x="33" y="249">DIMENSION</text>
+            <text class="dg-title" x="33" y="270">Dim_Colorant</text>
+            <text class="dg-sub" x="33" y="287">type · code E</text>
+            <text class="dg-sub" x="33" y="300">prix unitaire</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="720" y="230" width="200" height="88" rx="3"/>
+            <text class="dg-step" x="733" y="249">DIMENSION</text>
+            <text class="dg-title" x="733" y="270">Dim_Fournisseur</text>
+            <text class="dg-sub" x="733" y="287">pays</text>
+            <text class="dg-sub" x="733" y="300">certification</text>
+          </g>
+          <g>
+            <rect class="dg-box dg-box--accent" x="370" y="205" width="200" height="120" rx="3"/>
+            <text class="dg-step" x="383" y="226">TABLE DE FAITS</text>
+            <text class="dg-title" x="383" y="247">Faits_Ventes_Colorants</text>
+            <text class="dg-sub" x="383" y="266">quantité (kg)</text>
+            <text class="dg-sub" x="383" y="279">montant de vente (€)</text>
+            <text class="dg-sub" x="383" y="292">score santé (%)</text>
+            <text class="dg-sub" x="383" y="305">score environnement (%)</text>
+          </g>
+          <g>
+            <rect class="dg-box" x="370" y="400" width="200" height="88" rx="3"/>
+            <text class="dg-step" x="383" y="419">DIMENSION</text>
+            <text class="dg-title" x="383" y="440">Dim_Origine</text>
+            <text class="dg-sub" x="383" y="457">source : plante, algue…</text>
+            <text class="dg-sub" x="383" y="470">nature : bio ou non</text>
+          </g>
+        </svg>
+
+        <svg class="diagram__tall" viewBox="0 0 300 700" role="img" aria-labelledby="dlg-et-tm dlg-et-dm">
+          <title id="dlg-et-tm">Schéma en étoile de l'entrepôt</title>
+          <desc id="dlg-et-dm">Une table de faits centrale, Faits_Ventes_Colorants, porte quatre mesures et cinq clés étrangères vers les dimensions temps, produit, colorant, fournisseur et origine.</desc>
+
+          <g>
+            <rect class="dg-box dg-box--accent" x="20" y="8" width="260" height="104" rx="3"/>
+            <text class="dg-step" x="33" y="28">TABLE DE FAITS</text>
+            <text class="dg-title" x="33" y="49">Faits_Ventes_Colorants</text>
+            <text class="dg-sub" x="33" y="68">quantité (kg) · montant (€)</text>
+            <text class="dg-sub" x="33" y="81">score santé · score environnement</text>
+            <text class="dg-sub" x="33" y="98">5 clés étrangères</text>
+          </g>
+
+          <path class="dg-line" d="M48 112 V636"/>
+
+          <g>
+            <path class="dg-line" d="M48 176 H76"/>
+            <rect class="dg-box" x="76" y="148" width="204" height="58" rx="3"/>
+            <text class="dg-title" x="89" y="172">Dim_Temps</text>
+            <text class="dg-sub" x="89" y="190">jour · mois · trimestre · année</text>
+          </g>
+          <g>
+            <path class="dg-line" d="M48 268 H76"/>
+            <rect class="dg-box" x="76" y="240" width="204" height="58" rx="3"/>
+            <text class="dg-title" x="89" y="264">Dim_Produit</text>
+            <text class="dg-sub" x="89" y="282">nom · catégorie</text>
+          </g>
+          <g>
+            <path class="dg-line" d="M48 360 H76"/>
+            <rect class="dg-box" x="76" y="332" width="204" height="58" rx="3"/>
+            <text class="dg-title" x="89" y="356">Dim_Colorant</text>
+            <text class="dg-sub" x="89" y="374">type · code E · prix unitaire</text>
+          </g>
+          <g>
+            <path class="dg-line" d="M48 452 H76"/>
+            <rect class="dg-box" x="76" y="424" width="204" height="58" rx="3"/>
+            <text class="dg-title" x="89" y="448">Dim_Fournisseur</text>
+            <text class="dg-sub" x="89" y="466">pays · certification</text>
+          </g>
+          <g>
+            <path class="dg-line" d="M48 544 H76"/>
+            <rect class="dg-box" x="76" y="516" width="204" height="58" rx="3"/>
+            <text class="dg-title" x="89" y="540">Dim_Origine</text>
+            <text class="dg-sub" x="89" y="558">source · nature</text>
+          </g>
+          <g>
+            <path class="dg-line" d="M48 636 H76"/>
+            <rect class="dg-box dg-box--ext" x="76" y="608" width="204" height="58" rx="3"/>
+            <text class="dg-title" x="89" y="632">Cube OLAP</text>
+            <text class="dg-sub" x="89" y="650">Pentaho Schema Workbench</text>
+          </g>
+        </svg>
+
+        <figcaption>
+          Modélisation dimensionnelle selon la méthode Kimball. La table de faits ne contient
+          que des clés étrangères et des mesures ; chaque dimension ne décrit qu'une entité de
+          référence, sans redondance.
+        </figcaption>
+      </figure>
+<figure class="diagram"><svg class="diagram__wide" viewBox="0 0 940 405" role="img" aria-labelledby="dlg-etl-t dlg-etl-d"><title id="dlg-etl-t">Chaîne ETL de l'entrepôt</title><desc id="dlg-etl-d">Un fichier consolidé entre, six tables sortent, puis le cube les expose et Power BI les lit.</desc><g><rect class="dg-box dg-box--ext" x="20" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="33" y="74">SOURCE</text><text class="dg-title" x="33" y="95">Colorants_Entrepot_Complet.csv</text><text class="dg-sub" x="33" y="112">100 ventes · 23 colonnes</text><text class="dg-sub" x="33" y="125">UTF-8 · séparateur virgule</text></g><g><rect class="dg-box" x="253" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="266" y="74">01</text><text class="dg-title" x="266" y="95">tFileInputDelimited</text><text class="dg-sub" x="266" y="112">Extraction</text><text class="dg-sub" x="266" y="125">typage, dates dd/MM/yyyy</text></g><g><rect class="dg-box" x="487" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="500" y="74">02</text><text class="dg-title" x="500" y="95">tMap</text><text class="dg-sub" x="500" y="112">Transformation</text><text class="dg-sub" x="500" y="125">jointures, champs calculés</text></g><g><rect class="dg-box" x="720" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="733" y="74">03</text><text class="dg-title" x="733" y="95">tDBOutput ×6</text><text class="dg-sub" x="733" y="112">Chargement</text><text class="dg-sub" x="733" y="125">table recréée à chaque run</text></g><path class="dg-line" d="M222 94 H246"/><polygon class="dg-arrow" points="246,90 253,94 246,98"/><path class="dg-line" d="M455 94 H480"/><polygon class="dg-arrow" points="480,90 487,94 480,98"/><path class="dg-line" d="M689 94 H713"/><polygon class="dg-arrow" points="713,90 720,94 713,98"/><path class="dg-line" d="M820 132 V170 H120 V197"/><polygon class="dg-arrow" points="116,197 124,197 120,204"/><g><rect class="dg-box dg-box--accent" x="20" y="204" width="200" height="76" rx="3"/><text class="dg-step" x="33" y="222">04</text><text class="dg-title" x="33" y="243">EntrepotDeDonnees</text><text class="dg-sub" x="33" y="260">MySQL</text><text class="dg-sub" x="33" y="273">5 dimensions + 1 table de faits</text></g><g><rect class="dg-box" x="253" y="204" width="200" height="76" rx="3"/><text class="dg-step" x="266" y="222">05</text><text class="dg-title" x="266" y="243">Pentaho Schema Workbench</text><text class="dg-sub" x="266" y="260">Cube OLAP</text><text class="dg-sub" x="266" y="273">4 mesures · 5 dimensions</text></g><g><rect class="dg-box dg-box--ext" x="487" y="204" width="200" height="76" rx="3"/><text class="dg-step" x="500" y="222">RESTITUTION</text><text class="dg-title" x="500" y="243">Power BI</text><text class="dg-sub" x="500" y="260"></text><text class="dg-sub" x="500" y="273">connexion directe MySQL</text></g><path class="dg-line" d="M222 242 H246"/><polygon class="dg-arrow" points="246,238 253,242 246,246"/><path class="dg-line" d="M455 242 H480"/><polygon class="dg-arrow" points="480,238 487,242 480,246"/></svg><svg class="diagram__tall" viewBox="0 0 300 610" role="img" aria-labelledby="dlg-etl-tm dlg-etl-dm"><title id="dlg-etl-tm">Chaîne ETL de l'entrepôt</title><desc id="dlg-etl-dm">Un fichier consolidé entre, six tables sortent, puis le cube les expose et Power BI les lit.</desc><g><rect class="dg-box" x="20" y="8" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="34">Colorants_Entrepot_Complet.csv</text><text class="dg-sub" x="33" y="52">100 ventes · 23 colonnes</text></g><path class="dg-line" d="M150 70 V87"/><polygon class="dg-arrow" points="146,87 154,87 150,94"/><g><rect class="dg-box" x="20" y="94" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="120">tFileInputDelimited</text><text class="dg-sub" x="33" y="138">Extraction</text></g><path class="dg-line" d="M150 156 V173"/><polygon class="dg-arrow" points="146,173 154,173 150,180"/><g><rect class="dg-box" x="20" y="180" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="206">tMap</text><text class="dg-sub" x="33" y="224">Transformation</text></g><path class="dg-line" d="M150 242 V259"/><polygon class="dg-arrow" points="146,259 154,259 150,266"/><g><rect class="dg-box" x="20" y="266" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="292">tDBOutput ×6</text><text class="dg-sub" x="33" y="310">Chargement</text></g><path class="dg-line" d="M150 328 V345"/><polygon class="dg-arrow" points="146,345 154,345 150,352"/><g><rect class="dg-box" x="20" y="352" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="378">EntrepotDeDonnees</text><text class="dg-sub" x="33" y="396">MySQL</text></g><path class="dg-line" d="M150 414 V431"/><polygon class="dg-arrow" points="146,431 154,431 150,438"/><g><rect class="dg-box" x="20" y="438" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="464">Pentaho Schema Workbench</text><text class="dg-sub" x="33" y="482">Cube OLAP</text></g><path class="dg-line" d="M150 500 V517"/><polygon class="dg-arrow" points="146,517 154,517 150,524"/><g><rect class="dg-box" x="20" y="524" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="550">Power BI</text><text class="dg-sub" x="33" y="568">connexion directe MySQL</text></g></svg><figcaption>Un fichier consolidé entre, six tables sortent, puis le cube les expose et Power BI les lit.</figcaption></figure>

@@ -19,3 +19,11 @@ desktop.ini
 
 # Python
 __pycache__/
+
+# Cache des series capteur (regenere depuis le xlsx source)
+.cache/
+
+# Astro
+dist/
+.astro/
+node_modules/
