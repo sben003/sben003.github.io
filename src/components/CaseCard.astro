@@ -6,6 +6,7 @@
  * et la chaîne de traitement. L'architecture complète s'ouvre en modale.
  */
 import Icon from './Icon.astro';
+import BrandIcon from './BrandIcon.astro';
 import StarSchema from './StarSchema.astro';
 import { ui, t, type Lang } from '../i18n/ui';
 import type { CaseProject } from '../data/projects';
@@ -98,7 +99,7 @@ const live = p.id === 'vigie-ocean';
         <ul class="m-0 flex list-none flex-wrap gap-2 p-0">
           {p.stack.map((s) => (
             <li class="pill">
-              {s.icon && <svg aria-hidden="true"><use href={`#si-${s.icon}`} /></svg>}
+              {s.icon && <BrandIcon slug={s.icon} />}
               {s.name}
             </li>
           ))}

@@ -1,0 +1,6 @@
+---
+/** Icône de marque tirée du sprite /assets/brands.svg (voir pages/assets/brands.svg.ts). */
+interface Props { slug: string; }
+const { slug } = Astro.props;
+---
+<svg aria-hidden="true" focusable="false"><use href={`/assets/brands.svg#si-${slug}`} /></svg>

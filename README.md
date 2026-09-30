@@ -41,6 +41,7 @@ src/
   i18n/ui.ts                   libellés d'interface bilingues
   layouts/Base.astro           <head>, SEO, thème, en-tête, pied de page
   pages/                       une route par page (URL inchangées depuis l'ancien site)
+                               + assets/brands.svg.ts, le sprite des icônes de marque
   scripts/main.ts              thème, apparitions, compteurs, copie d'e-mail, modales, graphiques
   styles/global.css            jetons de couleur, composants, graphiques, études de cas
 ```
@@ -150,8 +151,10 @@ identifiables, ou avec leur accord.
 ### Icônes de marque
 
 Tracés [Simple Icons](https://simple-icons.org) (CC0 ; les marques appartiennent à
-leurs détenteurs), figés dans `src/data/brand-icons.ts` et servis une fois par page
-dans un sprite SVG. Pour en ajouter une :
+leurs détenteurs), figés dans `src/data/brand-icons.ts`. Au build, ils deviennent un
+sprite séparé, `/assets/brands.svg` (`src/pages/assets/brands.svg.ts`), mis en cache
+une fois pour tout le site : inliné, il pesait 35 % de la page d'accueil. Pour en
+ajouter une :
 
 ```bash
 npm i --no-save simple-icons

@@ -5,6 +5,7 @@
  * dans un système livré et exploité, creux = projet ou prototype.
  */
 import Icon from './Icon.astro';
+import BrandIcon from './BrandIcon.astro';
 import { ui, t, type Lang } from '../i18n/ui';
 import { domains, practices, type Level } from '../data/skills';
 import { cases } from '../data/projects';
@@ -45,7 +46,7 @@ const levelText = (l: Level) => t(l === 'production' ? ui.levels.productionShort
             <ul class="m-0 flex list-none flex-wrap gap-1.5 p-0">
               {g.items.map((it) => (
                 <li class="pill">
-                  {it.icon && <svg aria-hidden="true"><use href={`#si-${it.icon}`} /></svg>}
+                  {it.icon && <BrandIcon slug={it.icon} />}
                   {it.name}
                   <span class:list={['pill__lvl', `pill__lvl--${it.level}`]} title={t(ui.levels[it.level], lang)} aria-hidden="true"></span>
                   <span class="sr-only">({levelText(it.level)})</span>

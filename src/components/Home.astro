@@ -3,7 +3,6 @@
  * Page d'accueil, commune aux deux langues : seules les chaînes changent.
  */
 import Base from '../layouts/Base.astro';
-import BrandSprite from './BrandSprite.astro';
 import Hero from './Hero.astro';
 import SectionHead from './SectionHead.astro';
 import CaseCard from './CaseCard.astro';
@@ -14,7 +13,6 @@ import Contact from './Contact.astro';
 import { ui, t, type Lang } from '../i18n/ui';
 import { profile } from '../data/profile';
 import { cases } from '../data/projects';
-import { domains } from '../data/skills';
 
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
@@ -30,11 +28,6 @@ const nav = [
   { href: `#${ids.path}`, label: t(ui.nav.path, lang) },
   { href: `#${ids.contact}`, label: t(ui.nav.contact, lang) },
 ];
-
-const slugs = [
-  ...domains.flatMap((d) => d.groups.flatMap((g) => g.items.map((i) => i.icon))),
-  ...cases.flatMap((c) => c.stack.map((s) => s.icon)),
-].filter((s): s is string => Boolean(s));
 
 const title = fr ? 'Salem Benzineh — Data engineer & développeur full-stack' : 'Salem Benzineh — Data engineer & full-stack developer';
 const description = fr
@@ -61,8 +54,6 @@ const jsonLd = {
 <Base lang={lang} title={title} description={description}
       path={fr ? '/' : '/en/'} altPath={fr ? '/en/' : '/'}
       nav={nav} ogType="profile" jsonLd={jsonLd}>
-  <BrandSprite slugs={slugs} />
-
   <Hero lang={lang} />
 
   <section id={ids.projects} class="relative scroll-mt-16 py-20 sm:py-28" aria-labelledby="h-projects">
