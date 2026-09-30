@@ -19,6 +19,9 @@
   --rule:          #e3ded7;
   --rule-strong:   #cdc6bc;
   --selection:     rgba(143, 74, 40, .18);
+  --grid-dot:      rgba(34, 40, 46, .07);
+  --trace:         rgba(143, 74, 40, .16);
+  --trace-soft:    rgba(34, 40, 46, .10);
 
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
@@ -46,6 +49,9 @@
     --rule:        #333b43;
     --rule-strong: #46505a;
     --selection:   rgba(217, 138, 94, .22);
+    --grid-dot:    rgba(232, 230, 227, .06);
+    --trace:       rgba(217, 138, 94, .18);
+    --trace-soft:  rgba(232, 230, 227, .09);
     color-scheme: dark;
   }
 }
@@ -65,6 +71,9 @@
   --rule:        #333b43;
   --rule-strong: #46505a;
   --selection:   rgba(217, 138, 94, .22);
+  --grid-dot:    rgba(232, 230, 227, .06);
+  --trace:       rgba(217, 138, 94, .18);
+  --trace-soft:  rgba(232, 230, 227, .09);
   color-scheme: dark;
 }
 
@@ -1495,3 +1504,140 @@ ul { margin: 0; padding: 0; list-style: none; }
     border-left: 1px solid var(--rule);
   }
 }
+
+/* ==========================================================================
+   Graphiques — SVG genere par build/charts.py a partir de donnees reelles
+   Aucune couleur en dur : tout passe par les jetons du theme, donc les
+   graphiques suivent le mode clair et le mode sombre sans traitement special.
+   ========================================================================== */
+.chart {
+  margin: 0 0 2.25rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--surface);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  overflow: hidden;
+}
+.chart .ch { display: block; width: 100%; height: auto; }
+.chart figcaption {
+  margin-top: 1rem;
+  padding-top: .85rem;
+  border-top: 1px solid var(--rule);
+  font-size: .82rem;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 78ch;
+}
+.chart figcaption code {
+  font-family: var(--font-mono);
+  font-size: .86em;
+  color: var(--accent-ink);
+  background: var(--accent-wash);
+  padding: .1em .35em;
+  border-radius: 3px;
+}
+
+/* Grille et axes : filet plein d'1 px, recessif, jamais en pointilles. */
+.ch-grid, .ch-axis { stroke: var(--rule); stroke-width: 1; fill: none; }
+.ch-axis { stroke: var(--rule-strong); }
+
+/* Texte : jamais la couleur de la serie — jetons de texte uniquement. */
+.ch-tick, .ch-legend, .ch-note, .ch-cat, .ch-val, .ch-panel, .ch-threshold-label {
+  font-family: var(--font-mono);
+  fill: var(--muted);
+}
+.ch-tick   { font-size: 10px; }
+.ch-legend { font-size: 10.5px; }
+.ch-note   { font-size: 9.5px; }
+.ch-cat    { font-size: 11px; fill: var(--ink-soft); font-family: var(--font-sans); }
+.ch-val    { font-size: 11px; fill: var(--ink); font-weight: 600; }
+.ch-panel  { font-size: 11px; fill: var(--ink); font-weight: 600; font-family: var(--font-sans); letter-spacing: -.01em; }
+.ch-threshold-label { font-size: 9.5px; fill: var(--ink-soft); }
+
+/* Marques : ligne 2 px a extremites arrondies, serie unique = une seule teinte. */
+.ch-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.ch-line--thin { stroke-width: 1.25; }
+
+/* Serie brute en retrait : c'est le motif « mettre en avant une serie,
+   griser le reste », pas une seconde couleur categorielle. */
+.ch-raw {
+  fill: none;
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+/* Marqueur : rayon 4, plus un anneau de surface de 2 px pour rester lisible
+   la ou il croise la courbe. */
+.ch-dot { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+
+/* Regle de seuil : trait plein, distinct de la grille par la couleur. */
+.ch-threshold { stroke: var(--accent); stroke-width: 1.25; opacity: .75; }
+
+/* Barres : extremite arrondie cote valeur, carree cote ligne de base. */
+.ch-bar { fill: var(--accent); }
+
+@media (max-width: 46rem) {
+  .ch-tick, .ch-note { font-size: 13px; }
+  .ch-cat, .ch-val, .ch-legend { font-size: 14px; }
+  .ch-panel { font-size: 14px; }
+}
+
+/* ==========================================================================
+   Fond — trame de pointes et trace de donnees
+   La trame evoque le papier millimetre des releves ; la trace derriere
+   l'intro est une vraie serie de la station Port de Bayonne. Les deux
+   restent sous le seuil ou ils concurrenceraient le texte.
+   ========================================================================== */
+body {
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 26px 26px;
+  background-position: -1px -1px;
+  background-attachment: fixed;
+}
+
+/* Les sections teintees couvriraient la trame : on la redessine dessus. */
+.section--tint {
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 26px 26px;
+  background-position: -1px -1px;
+}
+
+/* --- Trace de donnees derriere l'intro ------------------------------------ */
+.intro { position: relative; isolation: isolate; }
+
+.intro__trace {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: -1;
+  height: min(58%, 340px);
+  pointer-events: none;
+  overflow: hidden;
+  /* s'efface vers le haut pour ne jamais passer sous le nom */
+  -webkit-mask-image: linear-gradient(to top, #000 8%, rgba(0,0,0,.55) 45%, transparent 92%);
+  mask-image: linear-gradient(to top, #000 8%, rgba(0,0,0,.55) 45%, transparent 92%);
+}
+.intro__trace svg { display: block; width: 100%; height: 100%; }
+.intro__trace .tr-main { fill: none; stroke: var(--trace); stroke-width: 1.5; stroke-linejoin: round; }
+.intro__trace .tr-soft { fill: none; stroke: var(--trace-soft); stroke-width: 1; stroke-linejoin: round; }
+
+/* La legende du trace : discrete, en bas a droite de l'intro. */
+.intro__trace-note {
+  position: absolute;
+  right: 0;
+  bottom: -.25rem;
+  z-index: 1;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: .64rem;
+  letter-spacing: .06em;
+  color: var(--muted);
+  opacity: .8;
+}
+@media (max-width: 52rem) { .intro__trace-note { display: none; } }

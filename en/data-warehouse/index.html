@@ -403,6 +403,8 @@
         no accumulation and no duplicates. On a batch-fed warehouse, that property beats a fragile
         incremental load.</p>
       </div>
+
+      <figure class="diagram"><svg class="diagram__wide" viewBox="0 0 940 405" role="img" aria-labelledby="etl-t etl-d"><title id="etl-t">The warehouse ETL chain</title><desc id="etl-d">One consolidated file goes in, six tables come out, the cube exposes them and Power BI reads them.</desc><g><rect class="dg-box dg-box--ext" x="20" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="33" y="74">SOURCE</text><text class="dg-title" x="33" y="95">Colorants_Entrepot_Complet.csv</text><text class="dg-sub" x="33" y="112">100 sales · 23 columns</text><text class="dg-sub" x="33" y="125">UTF-8 · comma separated</text></g><g><rect class="dg-box" x="253" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="266" y="74">01</text><text class="dg-title" x="266" y="95">tFileInputDelimited</text><text class="dg-sub" x="266" y="112">Extract</text><text class="dg-sub" x="266" y="125">typing, dd/MM/yyyy dates</text></g><g><rect class="dg-box" x="487" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="500" y="74">02</text><text class="dg-title" x="500" y="95">tMap</text><text class="dg-sub" x="500" y="112">Transform</text><text class="dg-sub" x="500" y="125">joins, computed fields</text></g><g><rect class="dg-box" x="720" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="733" y="74">03</text><text class="dg-title" x="733" y="95">tDBOutput ×6</text><text class="dg-sub" x="733" y="112">Load</text><text class="dg-sub" x="733" y="125">table recreated on each run</text></g><path class="dg-line" d="M222 94 H246"/><polygon class="dg-arrow" points="246,90 253,94 246,98"/><path class="dg-line" d="M455 94 H480"/><polygon class="dg-arrow" points="480,90 487,94 480,98"/><path class="dg-line" d="M689 94 H713"/><polygon class="dg-arrow" points="713,90 720,94 713,98"/><path class="dg-line" d="M820 132 V170 H120 V197"/><polygon class="dg-arrow" points="116,197 124,197 120,204"/><g><rect class="dg-box dg-box--accent" x="20" y="204" width="200" height="76" rx="3"/><text class="dg-step" x="33" y="222">04</text><text class="dg-title" x="33" y="243">EntrepotDeDonnees</text><text class="dg-sub" x="33" y="260">MySQL</text><text class="dg-sub" x="33" y="273">5 dimensions + 1 fact table</text></g><g><rect class="dg-box" x="253" y="204" width="200" height="76" rx="3"/><text class="dg-step" x="266" y="222">05</text><text class="dg-title" x="266" y="243">Pentaho Schema Workbench</text><text class="dg-sub" x="266" y="260">OLAP cube</text><text class="dg-sub" x="266" y="273">4 measures · 5 dimensions</text></g><g><rect class="dg-box dg-box--ext" x="487" y="204" width="200" height="76" rx="3"/><text class="dg-step" x="500" y="222">REPORTING</text><text class="dg-title" x="500" y="243">Power BI</text><text class="dg-sub" x="500" y="260"></text><text class="dg-sub" x="500" y="273">direct MySQL connection</text></g><path class="dg-line" d="M222 242 H246"/><polygon class="dg-arrow" points="246,238 253,242 246,246"/><path class="dg-line" d="M455 242 H480"/><polygon class="dg-arrow" points="480,238 487,242 480,246"/></svg><svg class="diagram__tall" viewBox="0 0 300 610" role="img" aria-labelledby="etl-tm etl-dm"><title id="etl-tm">The warehouse ETL chain</title><desc id="etl-dm">One consolidated file goes in, six tables come out, the cube exposes them and Power BI reads them.</desc><g><rect class="dg-box" x="20" y="8" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="34">Colorants_Entrepot_Complet.csv</text><text class="dg-sub" x="33" y="52">100 sales · 23 columns</text></g><path class="dg-line" d="M150 70 V87"/><polygon class="dg-arrow" points="146,87 154,87 150,94"/><g><rect class="dg-box" x="20" y="94" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="120">tFileInputDelimited</text><text class="dg-sub" x="33" y="138">Extract</text></g><path class="dg-line" d="M150 156 V173"/><polygon class="dg-arrow" points="146,173 154,173 150,180"/><g><rect class="dg-box" x="20" y="180" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="206">tMap</text><text class="dg-sub" x="33" y="224">Transform</text></g><path class="dg-line" d="M150 242 V259"/><polygon class="dg-arrow" points="146,259 154,259 150,266"/><g><rect class="dg-box" x="20" y="266" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="292">tDBOutput ×6</text><text class="dg-sub" x="33" y="310">Load</text></g><path class="dg-line" d="M150 328 V345"/><polygon class="dg-arrow" points="146,345 154,345 150,352"/><g><rect class="dg-box" x="20" y="352" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="378">EntrepotDeDonnees</text><text class="dg-sub" x="33" y="396">MySQL</text></g><path class="dg-line" d="M150 414 V431"/><polygon class="dg-arrow" points="146,431 154,431 150,438"/><g><rect class="dg-box" x="20" y="438" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="464">Pentaho Schema Workbench</text><text class="dg-sub" x="33" y="482">OLAP cube</text></g><path class="dg-line" d="M150 500 V517"/><polygon class="dg-arrow" points="146,517 154,517 150,524"/><g><rect class="dg-box" x="20" y="524" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="550">Power BI</text><text class="dg-sub" x="33" y="568">direct MySQL connection</text></g></svg><figcaption>One consolidated file goes in, six tables come out, the cube exposes them and Power BI reads them.</figcaption></figure>
     </div>
   </section>
 
@@ -432,6 +434,30 @@
           to avoid re-reading the source file on every change to the flow.
         </p>
       </div>
+
+      <figure class="snippet">
+<pre>CREATE TABLE `Faits_Vente_Colorants` (
+  `id_vente`       int(11) NOT NULL,
+  `id_Temps`       int(11) NOT NULL,
+  `id_colorant`    int(11) NOT NULL,
+  `id_fournisseur` int(11) NOT NULL,
+  `id_produit`     int(11) NOT NULL,
+  `id_origine`     int(11) NOT NULL,
+  `quantite_kg`    float DEFAULT NULL,
+  `montant_vente`  float DEFAULT NULL,
+  `score_sante`    float DEFAULT NULL,
+  `score_env`      float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</pre>
+        <figcaption>EntrepotDeDonnees.sql — the fact table as it exists in the database</figcaption>
+      </figure>
+
+      <div class="prose" style="margin-top:1.5rem">
+        <p>
+          Six key columns, four measure columns, nothing else. No label, no category, no supplier
+          name: all the descriptive content lives in the dimensions. That frugality is what keeps
+          the fact table compact as it grows, and what lets a product label change in one place only.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -455,6 +481,51 @@
           On top of the cube we defined <strong>eight analytical data marts</strong>: as many
           thematic subsets, each answering one precise question. That is the concrete payoff of a
           dimensional model — one structure, eight angles of reading.
+        </p>
+      </div>
+
+      <div class="prose">
+        <h3>Not every measure adds up</h3>
+        <p>
+          Defining a cube forces you to declare, for each measure, <strong>how it aggregates</strong>
+          when you roll up a hierarchy. That is the point where a design mistake turns into a wrong
+          number on a dashboard.
+        </p>
+      </div>
+
+      <div class="table-wrap" style="margin:1.5rem 0">
+        <table class="data-table">
+          <caption>The cube's four measures and their aggregator, as declared in Schema2.xml.</caption>
+          <thead>
+            <tr><th scope="col">Measure</th><th scope="col">Aggregator</th><th scope="col">Why</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row"><code>quantite_kg</code></th><td class="num">sum</td>
+                <td>Kilograms add up: a quarter's total is the sum of its sales.</td></tr>
+            <tr><th scope="row"><code>montant_vente</code></th><td class="num">sum</td>
+                <td>Euros add up the same way.</td></tr>
+            <tr><th scope="row"><code>score_sante</code></th><td class="num">avg</td>
+                <td>A percentage does not add. Summing two scores of 60% would give 120%.</td></tr>
+            <tr><th scope="row"><code>score_env</code></th><td class="num">avg</td>
+                <td>Same — the mean is the only aggregation that keeps a meaning.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="snippet">
+<pre>&lt;Measure name="quantite_kg"   column="quantite_kg"   aggregator="sum"/&gt;
+&lt;Measure name="montant_vente" column="montant_vente" aggregator="sum"/&gt;
+&lt;Measure name="score_sante"   column="score_sante"   aggregator="avg"/&gt;
+&lt;Measure name="score_env"     column="score_env"     aggregator="avg"/&gt;</pre>
+        <figcaption>Schema2.xml — the cube's measure declarations</figcaption>
+      </figure>
+
+      <div class="prose" style="margin-top:1.5rem">
+        <p>
+          The time dimension carries a full hierarchy of its own —
+          <code>year &gt; quarter &gt; month &gt; day</code> — which is what allows drilling: a click
+          on 2023 descends to its quarters, a click on Q1 to its months, without a single query
+          being rewritten.
         </p>
       </div>
 
@@ -521,6 +592,14 @@
           and health profile.
         </p>
       </div>
+
+      <!-- chart:quarter:start -->
+<figure class="chart"><svg class="ch" viewBox="0 0 920 104" role="img" aria-labelledby="dwq-t dwq-d"><title id="dwq-t">Quantity sold per quarter</title><desc id="dwq-d">Sum of quantities from the fact table, aggregated over the time dimension.</desc><text class="ch-cat" x="178" y="39.0" text-anchor="end">T1</text><path class="ch-bar" d="M190.0 26.0 h630.0 a4 4 0 0 1 4 4 v10.0 a4 4 0 0 1 -4 4 h-630.0 z"/><text class="ch-val" x="834.0" y="39.0">5 419 kg</text><text class="ch-cat" x="178" y="73.0" text-anchor="end">T2</text><path class="ch-bar" d="M190.0 60.0 h64.6 a4 4 0 0 1 4 4 v10.0 a4 4 0 0 1 -4 4 h-64.6 z"/><text class="ch-val" x="268.6" y="73.0">587 kg</text><line class="ch-axis" x1="190" y1="26" x2="190" y2="78"/></svg><figcaption>Aggregation over the time dimension: the measure comes from the fact table, the axis from <code>Dim_Temps</code>. This is exactly what the star schema makes immediate.</figcaption></figure>
+<!-- chart:quarter:end -->
+
+      <!-- chart:origin:start -->
+<figure class="chart"><svg class="ch" viewBox="0 0 920 196" role="img" aria-labelledby="dwo-t dwo-d"><title id="dwo-t">Average environmental score by source of origin</title><desc id="dwo-d">Mean environmental score, grouped on the origin dimension. Sample size in brackets.</desc><text class="ch-cat" x="178" y="39.0" text-anchor="end">Fleur  (22)</text><path class="ch-bar" d="M190.0 26.0 h630.0 a4 4 0 0 1 4 4 v10.0 a4 4 0 0 1 -4 4 h-630.0 z"/><text class="ch-val" x="834.0" y="39.0">55,9</text><text class="ch-cat" x="178" y="71.0" text-anchor="end">Épice  (25)</text><path class="ch-bar" d="M190.0 58.0 h582.1 a4 4 0 0 1 4 4 v10.0 a4 4 0 0 1 -4 4 h-582.1 z"/><text class="ch-val" x="786.1" y="71.0">51,6</text><text class="ch-cat" x="178" y="103.0" text-anchor="end">Algue  (18)</text><path class="ch-bar" d="M190.0 90.0 h547.7 a4 4 0 0 1 4 4 v10.0 a4 4 0 0 1 -4 4 h-547.7 z"/><text class="ch-val" x="751.7" y="103.0">48,6</text><text class="ch-cat" x="178" y="135.0" text-anchor="end">Plante  (18)</text><path class="ch-bar" d="M190.0 122.0 h506.7 a4 4 0 0 1 4 4 v10.0 a4 4 0 0 1 -4 4 h-506.7 z"/><text class="ch-val" x="710.7" y="135.0">45</text><text class="ch-cat" x="178" y="167.0" text-anchor="end">Légume  (17)</text><path class="ch-bar" d="M190.0 154.0 h465.3 a4 4 0 0 1 4 4 v10.0 a4 4 0 0 1 -4 4 h-465.3 z"/><text class="ch-val" x="669.3" y="167.0">41,4</text><line class="ch-axis" x1="190" y1="26" x2="190" y2="172"/></svg><figcaption>Crossing a fact-table measure with a descriptive dimension. The sample size is shown: an average over three sales is not worth an average over thirty, and the chart should say so.</figcaption></figure>
+<!-- chart:origin:end -->
 
       <div class="callout">
         <p><b>What this is worth, and what it is not</b>
