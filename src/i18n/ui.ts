@@ -70,7 +70,7 @@ export const ui = {
     realData: { fr: 'Données réelles · survolez la courbe', en: 'Real data · hover the curve' },
     report: { fr: 'Rapport (PDF, 62 p.)', en: 'Report (PDF, 62 pp.)' },
     others: { fr: 'Projets académiques', en: 'Academic projects' },
-    othersLede: { fr: 'Travaux de master, en équipe ou en solo. Pas de chiffre ici : seulement ce qui a été construit.', en: 'Master’s coursework, in teams or solo. No figures here: only what was built.' },
+    othersLede: { fr: 'Travaux de master, en binôme ou en équipe. Les chiffres affichés viennent des rapports rendus.', en: 'Master’s coursework, in pairs or in teams. The figures shown come from the reports handed in.' },
     flow: { fr: 'La chaîne', en: 'The pipeline' },
     starHint: { fr: 'Modèle en étoile · survolez une dimension', en: 'Star schema · hover a dimension' },
     archTitle: { fr: 'Architecture', en: 'Architecture' },

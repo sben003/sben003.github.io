@@ -154,5 +154,67 @@
         "label": "Review"
       }
     ]
+  },
+  "radiographies.fr": {
+    "title": "Radiographies pulmonaires — étude de cas · Salem Benzineh",
+    "description": "Étude de cas : classification de radiographies pulmonaires (normale ou pneumonie). Descripteurs Gabor, PHOG, DCT et Fourier avec régression logistique comparés à un réseau convolutif, sur 5 216 radiographies.",
+    "ogDescription": "Descripteurs d'image et régression logistique contre CNN : 96,5 % d'exactitude en test, 97,3 % des pneumonies détectées, et ce que je referais aujourd'hui.",
+    "nav": [
+      {
+        "href": "#question",
+        "label": "Question"
+      },
+      {
+        "href": "#approches",
+        "label": "Approches"
+      },
+      {
+        "href": "#demarche",
+        "label": "Démarche"
+      },
+      {
+        "href": "#resultats",
+        "label": "Résultats"
+      },
+      {
+        "href": "#choix",
+        "label": "Choix"
+      },
+      {
+        "href": "#recul",
+        "label": "Recul"
+      }
+    ]
+  },
+  "radiographies.en": {
+    "title": "Chest X-rays — case study · Salem Benzineh",
+    "description": "Case study: classifying chest X-rays (normal or pneumonia). Gabor, PHOG, DCT and Fourier descriptors with logistic regression compared with a convolutional network, on 5,216 X-rays.",
+    "ogDescription": "Image descriptors and logistic regression versus a CNN: 96.5% test accuracy, 97.3% of pneumonia cases found, and what I would do differently today.",
+    "nav": [
+      {
+        "href": "#question",
+        "label": "Question"
+      },
+      {
+        "href": "#approaches",
+        "label": "Approaches"
+      },
+      {
+        "href": "#process",
+        "label": "Process"
+      },
+      {
+        "href": "#results",
+        "label": "Results"
+      },
+      {
+        "href": "#decision",
+        "label": "Decision"
+      },
+      {
+        "href": "#hindsight",
+        "label": "Hindsight"
+      }
+    ]
   }
 }

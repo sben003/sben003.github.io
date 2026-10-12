@@ -1,0 +1,362 @@
+  <section class="section case-hero">
+    <div class="wrap">
+      <p class="breadcrumb"><a href="../">Portfolio</a> &nbsp;/&nbsp; Case study</p>
+      <p class="kicker">Machine learning · Computer vision</p>
+      <h1 class="case-hero__title">Chest X-rays</h1>
+      <p class="flagship__meta">
+        AI – Machine Learning module project · Master 1 ISII, Université d'Alger 1 · 2024 – 2025<br>
+        Carried out over three lab sessions, then a final report<br>
+        Paired with Chanez Ressam
+      </p>
+      <p class="case-hero__lede">
+        Automatically telling a normal chest X-ray from one showing pneumonia. Two families of
+        methods side by side: hand-crafted image descriptors followed by a logistic regression,
+        and a convolutional neural network that learns its own filters.
+      </p>
+
+      <dl class="stats stats--bar" style="margin-top:2rem">
+        <div><dt>X-rays</dt><dd>5,216</dd></div>
+        <div><dt>Test accuracy</dt><dd>96.5%</dd></div>
+        <div><dt>Pneumonia cases found</dt><dd>97.3%</dd></div>
+        <div><dt>Approaches compared</dt><dd>3</dd></div>
+      </dl>
+
+      <div class="callout" style="margin-top:2rem">
+        <p><b>Honest disclaimer</b>
+        A coursework project, not a medical device. The results come from a single random split
+        between training (80%) and test (20%): they show what a simple model gets out of these
+        descriptors, not what it would be worth in a hospital. The methodological limits are
+        set out at the end, in “What I would do differently today”.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 — The question -->
+  <section class="section section--tint" id="question" aria-labelledby="t-question">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">01</span>
+        <h2 class="section__title" id="t-question">One class in four</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          Reading a chest X-ray takes time and depends on the specialist's eye. The question is
+          binary: <strong>normal or pneumonia</strong>. The working set holds 5,216 labelled
+          X-rays — and it is heavily imbalanced.
+        </p>
+      </div>
+
+      <figure class="chart">
+        <ul class="hbars">
+          <li class="hbar"><span class="hbar__label">Pneumonia</span><span class="hbar__track"><span class="hbar__fill" style="--v:100%"></span></span><span class="hbar__value">3,875 <small>· 74.3%</small></span></li>
+          <li class="hbar hbar--muted"><span class="hbar__label">Normal</span><span class="hbar__track"><span class="hbar__fill" style="--v:34.6%"></span></span><span class="hbar__value">1,341 <small>· 25.7%</small></span></li>
+        </ul>
+        <figcaption>Breakdown of the 5,216 X-rays. On the test set, a model that always answered
+        “pneumonia” would already be right 72.2% of the time (753 out of 1,043): that is the bar to
+        clear, not 50%.</figcaption>
+      </figure>
+
+      <div class="prose">
+        <p>
+          This imbalance decides how to evaluate. Accuracy alone flatters the majority class; one
+          has to look, class by class, at <strong>precision</strong> (when the model says
+          “pneumonia”, is it right?) and <strong>recall</strong> (of the real pneumonia cases, how
+          many does it find?). The confusion matrix, more than the overall percentage, tells
+          whether a model is usable.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — Two approaches -->
+  <section class="section" id="approaches" aria-labelledby="t-approaches">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">02</span>
+        <h2 class="section__title" id="t-approaches">Two ways of looking at an image</h2>
+      </div>
+
+      <div class="lanes">
+        <div class="lane">
+          <p class="lane__name"><span class="lane__tag">A</span> Hand-crafted descriptors</p>
+          <ol class="lane__steps">
+            <li>Greyscale X-ray</li>
+            <li>Gabor · PHOG · DCT · Fourier</li>
+            <li>Z-score normalisation</li>
+            <li>Logistic regression</li>
+            <li class="lane__out">96.5% on test</li>
+          </ol>
+        </div>
+        <div class="lane lane--alt">
+          <p class="lane__name"><span class="lane__tag">B</span> Convolutional network (CNN)</p>
+          <ol class="lane__steps">
+            <li>150 × 150 X-ray</li>
+            <li>3 convolutions · 32, 64, 128 filters</li>
+            <li>Dense 512 + dropout 0.5</li>
+            <li>Sigmoid output</li>
+            <li class="lane__out">87.5% on validation</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="prose">
+        <h3>A — Telling the model what to look at</h3>
+        <p>
+          The first approach breaks each X-ray down into measures chosen in advance, capturing
+          textures, edges and frequencies. Two families complement each other:
+          <strong>global</strong> filters, which move the whole image into the frequency domain,
+          and <strong>local</strong> filters, which scan small regions for edges and orientations.
+        </p>
+      </div>
+
+      <div class="table-wrap" style="margin:0 0 2rem">
+        <table class="data-table">
+          <caption>The four descriptors extracted from each X-ray.</caption>
+          <thead><tr><th scope="col">Descriptor</th><th scope="col">Scope</th><th scope="col">What it captures</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Fourier transform</th><td>Global</td><td>The image's spatial frequencies: periodic patterns, fine textures.</td></tr>
+            <tr><th scope="row">DCT</th><td>Global</td><td>Intensity variations by frequency, concentrated in the low frequencies — the principle behind JPEG compression.</td></tr>
+            <tr><th scope="row">Gabor filters</th><td>Local</td><td>Textures and edges in a given orientation; four orientations tested (0, π/4, π/2, 3π/4).</td></tr>
+            <tr><th scope="row">PHOG</th><td>Local</td><td>Histograms of oriented gradients over a pyramid of cells: the shape of contours at several scales.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose">
+        <p>
+          These descriptors do not share a scale: Gabor responses between 0 and 255 sit next to
+          Fourier coefficients close to zero. Without <strong>Z-score normalisation</strong> —
+          centring, then scaling each variable — the optimiser would favour the large values. The
+          normalised vectors then feed a logistic regression.
+        </p>
+
+        <h3>B — Letting the network learn its filters</h3>
+        <p>
+          The CNN takes the raw image and learns its own convolution filters. Three convolutional
+          layers (32, 64 then 128 filters of 3 × 3, each followed by max-pooling), a dense layer of
+          512 neurons, 50% dropout and a sigmoid output, trained with Adam on a binary
+          cross-entropy loss.
+        </p>
+        <p>
+          The model summary reveals an internal imbalance: of its
+          <strong>19,034,177 parameters</strong>, 18,940,416 — 99.5% — sit in the single dense layer
+          after flattening. A model that size, fed a few thousand images, has all the capacity it
+          needs to learn them by heart.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — Process -->
+  <section class="section section--tint" id="process" aria-labelledby="t-process">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">03</span>
+        <h2 class="section__title" id="t-process">From 73 X-rays to 5,216</h2>
+        <p class="section__note">three lab sessions, one final report</p>
+      </div>
+
+      <div class="chain">
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">Lab 01</span><span class="chain__name">Explore</span></p>
+          <div class="chain__body"><p>Load the X-rays, convert them to greyscale, resize them, flatten
+          them into vectors. Apply the four transforms one by one to see what each brings out of
+          the same image.</p></div>
+        </div>
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">Lab 02</span><span class="chain__name">Extract</span></p>
+          <div class="chain__body"><p>PHOG coded by hand — gradients, orientations, histograms over three
+          pyramid levels —, one CSV file per descriptor. In parallel, a first CNN in PyTorch: 56%
+          training accuracy at the first epoch, 94.5% at the fourth, then 89% at the fifth. A first
+          sign of overfitting.</p></div>
+        </div>
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">Lab 03</span><span class="chain__name">Structure</span></p>
+          <div class="chain__body"><p>From CSV to HDF5 (h5py) to store vectors and labels compactly. CNN
+          rewritten in Keras with a third convolution and dropout. On a sample of 73 X-rays, 66.7%
+          on test: far too few images to conclude anything.</p></div>
+        </div>
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">Final</span><span class="chain__name">Compare</span></p>
+          <div class="chain__body"><p>Full set of 5,216 X-rays. Three variants evaluated: descriptors
+          concatenated into a single vector, descriptors kept in separate columns, and the CNN.
+          Confusion matrix, precision, recall and F1 for the descriptors; accuracy and loss curves
+          for the CNN.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 — Results -->
+  <section class="section" id="results" aria-labelledby="t-results">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">04</span>
+        <h2 class="section__title" id="t-results">What the numbers say</h2>
+        <p class="section__note">1,043 test X-rays</p>
+      </div>
+
+      <div class="prose">
+        <h3>Descriptors and logistic regression</h3>
+        <p>
+          Of the 1,043 X-rays in the test set, the model classifies 1,006 correctly. Read row by
+          row, the matrix mostly shows that errors are rare <em>in both directions</em> — the model
+          did not simply follow the majority class.
+        </p>
+      </div>
+
+      <div class="table-wrap cm-wrap">
+        <table class="cm">
+          <caption>Confusion matrix — logistic regression on descriptors (single vector). Each percentage
+          reads by row: the share of the actual class.</caption>
+          <thead>
+            <tr><td></td><th scope="col">Predicted: normal</th><th scope="col">Predicted: pneumonia</th><th scope="col">Recall</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Actual: normal <small>290</small></th>
+              <td class="cm__cell cm__cell--hi" style="--a:.94"><b>273</b><span>94.1%</span></td>
+              <td class="cm__cell" style="--a:.06"><b>17</b><span>5.9% · false alarms</span></td>
+              <td class="cm__rate">94%</td></tr>
+            <tr><th scope="row">Actual: pneumonia <small>753</small></th>
+              <td class="cm__cell" style="--a:.03"><b>20</b><span>2.7% · missed</span></td>
+              <td class="cm__cell cm__cell--hi" style="--a:.97"><b>733</b><span>97.3%</span></td>
+              <td class="cm__rate">97%</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><th scope="row">Precision</th><td class="cm__rate">93%</td><td class="cm__rate">98%</td><td class="cm__rate cm__rate--total">96.5%</td></tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="table-wrap" style="margin:2rem 0">
+        <table class="data-table">
+          <caption>scikit-learn classification report for the same evaluation. ROC AUC, measured on the
+          separate-columns variant: 0.99.</caption>
+          <thead><tr><th scope="col">Class</th><th scope="col">Precision</th><th scope="col">Recall</th><th scope="col">F1</th><th scope="col">Support</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Normal</th><td class="num">0.93</td><td class="num">0.94</td><td class="num">0.94</td><td>290</td></tr>
+            <tr><th scope="row">Pneumonia</th><td class="num">0.98</td><td class="num">0.97</td><td class="num">0.98</td><td>753</td></tr>
+            <tr><th scope="row">Macro average</th><td class="num">0.95</td><td class="num">0.96</td><td class="num">0.96</td><td>1,043</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose">
+        <p>
+          Keeping the descriptors in separate columns rather than a single vector changes almost
+          nothing: 272 and 734 correct answers instead of 273 and 733, the same 96.5% accuracy. The
+          storage layout is not what drives the result; the point of separate columns lies
+          elsewhere — being able to measure each descriptor's contribution afterwards.
+        </p>
+
+        <h3>The convolutional network</h3>
+        <p>
+          The first training runs over 10 epochs reached 100% training accuracy: the network was
+          learning the images by heart. The number of epochs was reduced, and the validation set,
+          only 16 images to begin with, raised to 67. Even so, the validation curve stays erratic.
+        </p>
+      </div>
+
+<!-- chart:xrcnn -->
+
+      <div class="prose">
+        <p>
+          Going from 90.6% to 33.3% then to 100% from one epoch to the next does not describe a
+          model that is improving: with 67 images, a handful of X-rays is enough to swing the
+          score. This validation set is too small to judge the CNN — the main lesson of this part.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — The decision -->
+  <section class="section section--tint" id="decision" aria-labelledby="t-decision">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">05</span>
+        <h2 class="section__title" id="t-decision">The simplest model wins</h2>
+      </div>
+
+      <div class="table-wrap" style="margin:0 0 2rem">
+        <table class="data-table">
+          <caption>Comparison drawn up in the final report. Note: the first two columns are measured on
+          1,043 test X-rays, the CNN on 67 validation X-rays.</caption>
+          <thead><tr><th scope="col">Criterion</th><th scope="col">Descriptors · single vector</th><th scope="col">Descriptors · separate columns</th><th scope="col">CNN</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Accuracy</th><td class="num">96.5%</td><td class="num">96.5%</td><td class="num">87.5%</td></tr>
+            <tr><th scope="row">Handling the imbalance</th><td>Good</td><td>Good</td><td>Average</td></tr>
+            <tr><th scope="row">Ease of implementation</th><td>High</td><td>Medium</td><td>Low</td></tr>
+            <tr><th scope="row">Robustness</th><td>Very good</td><td>Very good</td><td>Average · overfitting</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose">
+        <p>
+          The final choice went to the <strong>descriptors and logistic regression</strong>:
+          reliable on an imbalanced set, simple to interpret and tune, and the best measured
+          figures. The CNN is not ruled out: it remains the natural route with more images, data
+          augmentation and class rebalancing.
+        </p>
+        <p>
+          That is the lesson I keep from this project: a more powerful model is not a better model
+          until you have the data — and the evaluation protocol — to prove it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — Hindsight -->
+  <section class="section" id="hindsight" aria-labelledby="t-hindsight">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">06</span>
+        <h2 class="section__title" id="t-hindsight">What I would do differently today</h2>
+      </div>
+
+      <div class="chain">
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">01</span><span class="chain__name">Normalise after splitting</span></p>
+          <div class="chain__body"><p>In the code, the Z-score normalisation is fitted on all the X-rays
+          <em>before</em> the train / test split: the mean and standard deviation have seen the test
+          data. The effect is probably small here, but it is information leakage. A scikit-learn
+          <code>Pipeline</code> rules it out by design.</p></div>
+        </div>
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">02</span><span class="chain__name">Compare on the same ground</span></p>
+          <div class="chain__body"><p>The regression is evaluated on 1,043 test X-rays, the CNN on 67
+          validation X-rays: the two figures do not really compare. I would set aside a common test
+          set from the start, and use stratified cross-validation for tuning.</p></div>
+        </div>
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">03</span><span class="chain__name">Pick the threshold by cost</span></p>
+          <div class="chain__body"><p>20 missed pneumonia cases against 17 false alarms: in a medical
+          setting, the costly error is the first one. I would set the decision threshold to
+          guarantee a target recall on the pneumonia class, and report that recall before
+          accuracy.</p></div>
+        </div>
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">04</span><span class="chain__name">Give the CNN a fair chance</span></p>
+          <div class="chain__body"><p>Data augmentation, class weights, early stopping on a reasonably
+          sized validation set, and a dense head lighter than 18.9 million parameters. The routes
+          the report had already identified, but had no time to follow.</p></div>
+        </div>
+      </div>
+
+      <div class="contact-row">
+        <a class="btn btn--primary" href="../#projects">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M19 12H5M11 18l-6-6 6-6"/>
+          </svg>
+          Back to projects
+        </a>
+        <a class="btn" href="../vigie-ocean/">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+          Case study: Vigie Océan
+        </a>
+      </div>
+    </div>
+  </section>

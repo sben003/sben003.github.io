@@ -117,9 +117,93 @@ export const cases: CaseProject[] = [
   },
 ];
 
-export interface SmallProject { name: L; kicker: L; context: L; summary: L; stack: string[] }
+/**
+ * Projets académiques. Les chiffres viennent des rapports rendus
+ * (_sources/rapports-tp/, hors dépôt) ; aucun n'est arrondi à l'avantage.
+ */
+export interface SmallProject {
+  name: L;
+  kicker: L;
+  context: L;
+  summary: L;
+  stack: string[];
+  /** Mesures tirées du rapport. */
+  metrics?: { value: L; label: L }[];
+  /** Comparaison de modèles, valeurs en pourcentage. */
+  bars?: { title: L; items: { label: L; value: number; best?: boolean }[] };
+  note?: L;
+  /** Étude de cas dédiée. */
+  href?: L;
+  /** Carte élargie en tête de grille. */
+  featured?: boolean;
+  /** Carte large sur deux rangées (grand écran), à côté de deux cartes courtes empilées. */
+  wide?: boolean;
+  /** Matrice de confusion 2 × 2, lue par ligne : [VN, FP, FN, VP]. */
+  confusion?: { cells: [number, number, number, number]; labels: [L, L]; caption: L };
+}
 
 export const academic: SmallProject[] = [
+  {
+    featured: true,
+    name: { fr: 'Classification de radiographies pulmonaires', en: 'Chest X-ray classification' },
+    kicker: { fr: 'Machine learning · vision', en: 'Machine learning · vision' },
+    context: { fr: 'M1 ISII, Université d’Alger 1 · 2024 – 2025 · en binôme', en: 'M1 ISII, Université d’Alger 1 · 2024 – 2025 · in a pair' },
+    summary: {
+      fr: 'Normale ou pneumonie ? Des descripteurs d’image conçus à la main (Gabor, PHOG, DCT, Fourier) et une régression logistique, comparés à un réseau convolutif sur 5 216 radiographies. Le modèle le plus simple l’emporte.',
+      en: 'Normal or pneumonia? Hand-crafted image descriptors (Gabor, PHOG, DCT, Fourier) and a logistic regression, compared with a convolutional network on 5,216 X-rays. The simplest model wins.',
+    },
+    metrics: [
+      { value: { fr: '96,5 %', en: '96.5%' }, label: { fr: 'exactitude sur 1 043 radios de test', en: 'accuracy on 1,043 test X-rays' } },
+      { value: { fr: '97,3 %', en: '97.3%' }, label: { fr: 'des pneumonies détectées', en: 'of pneumonia cases found' } },
+      { value: { fr: '0,99', en: '0.99' }, label: { fr: 'AUC de la courbe ROC', en: 'ROC AUC' } },
+    ],
+    confusion: {
+      cells: [273, 17, 20, 733],
+      labels: [{ fr: 'normale', en: 'normal' }, { fr: 'pneumonie', en: 'pneumonia' }],
+      caption: {
+        fr: 'Matrice de confusion sur 1 043 radios de test : 20 pneumonies manquées, 17 fausses alertes.',
+        en: 'Confusion matrix on 1,043 test X-rays: 20 pneumonia cases missed, 17 false alarms.',
+      },
+    },
+    stack: ['Python', 'scikit-learn', 'TensorFlow / Keras', 'PyTorch', 'OpenCV', 'HDF5'],
+    href: { fr: '/radiographies/', en: '/en/chest-x-rays/' },
+  },
+  {
+    name: { fr: 'Prédiction de prix immobiliers', en: 'Property price prediction' },
+    kicker: { fr: 'Machine learning · régression', en: 'Machine learning · regression' },
+    context: { fr: 'M1 ISII, Université d’Alger 1 · 2024 – 2025 · en binôme', en: 'M1 ISII, Université d’Alger 1 · 2024 – 2025 · in a pair' },
+    summary: {
+      fr: 'De la régression simple à la régression multiple (superficie et secteur), avec une descente de gradient codée à la main et vérifiée contre scikit-learn. Le modèle est servi par une interface Tkinter, puis par une API Flask et une page web.',
+      en: 'From simple to multiple regression (floor area and sector), with gradient descent coded by hand and checked against scikit-learn. The model is served through a Tkinter interface, then a Flask API and a web page.',
+    },
+    bars: {
+      title: { fr: 'R² sur le jeu de test', en: 'R² on the test set' },
+      items: [
+        { label: { fr: 'Régression linéaire', en: 'Linear regression' }, value: 64, best: true },
+        { label: { fr: 'Arbre de décision', en: 'Decision tree' }, value: 62 },
+        { label: { fr: 'Forêt aléatoire', en: 'Random forest' }, value: 61 },
+      ],
+    },
+    note: { fr: 'Les modèles à arbres, plus complexes, n’ont pas mieux généralisé : la régression linéaire a été retenue.', en: 'The more complex tree models did not generalise better: linear regression was kept.' },
+    stack: ['Python', 'Pandas', 'scikit-learn', 'Flask', 'Tkinter'],
+  },
+  {
+    wide: true,
+    name: { fr: 'Comptage de pièces de monnaie', en: 'Coin counting' },
+    kicker: { fr: 'Traitement d’images', en: 'Image processing' },
+    context: { fr: 'Université d’Alger 1 · 2024 – 2025 · module Traitement d’images numériques · en binôme', en: 'Université d’Alger 1 · 2024 – 2025 · Digital Image Processing module · in a pair' },
+    summary: {
+      fr: 'Détecter, segmenter et compter les pièces d’une photo, puis les classer par taille. Niveaux de gris, flou gaussien, égalisation d’histogramme et seuil d’Otsu sont codés à la main, sans OpenCV, derrière une interface Tkinter.',
+      en: 'Detect, segment and count the coins in a photo, then sort them by size. Greyscale, Gaussian blur, histogram equalisation and Otsu thresholding are coded by hand, without OpenCV, behind a Tkinter interface.',
+    },
+    metrics: [
+      { value: { fr: '85 %', en: '85%' }, label: { fr: 'exactitude', en: 'accuracy' } },
+      { value: { fr: '90 %', en: '90%' }, label: { fr: 'précision', en: 'precision' } },
+      { value: { fr: '80 %', en: '80%' }, label: { fr: 'rappel', en: 'recall' } },
+    ],
+    note: { fr: 'Mesuré sur 50 images. Le rappel baisse quand des pièces se chevauchent ou portent des inscriptions.', en: 'Measured on 50 images. Recall drops when coins overlap or carry inscriptions.' },
+    stack: ['Python', 'NumPy', 'Pillow', 'SciPy', 'Tkinter'],
+  },
   {
     name: { fr: 'Job Board', en: 'Job Board' },
     kicker: { fr: 'Web · équipe agile', en: 'Web · agile team' },
@@ -133,19 +217,5 @@ export const academic: SmallProject[] = [
     context: { fr: 'M1 SIGLIS, UPPA · 2025 – 2026', en: 'M1 SIGLIS, UPPA · 2025 – 2026' },
     summary: { fr: 'Nettoyage et unification de sources CSV, API et SQL dans un pipeline construit sous Apache Hop.', en: 'Cleaning and unifying CSV, API and SQL sources in a pipeline built with Apache Hop.' },
     stack: ['Apache Hop', 'ETL', 'SQL'],
-  },
-  {
-    name: { fr: 'Classification d’images médicales', en: 'Medical image classification' },
-    kicker: { fr: 'Machine learning', en: 'Machine learning' },
-    context: { fr: 'M1 ISII, Université d’Alger 1 · 2024 – 2025', en: 'M1 ISII, Université d’Alger 1 · 2024 – 2025' },
-    summary: { fr: 'Approche hybride combinant un réseau convolutif et des descripteurs manuels, sur un jeu de données déséquilibré.', en: 'A hybrid approach combining a convolutional network with hand-crafted descriptors, on an imbalanced dataset.' },
-    stack: ['Python', 'CNN', 'Feature engineering'],
-  },
-  {
-    name: { fr: 'Prédiction de prix immobiliers', en: 'Property price prediction' },
-    kicker: { fr: 'Machine learning', en: 'Machine learning' },
-    context: { fr: 'M1 ISII, Université d’Alger 1 · 2024 – 2025', en: 'M1 ISII, Université d’Alger 1 · 2024 – 2025' },
-    summary: { fr: 'Modèle de Gradient Boosting entraîné avec Scikit-learn, exposé dans une interface Tkinter.', en: 'A Gradient Boosting model trained with Scikit-learn, exposed through a Tkinter interface.' },
-    stack: ['Python', 'Scikit-learn', 'Tkinter'],
   },
 ];

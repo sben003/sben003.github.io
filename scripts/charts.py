@@ -504,6 +504,80 @@ def chart_dw_origin(rows, lang):
     return figure(svg, L[2])
 
 
+# ------------------------------------------------------------- radiographies
+
+# Courbes d'entrainement du CNN, recopiees du rapport final « Projet IA »
+# (tableau des cinq epoques, confirme par la sortie Keras de la derniere epoque).
+XR_EPOCHS = [1, 2, 3, 4, 5]
+XR_ACC = {"train": [81.24, 90.62, 95.33, 93.75, 97.22], "val": [90.62, 33.33, 85.94, 100.00, 87.50]}
+XR_LOSS = {"train": [0.4649, 0.1916, 0.1208, 0.0830, 0.0797], "val": [0.2092, 1.5490, 0.2925, 0.0042, 0.2757]}
+
+
+def xr_panel(series, ident, title, desc, ymax, yticks, yfmt, vfmt, notes, lang):
+    """Un panneau : entrainement (teinte neutre) contre validation (accent), etiquettes directes."""
+    W, H, x0, y0, h = 420, 262, 46, 40, 170
+    w = W - x0 - 92
+    xmap = lambda e: x0 + (e - 1) / 4 * w
+    ymap = lambda v: y0 + h - v / ymax * h
+    names = {"fr": {"train": "entraînement", "val": "validation"},
+             "en": {"train": "training", "val": "validation"}}[lang]
+    ep = {"fr": "Époque", "en": "Epoch"}[lang]
+    out = ['<svg class="ch" viewBox="0 0 %d %d" role="img" aria-labelledby="%s-t %s-d">' % (W, H, ident, ident),
+           '<title id="%s-t">%s</title><desc id="%s-d">%s</desc>' % (ident, esc(title), ident, esc(desc)),
+           '<text class="ch-panel" x="%d" y="18">%s</text>' % (x0 - 38, esc(title))]
+    for v in yticks:
+        y = ymap(v)
+        out.append('<line class="ch-grid" x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>' % (x0, y, x0 + w, y))
+        out.append('<text class="ch-tick" x="%.1f" y="%.1f" text-anchor="end">%s</text>' % (x0 - 8, y + 3.5, esc(yfmt(v))))
+    out.append('<line class="ch-axis" x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f"/>' % (x0, y0 + h, x0 + w, y0 + h))
+    for e in XR_EPOCHS:
+        out.append('<text class="ch-tick" x="%.1f" y="%.1f" text-anchor="middle">%d</text>' % (xmap(e), y0 + h + 17, e))
+    out.append('<text class="ch-note" x="%.1f" y="%.1f" text-anchor="middle">%s</text>'
+               % (x0 + w / 2, y0 + h + 36, esc({"fr": "époque", "en": "epoch"}[lang])))
+    ends = {}
+    for key, cls in (("train", "ch-line ch-line--ref"), ("val", "ch-line")):
+        vals = series[key]
+        d = "".join(("M" if i == 0 else "L") + "%.1f %.1f" % (xmap(e), ymap(v)) for i, (e, v) in enumerate(zip(XR_EPOCHS, vals)))
+        out.append('<path class="%s" d="%s"/>' % (cls, d))
+        for e, v in zip(XR_EPOCHS, vals):
+            out.append('<circle class="ch-dot%s" cx="%.1f" cy="%.1f" r="4"><title>%s %d — %s : %s</title></circle>'
+                       % (" ch-dot--ref" if key == "train" else "", xmap(e), ymap(v), ep, e, names[key], esc(vfmt(v))))
+        ends[key] = ymap(vals[-1])
+    # etiquettes directes en bout de courbe, ecartees si elles se chevauchent
+    a, b = ends["train"], ends["val"]
+    if abs(a - b) < 15:
+        mid = (a + b) / 2
+        a, b = (mid - 8, mid + 8) if a <= b else (mid + 8, mid - 8)
+    out.append('<text class="ch-lab" x="%.1f" y="%.1f">%s</text>' % (x0 + w + 10, a + 4, esc(names["train"])))
+    out.append('<text class="ch-lab ch-lab--accent" x="%.1f" y="%.1f">%s</text>' % (x0 + w + 10, b + 4, esc(names["val"])))
+    for e, v, txt, above in notes:
+        y = ymap(v) + (-11 if above else 19)
+        out.append('<text class="ch-val" x="%.1f" y="%.1f" text-anchor="middle">%s</text>' % (xmap(e), y, esc(txt)))
+    out.append('</svg>')
+    return "".join(out)
+
+
+def chart_xr_cnn(_, lang):
+    pct = lambda v, dec=1: fnum(v, dec, lang) + ("\u202f%" if lang == "fr" else "%")
+    acc = xr_panel(XR_ACC, "xra", {"fr": "Exactitude", "en": "Accuracy"}[lang],
+                   {"fr": "Exactitude d'entraînement et de validation du CNN sur cinq époques. La validation passe de 90,6 % à 33,3 %, puis à 100 % et 87,5 %.",
+                    "en": "CNN training and validation accuracy over five epochs. Validation goes from 90.6% to 33.3%, then to 100% and 87.5%."}[lang],
+                   100, [0, 25, 50, 75, 100], lambda v: pct(v, 0), pct,
+                   [(2, 33.33, pct(33.33), False), (4, 100, pct(100, 0), True)], lang)
+    loss = xr_panel(XR_LOSS, "xrl", {"fr": "Perte", "en": "Loss"}[lang],
+                    {"fr": "Perte d'entraînement et de validation du CNN sur cinq époques. La perte de validation culmine à 1,55 à la deuxième époque.",
+                     "en": "CNN training and validation loss over five epochs. Validation loss peaks at 1.55 at the second epoch."}[lang],
+                    1.6, [0, .5, 1, 1.5], lambda v: fnum(v, 1, lang), lambda v: fnum(v, 3, lang),
+                    [(2, 1.549, fnum(1.549, 2, lang), True)], lang)
+    cap = {"fr": "CNN entraîné sur 5 165 radiographies, validé sur 67. La courbe d'entraînement monte "
+                 "régulièrement ; la validation oscille trop pour être interprétée : sur 67 images, quelques "
+                 "radios suffisent à faire varier le score de plusieurs dizaines de points.",
+           "en": "CNN trained on 5,165 X-rays, validated on 67. The training curve climbs steadily; validation "
+                 "swings too much to be read: with 67 images, a few X-rays are enough to move the score by "
+                 "tens of points."}[lang]
+    return figure('<div class="ch-pair">%s%s</div>' % (acc, loss), cap)
+
+
 # ------------------------------------------------------------ accueil & fond
 
 def hero_trace(data):
@@ -573,6 +647,8 @@ def main():
             n = write("%s.%s.html" % (name, lang), fn(src, lang))
             total += n
             print("   %-22s %6.1f Ko" % ("%s.%s" % (name, lang), n / 1024))
+        n = write("xrcnn.%s.html" % lang, chart_xr_cnn(None, lang))
+        print("   %-22s %6.1f Ko" % ("xrcnn.%s" % lang, n / 1024))
         n = write("spark.%s.html" % lang, home_spark(data, lang))
         print("   %-22s %6.1f Ko" % ("spark.%s" % lang, n / 1024))
     n = write("trace.html", hero_trace(data))

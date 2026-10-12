@@ -27,3 +27,6 @@ __pycache__/
 dist/
 .astro/
 node_modules/
+
+# Documents sources (rapports de TP, brouillons) : lus pour rédiger, jamais publiés tels quels
+/_sources/

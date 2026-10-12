@@ -39,7 +39,7 @@ const levelText = (l: Level) => t(l === 'production' ? ui.levels.productionShort
         </div>
       </div>
 
-      <div class:list={['mt-6 grid gap-5', d.id === 'data' && 'md:grid-cols-3 md:gap-6']}>
+      <div class:list={['mt-6 grid gap-5', d.groups.length > 2 && 'md:grid-cols-2 md:gap-x-6']}>
         {d.groups.map((g) => (
           <div>
             <h4 class="m-0 mb-2.5 font-mono text-[.66rem] font-normal tracking-[.12em] text-muted uppercase">{t(g.label, lang)}</h4>

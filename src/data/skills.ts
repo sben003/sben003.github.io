@@ -38,7 +38,12 @@ export const domains: Domain[] = [
         { name: 'Pandas', icon: 'pandas', level: 'production' },
         { name: 'SQL', icon: null, level: 'production' },
         { name: 'NumPy', icon: 'numpy', level: 'projet' },
+      ] },
+      { label: { fr: 'Machine learning & vision', en: 'Machine learning & vision' }, items: [
         { name: 'Scikit-learn', icon: 'scikitlearn', level: 'projet' },
+        { name: 'TensorFlow / Keras', icon: 'tensorflow', level: 'projet' },
+        { name: 'PyTorch', icon: 'pytorch', level: 'projet' },
+        { name: 'OpenCV', icon: 'opencv', level: 'projet' },
       ] },
       { label: { fr: 'Bases de données', en: 'Databases' }, items: [
         { name: 'TimescaleDB', icon: 'timescale', level: 'production' },
@@ -60,6 +65,7 @@ export const domains: Domain[] = [
       { fr: 'Séries temporelles', en: 'Time series' },
       { fr: 'Schéma en étoile & OLAP', en: 'Star schema & OLAP' },
       { fr: 'Tableaux de bord KPI', en: 'KPI dashboards' },
+      { fr: 'Classification d’images', en: 'Image classification' },
     ],
   },
   {
@@ -80,6 +86,7 @@ export const domains: Domain[] = [
       { label: { fr: 'Serveur', en: 'Backend' }, items: [
         { name: 'FastAPI', icon: 'fastapi', level: 'production' },
         { name: 'PHP', icon: 'php', level: 'production' },
+        { name: 'Flask', icon: 'flask', level: 'projet' },
         { name: 'NestJS', icon: 'nestjs', level: 'projet' },
         { name: 'Java', icon: 'openjdk', level: 'projet' },
       ] },

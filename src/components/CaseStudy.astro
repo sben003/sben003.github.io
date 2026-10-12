@@ -8,7 +8,7 @@ import Base from '../layouts/Base.astro';
 import meta from '../content/case-studies/meta.json';
 import type { Lang } from '../i18n/ui';
 
-export type Slug = 'vigie-ocean' | 'entrepot-donnees';
+export type Slug = 'vigie-ocean' | 'entrepot-donnees' | 'radiographies';
 
 interface Props { slug: Slug; lang: Lang; }
 const { slug, lang } = Astro.props;
@@ -16,6 +16,7 @@ const { slug, lang } = Astro.props;
 const paths: Record<Slug, Record<Lang, string>> = {
   'vigie-ocean': { fr: '/vigie-ocean/', en: '/en/vigie-ocean/' },
   'entrepot-donnees': { fr: '/entrepot-donnees/', en: '/en/data-warehouse/' },
+  radiographies: { fr: '/radiographies/', en: '/en/chest-x-rays/' },
 };
 
 const pages = import.meta.glob<string>('../content/case-studies/*.html', { query: '?raw', import: 'default', eager: true });

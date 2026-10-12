@@ -1,0 +1,370 @@
+  <section class="section case-hero">
+    <div class="wrap">
+      <p class="breadcrumb"><a href="../">Portfolio</a> &nbsp;/&nbsp; Étude de cas</p>
+      <p class="kicker">Machine learning · Vision par ordinateur</p>
+      <h1 class="case-hero__title">Radiographies pulmonaires</h1>
+      <p class="flagship__meta">
+        Projet du module IA – Apprentissage automatique · Master 1 ISII, Université d'Alger 1 · 2024 – 2025<br>
+        Mené en trois TP puis un rapport final<br>
+        En binôme avec Chanez Ressam
+      </p>
+      <p class="case-hero__lede">
+        Distinguer automatiquement une radiographie pulmonaire normale d'une radiographie
+        présentant une pneumonie. Deux familles de méthodes mises face à face : des descripteurs
+        d'image conçus à la main, suivis d'une régression logistique, et un réseau de neurones
+        convolutif qui apprend seul ses propres filtres.
+      </p>
+
+      <dl class="stats stats--bar" style="margin-top:2rem">
+        <div><dt>Radiographies</dt><dd>5 216</dd></div>
+        <div><dt>Exactitude en test</dt><dd>96,5 %</dd></div>
+        <div><dt>Pneumonies détectées</dt><dd>97,3 %</dd></div>
+        <div><dt>Approches comparées</dt><dd>3</dd></div>
+      </dl>
+
+      <div class="callout" style="margin-top:2rem">
+        <p><b>Précision honnête</b>
+        Projet de cours, pas un dispositif médical. Les résultats viennent d'un unique découpage
+        aléatoire entre entraînement (80 %) et test (20 %) : ils disent ce qu'un modèle simple tire
+        de ces descripteurs, pas ce qu'il vaudrait à l'hôpital. Les limites de méthode sont
+        détaillées à la fin, dans « Ce que je referais aujourd'hui ».</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 — La question -->
+  <section class="section section--tint" id="question" aria-labelledby="t-question">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">01</span>
+        <h2 class="section__title" id="t-question">Une classe sur quatre</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          La lecture d'une radiographie pulmonaire est longue et dépend de l'œil du spécialiste.
+          La question posée est binaire : <strong>normale ou pneumonie</strong>. Le jeu de travail
+          compte 5 216 radiographies étiquetées — et il est fortement déséquilibré.
+        </p>
+      </div>
+
+      <figure class="chart">
+        <ul class="hbars">
+          <li class="hbar"><span class="hbar__label">Pneumonie</span><span class="hbar__track"><span class="hbar__fill" style="--v:100%"></span></span><span class="hbar__value">3 875 <small>· 74,3 %</small></span></li>
+          <li class="hbar hbar--muted"><span class="hbar__label">Normale</span><span class="hbar__track"><span class="hbar__fill" style="--v:34.6%"></span></span><span class="hbar__value">1 341 <small>· 25,7 %</small></span></li>
+        </ul>
+        <figcaption>Répartition des 5 216 radiographies. Sur le jeu de test, un modèle qui répondrait
+        toujours « pneumonie » serait déjà juste dans 72,2 % des cas (753 sur 1 043) : c'est la barre à
+        battre, pas 50 %.</figcaption>
+      </figure>
+
+      <div class="prose">
+        <p>
+          Ce déséquilibre décide de la manière d'évaluer. L'exactitude seule flatte la classe
+          majoritaire ; il faut regarder, classe par classe, la <strong>précision</strong> (quand le
+          modèle dit « pneumonie », a-t-il raison ?) et le <strong>rappel</strong> (parmi les vraies
+          pneumonies, combien en trouve-t-il ?). C'est la matrice de confusion, plus que le
+          pourcentage global, qui dit si un modèle est utilisable.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — Deux approches -->
+  <section class="section" id="approches" aria-labelledby="t-approches">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">02</span>
+        <h2 class="section__title" id="t-approches">Deux façons de regarder une image</h2>
+      </div>
+
+      <div class="lanes">
+        <div class="lane">
+          <p class="lane__name"><span class="lane__tag">A</span> Descripteurs conçus à la main</p>
+          <ol class="lane__steps">
+            <li>Radio en niveaux de gris</li>
+            <li>Gabor · PHOG · DCT · Fourier</li>
+            <li>Normalisation Z-score</li>
+            <li>Régression logistique</li>
+            <li class="lane__out">96,5 % en test</li>
+          </ol>
+        </div>
+        <div class="lane lane--alt">
+          <p class="lane__name"><span class="lane__tag">B</span> Réseau convolutif (CNN)</p>
+          <ol class="lane__steps">
+            <li>Radio 150 × 150</li>
+            <li>3 convolutions · 32, 64, 128 filtres</li>
+            <li>Dense 512 + dropout 0,5</li>
+            <li>Sortie sigmoïde</li>
+            <li class="lane__out">87,5 % en validation</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="prose">
+        <h3>A — Dire au modèle quoi regarder</h3>
+        <p>
+          La première approche décompose chaque radiographie en mesures choisies d'avance, qui
+          capturent textures, contours et fréquences. Deux familles se complètent : des filtres
+          <strong>globaux</strong>, qui transforment l'image entière dans le domaine des fréquences,
+          et des filtres <strong>locaux</strong>, qui balayent de petites régions pour y lire bords
+          et orientations.
+        </p>
+      </div>
+
+      <div class="table-wrap" style="margin:0 0 2rem">
+        <table class="data-table">
+          <caption>Les quatre descripteurs extraits de chaque radiographie.</caption>
+          <thead><tr><th scope="col">Descripteur</th><th scope="col">Portée</th><th scope="col">Ce qu'il capte</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Transformée de Fourier</th><td>Globale</td><td>Les fréquences spatiales de l'image : motifs périodiques, textures fines.</td></tr>
+            <tr><th scope="row">DCT</th><td>Globale</td><td>Les variations d'intensité par fréquence, concentrées dans les basses fréquences — le principe de la compression JPEG.</td></tr>
+            <tr><th scope="row">Filtres de Gabor</th><td>Locale</td><td>Textures et bords dans une orientation donnée ; quatre orientations testées (0, π/4, π/2, 3π/4).</td></tr>
+            <tr><th scope="row">PHOG</th><td>Locale</td><td>Histogrammes de gradients orientés, calculés sur une pyramide de cellules : la forme des contours à plusieurs échelles.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose">
+        <p>
+          Ces descripteurs n'ont pas la même échelle : des réponses de Gabor entre 0 et 255
+          côtoient des coefficients de Fourier proches de zéro. Sans <strong>normalisation
+          Z-score</strong> — centrer, puis réduire chaque variable —, l'optimisation favoriserait
+          les grandes valeurs. Les vecteurs normalisés alimentent ensuite une régression
+          logistique.
+        </p>
+
+        <h3>B — Laisser le réseau apprendre ses filtres</h3>
+        <p>
+          Le CNN reçoit l'image brute et apprend lui-même ses filtres de convolution. Trois couches
+          convolutives (32, 64 puis 128 filtres de 3 × 3, chacune suivie d'un max-pooling), une
+          couche dense de 512 neurones, un dropout de 50 % et une sortie sigmoïde, entraînés avec
+          Adam sur une perte d'entropie croisée binaire.
+        </p>
+        <p>
+          Le résumé du modèle révèle un déséquilibre interne : sur ses
+          <strong>19 034 177 paramètres</strong>, 18 940 416 — 99,5 % — sont dans la seule couche
+          dense qui suit l'aplatissement. Un modèle de cette taille, nourri de quelques milliers
+          d'images, a toute la capacité qu'il faut pour les apprendre par cœur.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — Démarche -->
+  <section class="section section--tint" id="demarche" aria-labelledby="t-demarche">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">03</span>
+        <h2 class="section__title" id="t-demarche">De 73 radios à 5 216</h2>
+        <p class="section__note">trois TP, un rapport final</p>
+      </div>
+
+      <div class="chain">
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">TP 01</span><span class="chain__name">Explorer</span></p>
+          <div class="chain__body"><p>Charger les radiographies, les convertir en niveaux de gris, les
+          redimensionner, les aplatir en vecteurs. Appliquer une à une les quatre transformations
+          pour voir ce que chacune fait ressortir d'une même image.</p></div>
+        </div>
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">TP 02</span><span class="chain__name">Extraire</span></p>
+          <div class="chain__body"><p>PHOG codé à la main — gradients, orientations, histogrammes sur
+          trois niveaux de pyramide —, un fichier CSV par descripteur. En parallèle, un premier CNN
+          sous PyTorch : 56 % d'exactitude d'entraînement à la première époque, 94,5 % à la quatrième,
+          puis 89 % à la cinquième. Premier signe de surapprentissage.</p></div>
+        </div>
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">TP 03</span><span class="chain__name">Structurer</span></p>
+          <div class="chain__body"><p>Passage du CSV au format HDF5 (h5py) pour stocker vecteurs et
+          étiquettes de façon compacte. CNN réécrit sous Keras avec une troisième convolution et un
+          dropout. Sur un échantillon de 73 radiographies, 66,7 % en test : trop peu d'images pour
+          conclure quoi que ce soit.</p></div>
+        </div>
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">Final</span><span class="chain__name">Comparer</span></p>
+          <div class="chain__body"><p>Jeu complet de 5 216 radiographies. Trois variantes évaluées :
+          descripteurs concaténés en un vecteur unique, descripteurs rangés en colonnes séparées, et
+          CNN. Matrice de confusion, précision, rappel et F1 pour les descripteurs ; courbes
+          d'exactitude et de perte pour le CNN.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 — Résultats -->
+  <section class="section" id="resultats" aria-labelledby="t-resultats">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">04</span>
+        <h2 class="section__title" id="t-resultats">Ce que disent les chiffres</h2>
+        <p class="section__note">1 043 radios de test</p>
+      </div>
+
+      <div class="prose">
+        <h3>Descripteurs et régression logistique</h3>
+        <p>
+          Sur les 1 043 radiographies du jeu de test, le modèle en classe correctement 1 006. Lue
+          ligne par ligne, la matrice montre surtout que les erreurs sont rares <em>dans les deux
+          sens</em> — le modèle ne s'est pas contenté de suivre la classe majoritaire.
+        </p>
+      </div>
+
+      <div class="table-wrap cm-wrap">
+        <table class="cm">
+          <caption>Matrice de confusion — régression logistique sur descripteurs (vecteur unique). Chaque
+          pourcentage se lit par ligne : la part de la classe réelle.</caption>
+          <thead>
+            <tr><td></td><th scope="col">Prédit : normale</th><th scope="col">Prédit : pneumonie</th><th scope="col">Rappel</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Réel : normale <small>290</small></th>
+              <td class="cm__cell cm__cell--hi" style="--a:.94"><b>273</b><span>94,1 %</span></td>
+              <td class="cm__cell" style="--a:.06"><b>17</b><span>5,9 % · fausses alertes</span></td>
+              <td class="cm__rate">94 %</td></tr>
+            <tr><th scope="row">Réel : pneumonie <small>753</small></th>
+              <td class="cm__cell" style="--a:.03"><b>20</b><span>2,7 % · manquées</span></td>
+              <td class="cm__cell cm__cell--hi" style="--a:.97"><b>733</b><span>97,3 %</span></td>
+              <td class="cm__rate">97 %</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><th scope="row">Précision</th><td class="cm__rate">93 %</td><td class="cm__rate">98 %</td><td class="cm__rate cm__rate--total">96,5 %</td></tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="table-wrap" style="margin:2rem 0">
+        <table class="data-table">
+          <caption>Rapport de classification de scikit-learn pour la même évaluation. AUC de la courbe ROC,
+          mesurée sur la variante en colonnes séparées : 0,99.</caption>
+          <thead><tr><th scope="col">Classe</th><th scope="col">Précision</th><th scope="col">Rappel</th><th scope="col">F1</th><th scope="col">Effectif</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Normale</th><td class="num">0,93</td><td class="num">0,94</td><td class="num">0,94</td><td>290</td></tr>
+            <tr><th scope="row">Pneumonie</th><td class="num">0,98</td><td class="num">0,97</td><td class="num">0,98</td><td>753</td></tr>
+            <tr><th scope="row">Moyenne macro</th><td class="num">0,95</td><td class="num">0,96</td><td class="num">0,96</td><td>1 043</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose">
+        <p>
+          Ranger les descripteurs en colonnes séparées plutôt qu'en un vecteur unique ne change
+          presque rien : 272 et 734 bonnes réponses au lieu de 273 et 733, la même exactitude de
+          96,5 %. Le format de stockage n'est pas ce qui fait le résultat ; l'intérêt des colonnes
+          séparées est ailleurs — pouvoir mesurer ensuite l'apport de chaque descripteur.
+        </p>
+
+        <h3>Le réseau convolutif</h3>
+        <p>
+          Les premiers entraînements sur 10 époques atteignaient 100 % d'exactitude
+          d'entraînement : le réseau apprenait les images par cœur. Le nombre d'époques a été
+          réduit, et le jeu de validation, de 16 images seulement à l'origine, porté à 67. Même
+          ainsi, la courbe de validation reste erratique.
+        </p>
+      </div>
+
+<!-- chart:xrcnn -->
+
+      <div class="prose">
+        <p>
+          Passer de 90,6 % à 33,3 % puis à 100 % d'une époque à l'autre ne décrit pas un modèle
+          qui progresse : avec 67 images, une poignée de radiographies suffit à faire basculer le
+          score. Ce jeu de validation est trop petit pour juger le CNN — c'est l'enseignement
+          principal de cette partie.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — Le choix -->
+  <section class="section section--tint" id="choix" aria-labelledby="t-choix">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">05</span>
+        <h2 class="section__title" id="t-choix">Le modèle le plus simple l'emporte</h2>
+      </div>
+
+      <div class="table-wrap" style="margin:0 0 2rem">
+        <table class="data-table">
+          <caption>Comparaison établie dans le rapport final. Attention : les deux premières colonnes sont
+          mesurées sur 1 043 radios de test, le CNN sur 67 radios de validation.</caption>
+          <thead><tr><th scope="col">Critère</th><th scope="col">Descripteurs · vecteur unique</th><th scope="col">Descripteurs · colonnes séparées</th><th scope="col">CNN</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Exactitude</th><td class="num">96,5 %</td><td class="num">96,5 %</td><td class="num">87,5 %</td></tr>
+            <tr><th scope="row">Gestion du déséquilibre</th><td>Bonne</td><td>Bonne</td><td>Moyenne</td></tr>
+            <tr><th scope="row">Simplicité de mise en œuvre</th><td>Élevée</td><td>Moyenne</td><td>Faible</td></tr>
+            <tr><th scope="row">Robustesse</th><td>Très bonne</td><td>Très bonne</td><td>Moyenne · surapprentissage</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose">
+        <p>
+          Le choix final s'est porté sur les <strong>descripteurs et la régression logistique</strong> :
+          fiables sur un jeu déséquilibré, simples à interpréter et à ajuster, et les meilleurs
+          chiffres mesurés. Le CNN n'est pas disqualifié pour autant : il reste la piste naturelle
+          avec davantage d'images, de l'augmentation de données et un rééquilibrage des classes.
+        </p>
+        <p>
+          C'est la leçon que je retiens de ce projet : un modèle plus puissant n'est pas un modèle
+          meilleur tant qu'on n'a pas les données — et le protocole d'évaluation — pour le prouver.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — Recul -->
+  <section class="section" id="recul" aria-labelledby="t-recul">
+    <div class="wrap">
+      <div class="section__head">
+        <span class="section__num" aria-hidden="true">06</span>
+        <h2 class="section__title" id="t-recul">Ce que je referais aujourd'hui</h2>
+      </div>
+
+      <div class="chain">
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">01</span><span class="chain__name">Normaliser après le découpage</span></p>
+          <div class="chain__body"><p>Dans le code, la normalisation Z-score est ajustée sur toutes les
+          radiographies <em>avant</em> la séparation entraînement / test : la moyenne et l'écart-type
+          ont vu les données de test. L'effet est sans doute faible ici, mais c'est une fuite
+          d'information. Un <code>Pipeline</code> scikit-learn l'interdit par construction.</p></div>
+        </div>
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">02</span><span class="chain__name">Comparer sur le même terrain</span></p>
+          <div class="chain__body"><p>La régression est évaluée sur 1 043 radios de test, le CNN sur
+          67 radios de validation : ces deux chiffres ne se comparent pas vraiment. Je fixerais un
+          jeu de test commun, mis de côté dès le départ, et une validation croisée stratifiée pour
+          les réglages.</p></div>
+        </div>
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">03</span><span class="chain__name">Choisir le seuil selon le coût</span></p>
+          <div class="chain__body"><p>20 pneumonies manquées contre 17 fausses alertes : en contexte
+          médical, l'erreur coûteuse est la première. Je fixerais le seuil de décision pour garantir
+          un rappel cible sur la classe pneumonie, et je présenterais ce rappel avant
+          l'exactitude.</p></div>
+        </div>
+        <div class="chain__item">
+          <p class="chain__label"><span class="chain__step">04</span><span class="chain__name">Donner sa chance au CNN</span></p>
+          <div class="chain__body"><p>Augmentation de données, poids de classes, arrêt précoce sur une
+          validation de taille raisonnable, et une tête dense plus légère que 18,9 millions de
+          paramètres. Les pistes que le rapport identifiait déjà, mais n'avait pas eu le temps de
+          suivre.</p></div>
+        </div>
+      </div>
+
+      <div class="contact-row">
+        <a class="btn btn--primary" href="../#projets">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M19 12H5M11 18l-6-6 6-6"/>
+          </svg>
+          Retour aux projets
+        </a>
+        <a class="btn" href="../vigie-ocean/">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+          Étude de cas : Vigie Océan
+        </a>
+      </div>
+    </div>
+  </section>

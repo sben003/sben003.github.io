@@ -14,6 +14,7 @@ const SLUGS = [
   'fastapi', 'php', 'nestjs', 'openjdk',
   'docker', 'googlecloud', 'nginx', 'linux', 'git', 'gitlab', 'pytest',
   'gnubash', 'jupyter',
+  'tensorflow', 'keras', 'pytorch', 'opencv', 'flask',
 ];
 
 const key = (s) => 'si' + s.charAt(0).toUpperCase() + s.slice(1);

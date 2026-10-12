@@ -46,8 +46,11 @@ src/
   styles/global.css            jetons de couleur, composants, graphiques, études de cas
 ```
 
-Les URL publiques n'ont pas changé : `/`, `/en/`, `/vigie-ocean/`, `/en/vigie-ocean/`,
-`/entrepot-donnees/`, `/en/data-warehouse/`.
+Pages publiques : `/`, `/en/`, `/vigie-ocean/`, `/en/vigie-ocean/`, `/entrepot-donnees/`,
+`/en/data-warehouse/`, `/radiographies/`, `/en/chest-x-rays/`.
+
+`_sources/` (hors dépôt, ignoré par Git) contient les documents lus pour rédiger : rapports de
+TP, brouillons. Rien n'en est publié tel quel.
 
 ## Travailler en local
 
@@ -98,7 +101,8 @@ deux langues (`{ fr: '…', en: '…' }`) : impossible d'en oublier une.
 | Titres de section, boutons, statut de disponibilité | `src/i18n/ui.ts` |
 
 **Études de cas** — HTML dans `src/content/case-studies/<slug>.<fr|en>.html`, titre,
-description et sommaire dans `meta.json`. Reporter chaque modification dans les deux
+description et sommaire dans `meta.json`, route déclarée dans `src/components/CaseStudy.astro`
+et `src/pages/`. Reporter chaque modification dans les deux
 langues. Un commentaire `<!-- chart:nom -->` insère le graphique correspondant.
 
 **Niveau des technologies** — `production` (point plein) : a servi dans un système
@@ -198,5 +202,18 @@ cas), 1 800 points par courbe à 60 images/s, 14 tests Pytest, 7 conteneurs.
 **AI UNIVERS** — CV : cinq sources hétérogènes, trois tableaux de bord Power BI. Ces
 chiffres décrivent le périmètre du stage, distincts de ceux du rapport, qui décrivent
 le projet d'entrepôt rendu comme travail de module.
+
+**Radiographies pulmonaires** — rapports de TP 01 à 03 et rapport final « Projet IA »
+(module IA – Apprentissage automatique, Université d'Alger 1, 2024 – 2025) : 5 216
+radiographies (3 875 / 1 341), matrice de confusion 273 / 17 / 20 / 733 sur 1 043 radios de
+test, AUC 0,99 (sortie du code ; le texte du rapport écrit 0,98), courbes du CNN sur cinq
+époques, 19 034 177 paramètres. Les pourcentages de la page sont calculés depuis la matrice.
+
+**Prix immobiliers** — rapports de TP 04 à 07 : R² de 64 % (régression linéaire), 62 % (arbre
+de décision), 61 % (forêt aléatoire). Aucun rapport ne mentionne de Gradient Boosting.
+
+**Comptage de pièces** — rapport « Système de comptage des pièces de monnaie » : sur 50
+images, 85 % d'exactitude, 90 % de précision, 80 % de rappel. La photo de démonstration du
+rapport est une image Getty Images : elle n'est pas publiée.
 
 Ne modifier aucun de ces chiffres sans une source correspondante.
