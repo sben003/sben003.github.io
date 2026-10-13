@@ -49,6 +49,8 @@ export const ui = {
   },
 
   sections: {
+    strengths: { eyebrow: { fr: 'Ce que j’apporte', en: 'What I bring' }, title: { fr: 'Quatre compétences, chacune prouvée par un projet', en: 'Four skills, each proven by a project' },
+      lede: { fr: 'Chaque carte mène à la section qui le démontre : le code, les choix et les chiffres mesurés.', en: 'Each card leads to the section that demonstrates it: the code, the decisions and the measured figures.' } },
     projects: { eyebrow: { fr: 'Études de cas', en: 'Case studies' }, title: { fr: 'Projets phares', en: 'Flagship projects' },
       lede: { fr: 'Présentés par l’impact : le problème, la réponse technique, mon rôle, et ce qui a été mesuré.', en: 'Presented by impact: the problem, the technical answer, my role, and what was measured.' } },
     skills: { eyebrow: { fr: 'Stack', en: 'Stack' }, title: { fr: 'Compétences', en: 'Skills' },
@@ -107,5 +109,22 @@ export const ui = {
 
   cs: {
     back: { fr: 'Retour aux projets', en: 'Back to projects' },
+    crumb: { fr: 'Étude de cas', en: 'Case study' },
+    read: { fr: 'Lire l’étude', en: 'Read the study' },
+    minutes: { fr: 'min de lecture', en: 'min read' },
+    brief: { fr: 'En bref', en: 'At a glance' },
+    briefTitle: { fr: 'Le projet en trente secondes', en: 'The project in thirty seconds' },
+    problem: { fr: 'Le problème', en: 'The problem' },
+    answer: { fr: 'La réponse', en: 'The answer' },
+    impact: { fr: 'L’impact', en: 'The impact' },
+    role: { fr: 'Rôle', en: 'Role' },
+    period: { fr: 'Période', en: 'Period' },
+    team: { fr: 'Équipe', en: 'Team' },
+    frame: { fr: 'Cadre', en: 'Setting' },
+    stack: { fr: 'Stack', en: 'Stack' },
+    next: { fr: 'Étude de cas suivante', en: 'Next case study' },
+    contact: { fr: 'Me contacter', en: 'Get in touch' },
+    starHint: { fr: 'Modèle en étoile · survolez une dimension', en: 'Star schema · hover a dimension' },
+    matrixTitle: { fr: 'Matrice de confusion · 1 043 radios de test', en: 'Confusion matrix · 1,043 test X-rays' },
   },
 } as const;

@@ -134,6 +134,70 @@ function initDialogs(): void {
   });
 }
 
+/* --- Graphiques lourds, chargés à l'approche ----------------------------- */
+function initLazyCharts(): void {
+  const slots = [...document.querySelectorAll<HTMLElement>('.ch-slot[data-src]')];
+  if (!slots.length) return;
+  const load = async (slot: HTMLElement) => {
+    const src = slot.dataset.src;
+    if (!src) return;
+    delete slot.dataset.src;
+    try {
+      const res = await fetch(src);
+      if (!res.ok) throw new Error(String(res.status));
+      // SVG statique du site, généré au build : pas de contenu tiers.
+      slot.innerHTML = await res.text();
+      slot.removeAttribute('role');
+      slot.removeAttribute('aria-label');
+      slot.removeAttribute('aria-busy');
+      slot.classList.add('is-loaded');
+      initCharts(slot);
+    } catch {
+      slot.dataset.src = src;
+    }
+  };
+  if (!('IntersectionObserver' in window)) { slots.forEach(load); return; }
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      io.unobserve(e.target);
+      load(e.target as HTMLElement);
+    }
+  }, { rootMargin: '900px 0px' });
+  slots.forEach((s) => io.observe(s));
+}
+
+/* --- Photos agrandissables ---------------------------------------------- */
+function initLightbox(): void {
+  const imgs = document.querySelectorAll<HTMLImageElement>('.cs .figure img');
+  if (!imgs.length || !('showModal' in HTMLDialogElement.prototype)) return;
+  const fr = document.documentElement.lang === 'fr';
+  const dlg = document.createElement('dialog');
+  dlg.className = 'lightbox';
+  dlg.setAttribute('aria-label', fr ? 'Photo agrandie' : 'Enlarged photo');
+  dlg.innerHTML = `<button type="button" aria-label="${fr ? 'Fermer' : 'Close'}">×</button><img alt=""><p></p>`;
+  document.body.append(dlg);
+  const big = dlg.querySelector('img') as HTMLImageElement;
+  const cap = dlg.querySelector('p') as HTMLParagraphElement;
+  dlg.querySelector('button')?.addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+  imgs.forEach((img) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'zoom';
+    btn.setAttribute('aria-label', `${fr ? 'Agrandir' : 'Enlarge'} : ${img.alt}`);
+    img.replaceWith(btn);
+    btn.append(img);
+    btn.addEventListener('click', () => {
+      big.src = img.currentSrc || img.src;
+      big.alt = img.alt;
+      // Légende reprise de la figure : contenu statique du site, pas de saisie utilisateur.
+      cap.innerHTML = img.closest('figure')?.querySelector('figcaption')?.innerHTML ?? '';
+      dlg.showModal();
+    });
+  });
+}
+
 /* --- Menu mobile : se referme dès qu'on choisit une section --------------- */
 function initMenu(): void {
   const menu = document.getElementById('menu-mobile');
@@ -160,9 +224,9 @@ function initActiveNav(): void {
 /* --- Survol des graphiques ------------------------------------------------
    Chaque panneau porte ses métadonnées d'échelle (data-*). On lit les sommets
    du tracé déjà dessiné et on inverse l'échelle : aucune donnée dupliquée. */
-function initCharts(): void {
+function initCharts(root: ParentNode = document): void {
   const NS = 'http://www.w3.org/2000/svg';
-  document.querySelectorAll<SVGGElement>('.ch-hover').forEach((g) => {
+  root.querySelectorAll<SVGGElement>('.ch-hover').forEach((g) => {
     const svg = g.ownerSVGElement;
     const host = (svg?.closest('.chart, [data-chart]') as HTMLElement | null) ?? svg?.parentElement;
     const line = g.querySelector<SVGPathElement>('path.ch-line') ?? g.querySelector<SVGPathElement>('path');
@@ -241,6 +305,8 @@ initSpotlight();
 initCounters();
 initCopy();
 initDialogs();
+initLightbox();
 initMenu();
 initActiveNav();
 initCharts();
+initLazyCharts();

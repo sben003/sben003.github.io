@@ -1,0 +1,37 @@
+---
+/**
+ * « Ce que j'apporte » : quatre compétences, chacune cliquable jusqu'à la
+ * section du projet qui la prouve. Une affirmation sans preuve n'a pas sa place ici.
+ */
+import Icon from './Icon.astro';
+import { t, type Lang } from '../i18n/ui';
+import { strengths } from '../data/strengths';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+---
+<ul class="m-0 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-4">
+  {strengths.map((s, i) => (
+    <li data-reveal style={`transition-delay:${i * 70}ms`}>
+      <a href={t(s.proof.href, lang)} class="card group flex h-full flex-col p-6 text-ink no-underline">
+        <span class="grid size-11 place-items-center rounded-xl border border-rule-strong bg-surface-2 text-accent-ink shadow-[0_0_28px_-8px_var(--accent-glow)] transition-colors group-hover:border-accent">
+          <Icon name={s.icon} class="size-5" />
+        </span>
+        <p class="eyebrow mt-5 mb-0 text-[.64rem]">{t(s.domain, lang)}</p>
+        <h3 class="mt-2 mb-0 text-[1.12rem] leading-snug font-semibold tracking-tight text-ink">{t(s.claim, lang)}</h3>
+        <p class="mt-2.5 mb-0 text-[.88rem] leading-relaxed text-muted">{t(s.body, lang)}</p>
+        <div class="mt-auto pt-6">
+          <div class="flex items-end justify-between gap-3 border-t border-rule pt-4">
+            <p class="m-0">
+              <span class="block font-mono text-[1.45rem] leading-none font-semibold tracking-tight text-accent-ink tabular-nums">{t(s.proof.value, lang)}</span>
+              <span class="mt-1.5 block text-[.74rem] text-muted">{t(s.proof.label, lang)}</span>
+            </p>
+            <span class="grid size-9 flex-none place-items-center rounded-full border border-rule-strong text-muted transition-all duration-200 group-hover:border-accent group-hover:bg-accent group-hover:text-[color:var(--on-accent)]" aria-hidden="true">
+              <Icon name="arrow-up-right" class="size-4" />
+            </span>
+          </div>
+        </div>
+      </a>
+    </li>
+  ))}
+</ul>

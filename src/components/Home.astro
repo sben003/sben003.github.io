@@ -5,6 +5,7 @@
 import Base from '../layouts/Base.astro';
 import Hero from './Hero.astro';
 import SectionHead from './SectionHead.astro';
+import Strengths from './Strengths.astro';
 import CaseCard from './CaseCard.astro';
 import AcademicGrid from './AcademicGrid.astro';
 import SkillsBento from './SkillsBento.astro';
@@ -56,9 +57,17 @@ const jsonLd = {
       nav={nav} ogType="profile" jsonLd={jsonLd}>
   <Hero lang={lang} />
 
+  <section class="relative scroll-mt-16 pt-20 sm:pt-28" aria-labelledby="h-strengths">
+    <div class="wrap">
+      <SectionHead id="h-strengths" index="01" eyebrow={t(ui.sections.strengths.eyebrow, lang)}
+                   title={t(ui.sections.strengths.title, lang)} lede={t(ui.sections.strengths.lede, lang)} />
+      <Strengths lang={lang} />
+    </div>
+  </section>
+
   <section id={ids.projects} class="relative scroll-mt-16 py-20 sm:py-28" aria-labelledby="h-projects">
     <div class="wrap">
-      <SectionHead id="h-projects" index="01" eyebrow={t(ui.sections.projects.eyebrow, lang)}
+      <SectionHead id="h-projects" index="02" eyebrow={t(ui.sections.projects.eyebrow, lang)}
                    title={t(ui.sections.projects.title, lang)} lede={t(ui.sections.projects.lede, lang)} />
       <div class="grid gap-8">
         {cases.map((c, i) => <CaseCard project={c} lang={lang} index={i + 1} />)}
@@ -70,7 +79,7 @@ const jsonLd = {
   <section id={ids.skills} class="relative isolate scroll-mt-16 border-y border-rule bg-bg-alt/60 py-20 sm:py-28" aria-labelledby="h-skills">
     <div aria-hidden="true" class="dot-grid absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,transparent,#000_20%,#000_80%,transparent)]"></div>
     <div class="wrap">
-      <SectionHead id="h-skills" index="02" eyebrow={t(ui.sections.skills.eyebrow, lang)}
+      <SectionHead id="h-skills" index="03" eyebrow={t(ui.sections.skills.eyebrow, lang)}
                    title={t(ui.sections.skills.title, lang)} lede={t(ui.sections.skills.lede, lang)} />
       <SkillsBento lang={lang} />
     </div>
@@ -78,7 +87,7 @@ const jsonLd = {
 
   <section id={ids.path} class="relative scroll-mt-16 py-20 sm:py-28" aria-labelledby="h-path">
     <div class="wrap">
-      <SectionHead id="h-path" index="03" eyebrow={t(ui.sections.path.eyebrow, lang)} title={t(ui.sections.path.title, lang)} />
+      <SectionHead id="h-path" index="04" eyebrow={t(ui.sections.path.eyebrow, lang)} title={t(ui.sections.path.title, lang)} />
       <Timeline lang={lang} />
     </div>
   </section>

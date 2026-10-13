@@ -1,0 +1,78 @@
+---
+/**
+ * « En bref » : ce qu'un recruteur doit pouvoir retenir sans lire la suite.
+ * Trois cartes (problème, réponse, impact) et une fiche projet.
+ */
+import Icon from '../Icon.astro';
+import BrandIcon from '../BrandIcon.astro';
+import { ui, t, type Lang } from '../../i18n/ui';
+import type { Study } from '../../data/case-studies';
+
+interface Props { study: Study; lang: Lang; }
+const { study: s, lang } = Astro.props;
+
+const cards = [
+  { label: ui.cs.problem, body: s.tldr.problem, icon: 'compass' as const },
+  { label: ui.cs.answer, body: s.tldr.answer, icon: 'layers' as const },
+  { label: ui.cs.impact, body: s.tldr.impact, icon: 'activity' as const },
+];
+const facts = [
+  { label: ui.cs.role, value: s.facts.role },
+  { label: ui.cs.period, value: s.facts.period },
+  { label: ui.cs.team, value: s.facts.team },
+  { label: ui.cs.frame, value: s.facts.frame },
+];
+---
+<section class="relative border-b border-rule bg-bg-alt/70" aria-labelledby="cs-brief">
+  <div class="wrap py-14 sm:py-16">
+    <div class="mb-8">
+      <p class="eyebrow m-0">{t(ui.cs.brief, lang)}</p>
+      <h2 id="cs-brief" class="mt-2 mb-0 text-[clamp(1.5rem,3.4vw,2rem)] font-semibold tracking-[-.025em] text-ink">{t(ui.cs.briefTitle, lang)}</h2>
+    </div>
+
+    <ol class="m-0 grid list-none gap-4 p-0 lg:grid-cols-3">
+      {cards.map((c, i) => (
+        <li class:list={['card flex flex-col p-6', i === 2 && 'border-accent/45 [background:linear-gradient(180deg,var(--accent-wash),transparent_70%),var(--surface)]']}>
+          <p class="m-0 flex items-center gap-3">
+            <span class:list={['grid size-9 flex-none place-items-center rounded-lg border', i === 2 ? 'border-accent/50 bg-accent/15 text-accent-ink' : 'border-rule-strong bg-surface-2 text-ink-soft']}>
+              <Icon name={c.icon} class="size-[1.1rem]" />
+            </span>
+            <span class="font-mono text-[.7rem] tracking-[.12em] text-accent-ink uppercase">{`0${i + 1}`} · {t(c.label, lang)}</span>
+          </p>
+          <p class:list={['mt-4 mb-0 leading-relaxed', i === 2 ? 'text-[1rem] font-medium text-ink' : 'text-[.95rem] text-ink-soft']}>{t(c.body, lang)}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="card mt-4 grid gap-6 p-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:gap-10">
+      <dl class="m-0 grid content-start gap-x-8 gap-y-5 sm:grid-cols-2">
+        {facts.map((f) => (
+          <div>
+            <dt class="font-mono text-[.66rem] tracking-[.12em] text-muted uppercase">{t(f.label, lang)}</dt>
+            <dd class="m-0 mt-1 text-[.92rem] leading-snug text-ink">{t(f.value, lang)}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="lg:border-l lg:border-rule lg:pl-10">
+        <p class="m-0 mb-3 font-mono text-[.66rem] tracking-[.12em] text-muted uppercase">{t(ui.cs.stack, lang)}</p>
+        <ul class="m-0 flex list-none flex-wrap gap-2 p-0">
+          {s.stack.map((it) => (
+            <li class="pill">{it.icon && <BrandIcon slug={it.icon} />}{it.name}</li>
+          ))}
+        </ul>
+        {s.links?.filter((l) => !l.href).map((l) => (
+          <p class="mt-4 mb-0 inline-flex items-center gap-2 text-[.8rem] text-muted"><Icon name={l.icon} class="size-3.5 flex-none" /> {t(l.label, lang)}</p>
+        ))}
+      </div>
+    </div>
+
+    {s.note && (
+      <div class="mt-4 flex gap-4 rounded-2xl border border-rule border-l-[3px] border-l-accent bg-surface p-5 [background:linear-gradient(90deg,var(--accent-wash),transparent_60%),var(--surface)]">
+        <p class="m-0 text-[.92rem] leading-relaxed text-ink-soft">
+          <b class="mb-1 block font-mono text-[.68rem] font-semibold tracking-[.12em] text-accent-ink uppercase">{t(s.note.title, lang)}</b>
+          {t(s.note.body, lang)}
+        </p>
+      </div>
+    )}
+  </div>
+</section>

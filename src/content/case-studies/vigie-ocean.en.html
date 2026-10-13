@@ -1,27 +1,3 @@
-  <section class="section case-hero">
-    <div class="wrap">
-      <p class="breadcrumb"><a href="../">Portfolio</a> &nbsp;/&nbsp; Case study</p>
-      <p class="kicker">Marine environmental monitoring · Basque coast</p>
-      <h1 class="case-hero__title">Vigie Océan</h1>
-      <p class="flagship__meta">
-        Final-year M1 internship · UPPA Tech, SCOPE platform · April – July 2026<br>
-        Designed, built and shipped single-handedly
-      </p>
-      <p class="case-hero__lede">
-        Continuously collect, normalise, validate, store and serve the readings of heterogeneous
-        environmental probes, on a single self-hosted, fully containerised infrastructure. From the
-        probe submerged in the Adour estuary to the oceanographer's screen.
-      </p>
-
-      <dl class="stats stats--bar" style="margin-top:2rem">
-        <div><dt>Measurements stored</dt><dd>103,940</dd></div>
-        <div><dt>Compression</dt><dd>29 → 2.3 MB</dd></div>
-        <div><dt>Everyday queries</dt><dd>&lt; 50 ms</dd></div>
-        <div><dt>Docker containers</dt><dd>7</dd></div>
-      </dl>
-    </div>
-  </section>
-
   <!-- 01 — Context -->
   <section class="section section--tint" id="context" aria-labelledby="t-context">
     <div class="wrap">
@@ -227,7 +203,7 @@
         </p>
       </div>
 
-      <figure class="diagram">
+      <figure class="diagram diagram--flow">
         <svg class="diagram__wide" viewBox="0 0 940 405" role="img" aria-labelledby="ar-t ar-d">
           <title id="ar-t">Vigie Océan infrastructure</title>
           <desc id="ar-d">Probes drop their files onto the ftp container; the ingestion container parses them and inserts into the TimescaleDB database; the FastAPI backend reads the database; the nginx proxy exposes the API and the React frontend to the analyst; pgadmin administers the database; tide forecasts feed the API.</desc>
@@ -564,6 +540,14 @@
         17.4%, freeing close to 9.4 GB.</p>
       </div>
 
+      <figure class="chart">
+          <ul class="hbars hbars--wide">
+          <li class="hbar hbar--muted"><span class="hbar__label">Before compression</span><span class="hbar__track"><span class="hbar__fill" style="--v:100%"></span></span><span class="hbar__value">29 MB</span></li>
+          <li class="hbar"><span class="hbar__label">After compression</span><span class="hbar__track"><span class="hbar__fill" style="--v:7.9%"></span></span><span class="hbar__value">2.3 MB <small>· 12.7×</small></span></li>
+          </ul>
+        <figcaption>The database's full history: thirteen chunks out of fifteen compressed, not a single row lost. Compression groups by station and parameter, then orders by descending time.</figcaption>
+      </figure>
+
       <div class="prose">
         <p>
           Because the TimescaleDB version in use allows writes on compressed chunks, ingestion and
@@ -756,26 +740,25 @@ GROUP BY tb ORDER BY tb;</pre>
         <p class="section__note">Warm cache, several calls averaged</p>
       </div>
 
-      <div class="table-wrap">
-        <table class="data-table">
-          <caption>Readings taken directly on the target virtual machine, in production.</caption>
-          <thead>
-            <tr><th scope="col">Indicator</th><th scope="col">Measurement</th></tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">Station registry lookup</th><td class="num">≈ 5 ms</td></tr>
-            <tr><th scope="row">One parameter over 7 days</th><td class="num">≈ 45 ms</td></tr>
-            <tr><th scope="row">Comparative analysis over 7 days</th><td class="num">≈ 50 ms</td></tr>
-            <tr><th scope="row">Tide forecasts over 7 days</th><td class="num">≈ 32 ms</td></tr>
-            <tr><th scope="row">Three months at full resolution (worst case)</th><td class="num">≈ 117 ms</td></tr>
-            <tr><th scope="row">Database size (history)</th><td class="num">29 → 2.3 MB (12.7×)</td></tr>
-            <tr><th scope="row">Disk space reclaimed on the VM</th><td class="num">≈ 9.4 GB</td></tr>
-            <tr><th scope="row">Maximum points drawn per curve</th><td class="num">1,800</td></tr>
-            <tr><th scope="row">Rendering smoothness while zooming</th><td class="num">60 fps</td></tr>
-            <tr><th scope="row">Pytest tests on the API</th><td class="num">14</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <figure class="chart">
+          <p class="chart__title">API response times, measured on the production machine</p>
+          <ul class="hbars hbars--wide hbars--threshold" style="--t:41.7%">
+          <li class="hbars__mark" aria-hidden="true"><span>50 ms · perceived as instant</span></li>
+          <li class="hbar"><span class="hbar__label">Station registry</span><span class="hbar__track"><span class="hbar__fill" style="--v:4.2%"></span></span><span class="hbar__value">≈ 5 ms</span></li>
+          <li class="hbar"><span class="hbar__label">Tide forecasts, 7 days</span><span class="hbar__track"><span class="hbar__fill" style="--v:26.7%"></span></span><span class="hbar__value">≈ 32 ms</span></li>
+          <li class="hbar"><span class="hbar__label">One parameter, 7 days</span><span class="hbar__track"><span class="hbar__fill" style="--v:37.5%"></span></span><span class="hbar__value">≈ 45 ms</span></li>
+          <li class="hbar"><span class="hbar__label">Comparative analysis, 7 days</span><span class="hbar__track"><span class="hbar__fill" style="--v:41.7%"></span></span><span class="hbar__value">≈ 50 ms</span></li>
+          <li class="hbar hbar--muted"><span class="hbar__label">Three months at full resolution · worst case</span><span class="hbar__track"><span class="hbar__fill" style="--v:97.5%"></span></span><span class="hbar__value">≈ 117 ms</span></li>
+          </ul>
+        <figcaption>Warm cache, several calls averaged. Every everyday query stays under the 50 ms mark; only the three-month full-resolution extraction goes beyond it, still without a sequential scan.</figcaption>
+      </figure>
+
+      <dl class="stats stats--bar">
+        <div><dt>History compressed</dt><dd>12.7×</dd></div>
+        <div><dt>Disk reclaimed on the VM</dt><dd>≈ 9.4 GB</dd></div>
+        <div><dt>Points per curve, at 60 fps</dt><dd>1,800</dd></div>
+        <div><dt>Pytest tests on the API</dt><dd>14</dd></div>
+      </dl>
 
       <div class="prose" style="margin-top:2rem">
         <p>
@@ -810,21 +793,6 @@ GROUP BY tb ORDER BY tb;</pre>
           ambitious analysis: automatic anomaly detection, multi-parameter correlations, predictive
           modelling of certain quantities against the tides.
         </p>
-      </div>
-
-      <div class="contact-row">
-        <a class="btn btn--primary" href="../#contact">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-            <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>
-          </svg>
-          Get in touch
-        </a>
-        <a class="btn" href="../">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-            <path d="M19 12H5M11 18l-6-6 6-6"/>
-          </svg>
-          Back to the portfolio
-        </a>
       </div>
     </div>
   </section>

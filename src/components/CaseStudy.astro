@@ -1,42 +1,46 @@
 ---
 /**
- * Page d'étude de cas. Le contenu éditorial vit en HTML dans
- * src/content/case-studies/ ; chaque « <!-- chart:NOM --> » y est remplacé par
- * le graphique généré (scripts/charts.py) dans la langue de la page.
+ * Page d'étude de cas : en-tête et résumé structurés (src/data/case-studies.ts),
+ * puis le corps éditorial en HTML (src/content/case-studies/), où chaque
+ * « <!-- chart:NOM --> » est remplacé par le graphique généré dans la langue de
+ * la page, et enfin l'étude suivante.
  */
 import Base from '../layouts/Base.astro';
+import CaseHero from './case/CaseHero.astro';
+import CaseBrief from './case/CaseBrief.astro';
+import CaseNext from './case/CaseNext.astro';
 import meta from '../content/case-studies/meta.json';
 import type { Lang } from '../i18n/ui';
-
-export type Slug = 'vigie-ocean' | 'entrepot-donnees' | 'radiographies';
+import { studyBySlug, nextStudy, type Slug } from '../data/case-studies';
+import { renderChart } from '../lib/charts';
 
 interface Props { slug: Slug; lang: Lang; }
 const { slug, lang } = Astro.props;
-
-const paths: Record<Slug, Record<Lang, string>> = {
-  'vigie-ocean': { fr: '/vigie-ocean/', en: '/en/vigie-ocean/' },
-  'entrepot-donnees': { fr: '/entrepot-donnees/', en: '/en/data-warehouse/' },
-  radiographies: { fr: '/radiographies/', en: '/en/chest-x-rays/' },
-};
+const study = studyBySlug(slug);
 
 const pages = import.meta.glob<string>('../content/case-studies/*.html', { query: '?raw', import: 'default', eager: true });
-const charts = import.meta.glob<string>('../content/charts/*.html', { query: '?raw', import: 'default', eager: true });
 
 const source = pages[`../content/case-studies/${slug}.${lang}.html`];
-const html = source.replace(/<!-- chart:([a-z]+) -->/g, (_, name: string) => {
-  const chart = charts[`../content/charts/${name}.${lang}.html`];
-  if (!chart) throw new Error(`Graphique introuvable : ${name}.${lang}.html (lancer « npm run charts »)`);
-  return chart;
-});
+const html = source.replace(/<!-- chart:([a-z]+) -->/g, (_, name: string) => renderChart(name, lang));
+
+// Temps de lecture sur le texte courant seulement : ni SVG, ni code, ni balises.
+const words = source
+  .replace(/<svg[\s\S]*?<\/svg>/g, ' ')
+  .replace(/<pre[\s\S]*?<\/pre>/g, ' ')
+  .replace(/<[^>]+>/g, ' ')
+  .split(/\s+/)
+  .filter(Boolean).length;
+const readMin = Math.max(1, Math.round(words / 220));
 
 const m = (meta as Record<string, { title: string; description: string; ogDescription: string; nav: { href: string; label: string }[] }>)[`${slug}.${lang}`];
 const other: Lang = lang === 'fr' ? 'en' : 'fr';
 ---
 <Base lang={lang} title={m.title} description={m.description} ogDescription={m.ogDescription}
-      path={paths[slug][lang]} altPath={paths[slug][other]} nav={m.nav} ogType="article" progress>
-  <div class="cs relative isolate">
-    <div aria-hidden="true" class="dot-grid absolute inset-x-0 top-0 -z-10 h-[44rem] [mask-image:radial-gradient(ellipse_75%_65%_at_50%_0%,#000_35%,transparent_100%)]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -top-48 right-[-8%] -z-10 size-[38rem] rounded-full opacity-50 blur-3xl [background:radial-gradient(circle,var(--accent-glow),transparent_62%)]"></div>
+      path={study.paths[lang]} altPath={study.paths[other]} nav={m.nav} ogType="article" progress>
+  <CaseHero study={study} lang={lang} readMin={readMin} firstAnchor={m.nav[0].href} />
+  <CaseBrief study={study} lang={lang} />
+  <div class="cs">
     <Fragment set:html={html} />
   </div>
+  <CaseNext next={nextStudy(slug)} lang={lang} />
 </Base>

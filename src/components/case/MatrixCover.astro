@@ -1,0 +1,60 @@
+---
+/**
+ * Couverture de l'étude Radiographies : la matrice de confusion du rapport
+ * final, et sous elle le déséquilibre des classes qui lui donne son sens.
+ */
+import { ui, t, type Lang } from '../../i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const fr = lang === 'fr';
+
+const labels = fr ? ['Normale', 'Pneumonie'] : ['Normal', 'Pneumonia'];
+const cells = [
+  { n: 273, share: fr ? '94,1 %' : '94.1%', hi: true },
+  { n: 17, share: fr ? '5,9 % · fausses alertes' : '5.9% · false alarms', hi: false },
+  { n: 20, share: fr ? '2,7 % · manquées' : '2.7% · missed', hi: false },
+  { n: 733, share: fr ? '97,3 %' : '97.3%', hi: true },
+];
+---
+<figure class="card m-0 overflow-hidden p-5 sm:p-6">
+  <figcaption class="eyebrow mb-4 text-[.66rem]">{t(ui.cs.matrixTitle, lang)}</figcaption>
+  <div class="grid grid-cols-[auto_1fr_1fr] gap-2" role="table" aria-label={t(ui.cs.matrixTitle, lang)}>
+    <div role="row" class="contents">
+      <span role="columnheader" class="self-end pr-1 text-right font-mono text-[.58rem] leading-tight text-muted uppercase">{fr ? 'réel ↓ prédit →' : 'actual ↓ predicted →'}</span>
+      {labels.map((l) => <span role="columnheader" class="pb-1 text-center font-mono text-[.62rem] tracking-[.08em] text-muted uppercase">{l}</span>)}
+    </div>
+    {[0, 1].map((r) => (
+      <div role="row" class="contents">
+        <span role="rowheader" class="self-center pr-2 text-right font-mono text-[.62rem] tracking-[.08em] text-muted uppercase">{labels[r]}</span>
+        {[0, 1].map((c) => {
+          const cell = cells[r * 2 + c];
+          return (
+            <span role="cell" class:list={[
+              'flex min-h-24 flex-col items-center justify-center rounded-xl px-2 py-4 text-center transition-transform duration-200 hover:-translate-y-0.5',
+              cell.hi ? 'bg-accent text-[color:var(--on-accent)] shadow-[0_18px_40px_-18px_var(--accent-glow)]' : 'border border-rule bg-surface-2 text-ink',
+            ]}>
+              <b class="font-mono text-[clamp(1.6rem,3.4vw,2.3rem)] leading-none font-semibold tracking-tight tabular-nums">{cell.n}</b>
+              <span class="mt-1.5 text-[.72rem] leading-snug opacity-80">{cell.share}</span>
+            </span>
+          );
+        })}
+      </div>
+    ))}
+  </div>
+
+  <div class="mt-5 border-t border-rule pt-4">
+    <p class="m-0 mb-2 flex justify-between font-mono text-[.66rem] text-muted">
+      <span>{fr ? 'Jeu complet · 5 216 radios' : 'Full set · 5,216 X-rays'}</span>
+      <span>{fr ? '3 sur 4 : pneumonie' : '3 in 4: pneumonia'}</span>
+    </p>
+    <div class="flex h-2.5 overflow-hidden rounded-full" aria-hidden="true">
+      <span class="block h-full bg-accent" style="width:74.3%"></span>
+      <span class="block h-full bg-rule-strong" style="width:25.7%"></span>
+    </div>
+    <p class="m-0 mt-2 flex justify-between font-mono text-[.66rem]">
+      <span class="text-accent-ink">{fr ? 'Pneumonie 3 875 · 74,3 %' : 'Pneumonia 3,875 · 74.3%'}</span>
+      <span class="text-muted">{fr ? 'Normale 1 341 · 25,7 %' : 'Normal 1,341 · 25.7%'}</span>
+    </p>
+  </div>
+</figure>

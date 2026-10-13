@@ -1,37 +1,3 @@
-  <section class="section case-hero">
-    <div class="wrap">
-      <p class="breadcrumb"><a href="../">Portfolio</a> &nbsp;/&nbsp; Case study</p>
-      <p class="kicker">Business intelligence · End-to-end chain</p>
-      <h1 class="case-hero__title">Data warehouse</h1>
-      <p class="flagship__meta">
-        Natural food colourant sales<br>
-        Carried out during the Data Analyst internship at AI UNIVERS (May – July 2025),
-        submitted as the Data Warehousing module project — Master 1 ISII, Université d'Alger 1<br>
-        Paired with Chanez Ressam
-      </p>
-      <p class="case-hero__lede">
-        Build, end to end, the chain that runs from a flat file to a dashboard: Kimball dimensional
-        modelling, ETL in Talend, a MySQL warehouse, an OLAP cube, then Power BI reporting. The
-        analytical goal: cross the commercial performance of food colourants with their health and
-        environmental impact.
-      </p>
-
-      <dl class="stats stats--bar" style="margin-top:2rem">
-        <div><dt>Sales modelled</dt><dd>100</dd></div>
-        <div><dt>Dimensions</dt><dd>5</dd></div>
-        <div><dt>Analytical data marts</dt><dd>8</dd></div>
-        <div><dt>Tools in the chain</dt><dd>4</dd></div>
-      </dl>
-
-      <div class="callout" style="margin-top:2rem">
-        <p><b>An honest caveat</b>
-        The dataset is <strong>simulated</strong>, built by us to be realistic and workable. What
-        this demonstrates is therefore not a business result, but command of a complete
-        business-intelligence chain and of the design decisions it forces.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- 01 — The need -->
   <section class="section section--tint" id="need" aria-labelledby="t-need">
     <div class="wrap">
@@ -327,7 +293,7 @@
         incremental load.</p>
       </div>
 
-      <figure class="diagram"><svg class="diagram__wide" viewBox="0 0 940 405" role="img" aria-labelledby="etl-t etl-d"><title id="etl-t">The warehouse ETL chain</title><desc id="etl-d">One consolidated file goes in, six tables come out, the cube exposes them and Power BI reads them.</desc><g><rect class="dg-box dg-box--ext" x="20" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="33" y="74">SOURCE</text><text class="dg-title" x="33" y="95">Colorants_Entrepot_Complet.csv</text><text class="dg-sub" x="33" y="112">100 sales · 23 columns</text><text class="dg-sub" x="33" y="125">UTF-8 · comma separated</text></g><g><rect class="dg-box" x="253" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="266" y="74">01</text><text class="dg-title" x="266" y="95">tFileInputDelimited</text><text class="dg-sub" x="266" y="112">Extract</text><text class="dg-sub" x="266" y="125">typing, dd/MM/yyyy dates</text></g><g><rect class="dg-box" x="487" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="500" y="74">02</text><text class="dg-title" x="500" y="95">tMap</text><text class="dg-sub" x="500" y="112">Transform</text><text class="dg-sub" x="500" y="125">joins, computed fields</text></g><g><rect class="dg-box" x="720" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="733" y="74">03</text><text class="dg-title" x="733" y="95">tDBOutput ×6</text><text class="dg-sub" x="733" y="112">Load</text><text class="dg-sub" x="733" y="125">table recreated on each run</text></g><path class="dg-line" d="M222 94 H246"/><polygon class="dg-arrow" points="246,90 253,94 246,98"/><path class="dg-line" d="M455 94 H480"/><polygon class="dg-arrow" points="480,90 487,94 480,98"/><path class="dg-line" d="M689 94 H713"/><polygon class="dg-arrow" points="713,90 720,94 713,98"/><path class="dg-line" d="M820 132 V170 H120 V197"/><polygon class="dg-arrow" points="116,197 124,197 120,204"/><g><rect class="dg-box dg-box--accent" x="20" y="204" width="200" height="76" rx="3"/><text class="dg-step" x="33" y="222">04</text><text class="dg-title" x="33" y="243">EntrepotDeDonnees</text><text class="dg-sub" x="33" y="260">MySQL</text><text class="dg-sub" x="33" y="273">5 dimensions + 1 fact table</text></g><g><rect class="dg-box" x="253" y="204" width="200" height="76" rx="3"/><text class="dg-step" x="266" y="222">05</text><text class="dg-title" x="266" y="243">Pentaho Schema Workbench</text><text class="dg-sub" x="266" y="260">OLAP cube</text><text class="dg-sub" x="266" y="273">4 measures · 5 dimensions</text></g><g><rect class="dg-box dg-box--ext" x="487" y="204" width="200" height="76" rx="3"/><text class="dg-step" x="500" y="222">REPORTING</text><text class="dg-title" x="500" y="243">Power BI</text><text class="dg-sub" x="500" y="260"></text><text class="dg-sub" x="500" y="273">direct MySQL connection</text></g><path class="dg-line" d="M222 242 H246"/><polygon class="dg-arrow" points="246,238 253,242 246,246"/><path class="dg-line" d="M455 242 H480"/><polygon class="dg-arrow" points="480,238 487,242 480,246"/></svg><svg class="diagram__tall" viewBox="0 0 300 610" role="img" aria-labelledby="etl-tm etl-dm"><title id="etl-tm">The warehouse ETL chain</title><desc id="etl-dm">One consolidated file goes in, six tables come out, the cube exposes them and Power BI reads them.</desc><g><rect class="dg-box" x="20" y="8" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="34">Colorants_Entrepot_Complet.csv</text><text class="dg-sub" x="33" y="52">100 sales · 23 columns</text></g><path class="dg-line" d="M150 70 V87"/><polygon class="dg-arrow" points="146,87 154,87 150,94"/><g><rect class="dg-box" x="20" y="94" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="120">tFileInputDelimited</text><text class="dg-sub" x="33" y="138">Extract</text></g><path class="dg-line" d="M150 156 V173"/><polygon class="dg-arrow" points="146,173 154,173 150,180"/><g><rect class="dg-box" x="20" y="180" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="206">tMap</text><text class="dg-sub" x="33" y="224">Transform</text></g><path class="dg-line" d="M150 242 V259"/><polygon class="dg-arrow" points="146,259 154,259 150,266"/><g><rect class="dg-box" x="20" y="266" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="292">tDBOutput ×6</text><text class="dg-sub" x="33" y="310">Load</text></g><path class="dg-line" d="M150 328 V345"/><polygon class="dg-arrow" points="146,345 154,345 150,352"/><g><rect class="dg-box" x="20" y="352" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="378">EntrepotDeDonnees</text><text class="dg-sub" x="33" y="396">MySQL</text></g><path class="dg-line" d="M150 414 V431"/><polygon class="dg-arrow" points="146,431 154,431 150,438"/><g><rect class="dg-box" x="20" y="438" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="464">Pentaho Schema Workbench</text><text class="dg-sub" x="33" y="482">OLAP cube</text></g><path class="dg-line" d="M150 500 V517"/><polygon class="dg-arrow" points="146,517 154,517 150,524"/><g><rect class="dg-box" x="20" y="524" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="550">Power BI</text><text class="dg-sub" x="33" y="568">direct MySQL connection</text></g></svg><figcaption>One consolidated file goes in, six tables come out, the cube exposes them and Power BI reads them.</figcaption></figure>
+      <figure class="diagram diagram--flow"><svg class="diagram__wide" viewBox="0 0 940 405" role="img" aria-labelledby="etl-t etl-d"><title id="etl-t">The warehouse ETL chain</title><desc id="etl-d">One consolidated file goes in, six tables come out, the cube exposes them and Power BI reads them.</desc><g><rect class="dg-box dg-box--ext" x="20" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="33" y="74">SOURCE</text><text class="dg-title" x="33" y="95">Colorants_Entrepot_Complet.csv</text><text class="dg-sub" x="33" y="112">100 sales · 23 columns</text><text class="dg-sub" x="33" y="125">UTF-8 · comma separated</text></g><g><rect class="dg-box" x="253" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="266" y="74">01</text><text class="dg-title" x="266" y="95">tFileInputDelimited</text><text class="dg-sub" x="266" y="112">Extract</text><text class="dg-sub" x="266" y="125">typing, dd/MM/yyyy dates</text></g><g><rect class="dg-box" x="487" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="500" y="74">02</text><text class="dg-title" x="500" y="95">tMap</text><text class="dg-sub" x="500" y="112">Transform</text><text class="dg-sub" x="500" y="125">joins, computed fields</text></g><g><rect class="dg-box" x="720" y="56" width="200" height="76" rx="3"/><text class="dg-step" x="733" y="74">03</text><text class="dg-title" x="733" y="95">tDBOutput ×6</text><text class="dg-sub" x="733" y="112">Load</text><text class="dg-sub" x="733" y="125">table recreated on each run</text></g><path class="dg-line" d="M222 94 H246"/><polygon class="dg-arrow" points="246,90 253,94 246,98"/><path class="dg-line" d="M455 94 H480"/><polygon class="dg-arrow" points="480,90 487,94 480,98"/><path class="dg-line" d="M689 94 H713"/><polygon class="dg-arrow" points="713,90 720,94 713,98"/><path class="dg-line" d="M820 132 V170 H120 V197"/><polygon class="dg-arrow" points="116,197 124,197 120,204"/><g><rect class="dg-box dg-box--accent" x="20" y="204" width="200" height="76" rx="3"/><text class="dg-step" x="33" y="222">04</text><text class="dg-title" x="33" y="243">EntrepotDeDonnees</text><text class="dg-sub" x="33" y="260">MySQL</text><text class="dg-sub" x="33" y="273">5 dimensions + 1 fact table</text></g><g><rect class="dg-box" x="253" y="204" width="200" height="76" rx="3"/><text class="dg-step" x="266" y="222">05</text><text class="dg-title" x="266" y="243">Pentaho Schema Workbench</text><text class="dg-sub" x="266" y="260">OLAP cube</text><text class="dg-sub" x="266" y="273">4 measures · 5 dimensions</text></g><g><rect class="dg-box dg-box--ext" x="487" y="204" width="200" height="76" rx="3"/><text class="dg-step" x="500" y="222">REPORTING</text><text class="dg-title" x="500" y="243">Power BI</text><text class="dg-sub" x="500" y="260"></text><text class="dg-sub" x="500" y="273">direct MySQL connection</text></g><path class="dg-line" d="M222 242 H246"/><polygon class="dg-arrow" points="246,238 253,242 246,246"/><path class="dg-line" d="M455 242 H480"/><polygon class="dg-arrow" points="480,238 487,242 480,246"/></svg><svg class="diagram__tall" viewBox="0 0 300 610" role="img" aria-labelledby="etl-tm etl-dm"><title id="etl-tm">The warehouse ETL chain</title><desc id="etl-dm">One consolidated file goes in, six tables come out, the cube exposes them and Power BI reads them.</desc><g><rect class="dg-box" x="20" y="8" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="34">Colorants_Entrepot_Complet.csv</text><text class="dg-sub" x="33" y="52">100 sales · 23 columns</text></g><path class="dg-line" d="M150 70 V87"/><polygon class="dg-arrow" points="146,87 154,87 150,94"/><g><rect class="dg-box" x="20" y="94" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="120">tFileInputDelimited</text><text class="dg-sub" x="33" y="138">Extract</text></g><path class="dg-line" d="M150 156 V173"/><polygon class="dg-arrow" points="146,173 154,173 150,180"/><g><rect class="dg-box" x="20" y="180" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="206">tMap</text><text class="dg-sub" x="33" y="224">Transform</text></g><path class="dg-line" d="M150 242 V259"/><polygon class="dg-arrow" points="146,259 154,259 150,266"/><g><rect class="dg-box" x="20" y="266" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="292">tDBOutput ×6</text><text class="dg-sub" x="33" y="310">Load</text></g><path class="dg-line" d="M150 328 V345"/><polygon class="dg-arrow" points="146,345 154,345 150,352"/><g><rect class="dg-box" x="20" y="352" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="378">EntrepotDeDonnees</text><text class="dg-sub" x="33" y="396">MySQL</text></g><path class="dg-line" d="M150 414 V431"/><polygon class="dg-arrow" points="146,431 154,431 150,438"/><g><rect class="dg-box" x="20" y="438" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="464">Pentaho Schema Workbench</text><text class="dg-sub" x="33" y="482">OLAP cube</text></g><path class="dg-line" d="M150 500 V517"/><polygon class="dg-arrow" points="146,517 154,517 150,524"/><g><rect class="dg-box" x="20" y="524" width="260" height="62" rx="3"/><text class="dg-title" x="33" y="550">Power BI</text><text class="dg-sub" x="33" y="568">direct MySQL connection</text></g></svg><figcaption>One consolidated file goes in, six tables come out, the cube exposes them and Power BI reads them.</figcaption></figure>
     </div>
   </section>
 
@@ -564,27 +530,6 @@
           continuously fed warehouse — that would call for an incremental load and slowly changing
           dimension handling.
         </p>
-      </div>
-
-      <div class="contact-row">
-        <a class="btn btn--primary" href="/assets/RapportProjetEntrepotDeDonnees.pdf">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-            <path d="M12 3v12M7 11l5 5 5-5M4 20h16"/>
-          </svg>
-          Full report (PDF, 62 pp., in French)
-        </a>
-        <a class="btn" href="../vigie-ocean/">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-            <path d="M5 12h14M13 6l6 6-6 6"/>
-          </svg>
-          The other case study: Vigie Océan
-        </a>
-        <a class="btn" href="../">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-            <path d="M19 12H5M11 18l-6-6 6-6"/>
-          </svg>
-          Back to the portfolio
-        </a>
       </div>
     </div>
   </section>

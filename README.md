@@ -32,12 +32,17 @@ scripts/
   extract-icons.mjs            fige les tracés Simple Icons dans src/data/brand-icons.ts
 src/
   assets/portrait.jpg          portrait (optimisé au build, EXIF retirés)
-  components/                  Hero, CaseCard, StarSchema, SkillsBento, Timeline, Contact…
+  components/                  Hero, Strengths, CaseCard, StarSchema, SkillsBento, Timeline, Contact…
+    case/                      en-tête d'étude (couverture), « En bref », étude suivante
   content/
     case-studies/*.html        texte des études de cas (FR et EN) + meta.json
     charts/*.html              graphiques générés — ne pas éditer
     diagrams/*.html            schémas d'architecture (ouverts en modale depuis l'accueil)
   data/                        profil, projets, compétences, parcours — toujours { fr, en }
+    case-studies.ts            en-tête et résumé de chaque étude : couverture, chiffres, problème,
+                               réponse, impact, fiche projet
+    strengths.ts               « Ce que j'apporte » : quatre compétences, chacune liée à sa preuve
+  lib/charts.ts                insère les graphiques ; les plus lourds sortent en /charts/*.svg
   i18n/ui.ts                   libellés d'interface bilingues
   layouts/Base.astro           <head>, SEO, thème, en-tête, pied de page
   pages/                       une route par page (URL inchangées depuis l'ancien site)
@@ -100,9 +105,15 @@ deux langues (`{ fr: '…', en: '…' }`) : impossible d'en oublier une.
 | Expérience, formation, langues | `src/data/timeline.ts` |
 | Titres de section, boutons, statut de disponibilité | `src/i18n/ui.ts` |
 
-**Études de cas** — HTML dans `src/content/case-studies/<slug>.<fr|en>.html`, titre,
-description et sommaire dans `meta.json`, route déclarée dans `src/components/CaseStudy.astro`
-et `src/pages/`. Reporter chaque modification dans les deux
+**Études de cas** — trois couches :
+
+- `src/data/case-studies.ts` : ce qui se lit en trente secondes (couverture, chiffres clés,
+  problème / réponse / impact, rôle, période, équipe, cadre, stack, note d'honnêteté) ;
+- `src/content/case-studies/<slug>.<fr|en>.html` : le corps de l'étude, section par section ;
+- `meta.json` : titre, description et sommaire de navigation.
+
+Une nouvelle étude se déclare dans ces trois fichiers et dans `src/pages/`. L'ordre du
+tableau `studies` fixe l'« étude suivante » proposée en fin de page. Reporter chaque modification dans les deux
 langues. Un commentaire `<!-- chart:nom -->` insère le graphique correspondant.
 
 **Niveau des technologies** — `production` (point plein) : a servi dans un système
@@ -186,6 +197,11 @@ de nombres ambiguës et corrompt les glyphes.
   la modale soit centrée.
 - **Stabilité de la mise en page** : les polices latines sont préchargées et le bouton
   de thème a sa place réservée dès le premier rendu (invisible sans JS).
+- **Graphiques différés** : un graphique de plus de 12 000 caractères est publié à part
+  (`/charts/<nom>.<langue>.svg`) et chargé à l'approche du lecteur, dans un emplacement au
+  ratio exact de son SVG. La page Vigie Océan est passée ainsi de 81 à 36 Ko compressés.
+- **Photos** : celles des études s'agrandissent au clic (visionneuse native `<dialog>`). La
+  couverture passe par `astro:assets` (AVIF/WebP, trois largeurs).
 - **SEO** : `canonical` et `hreflang` croisés, Open Graph, `schema.org/Person`,
   sitemap généré (`/sitemap-index.xml`), `robots.txt`.
 
